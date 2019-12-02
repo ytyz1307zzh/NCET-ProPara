@@ -34,6 +34,7 @@ import pandas as pd
 import argparse
 import json
 pd.set_option('display.max_columns', 50)
+total_paras = 0  # should equal to 488 after read_paragraph
 
 
 def read_paragraph(filename: str) -> Dict[int, Dict]:
@@ -58,13 +59,15 @@ def read_paragraph(filename: str) -> Dict[int, Dict]:
         paragraph_result[para_id] = {'id': para_id,
                                      'topic': topic,
                                      'prompt': prompt,
-                                     'paragraph': text}
+                                     'paragraph': text,
+                                     'total_sents': len(sent_list)}
     
-    print(f'Paragraphs read: {len(paragraph_result)}')
+    total_paras = len(paragraph_result)
+    print(f'Paragraphs read: {total_paras}')
     return paragraph_result
 
 
-def read_annotation(filename: str, paragraph_result: Dict[int, Dict], train: bool) -> Dict[int, Dict]:
+def read_annotation(filename: str, paragraph_result: Dict[int, Dict], train: bool) -> List[Dict]:
     """
     1. read csv
     2. get the entities
@@ -76,11 +79,70 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict], train: boo
     7. extract the nearest verb to the entity, compute verb mask
     8. for each location candidate, compute location mask
     9. read entity's state at current timestep
-    10. for the training set, if gold location is not extracted in step 3, add it to the candidate set. Back to step 6
+    10. for the training set, if gold location is not extracted in step 3, 
+        add it to the candidate set (except for '-' and '?'). Back to step 6
     11. reading ends, compute the number of sentences
     12. get the number of location candidates
     13. infer the gold state change sequence
     """
+
+    data_instances = []
+    column_names = ['para_id', 'sent_id', 'sentence', 'ent1', 'ent2', 'ent3',
+                    'ent4', 'ent5', 'ent6', 'ent7', 'ent8']
+    max_entity = 8
+
+    csv_data = pd.read_csv(filename, header = None, names = column_names)
+    num_rows = len(csv_data.index)
+    row_index = 0
+    para_index = 1
+
+    while True:
+
+        row = csv_data.iloc[row_index]
+        if pd.isna(row['para_id']):  # skip empty lines
+            row_index += 1
+            continue
+
+        para_id = int(row['para_id'])
+        if para_id not in paragraph_result:  # keep the dataset split
+            row_index += 1
+            continue
+        
+        # the number of lines we need to read is relevant to 
+        # the number of sentences in this paragraph
+        total_sents = paragraph_result[para_id]['total_sents']
+        total_lines = 2 * total_sents + 3
+        begin_row_index = row_index  # first line of this paragraph in csv
+        end_row_index = row_index + total_lines - 1  # last line
+
+        # process data in this paragraph
+        # first, figure out how many entities it has
+        entity_list = []
+        for i in range(1, max_entity + 1):
+            entity_name = row[f'ent{i}']
+            if pd.isna(entity_name):
+                break
+            entity_list.append(entity_name)
+        
+        total_entities = len(entity_list)
+        for i in range(total_entities):
+            entity_name = entity_list[i]
+            instance = {'id': paragraph_result[para_id]['id'],
+                        'topic': paragraph_result[para_id]['topic'],
+                        'prompt': paragraph_result[para_id]['prompt'],
+                        'paragraph': paragraph_result[para_id]['paragraph'],
+                        'total_sents': total_sents,
+                        'entity': entity_name}
+            gold_state_seq = []  # list of gold state changes
+            gold_loc_seq = []  # list of gold locations
+            
+
+        row_index = end_row_index + 1
+        para_index += 1
+        if para_index >= len(paragraph_result):
+            break
+
+    return data_instances
 
 
 def read_split(filename: str, paragraph_result: Dict[int, Dict]):
