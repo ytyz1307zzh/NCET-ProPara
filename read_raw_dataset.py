@@ -29,12 +29,15 @@ Instance
                                 (list length equal to number of location candidates)
 """
 
-from typing import Dict, List
+from typing import Dict, List, Tuple
 import pandas as pd
 import argparse
 import json
 pd.set_option('display.max_columns', 50)
 total_paras = 0  # should equal to 488 after read_paragraph
+
+import spacy
+nlp = spacy.load("en_core_web_sm")
 
 
 def read_paragraph(filename: str) -> Dict[int, Dict]:
@@ -71,6 +74,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict], train: boo
     """
     1. read csv
     2. get the entities
+    3. tokenize the paragraph and change to lower case
     3. extract location candidates
     4. for each entity, create an instance for it
     5. read the entity's initial state
@@ -115,6 +119,12 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict], train: boo
         begin_row_index = row_index  # first line of this paragraph in csv
         end_row_index = row_index + total_lines - 1  # last line
 
+        # tokenize, lower cased
+        para_doc = nlp(paragraph_result[para_id]['paragraph'].lower())  # create a SpaCy Doc instance for paragraph
+        paragraph = tokenize(para_doc)
+
+        # find location candidates
+
         # process data in this paragraph
         # first, figure out how many entities it has
         entity_list = []
@@ -127,15 +137,16 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict], train: boo
         total_entities = len(entity_list)
         for i in range(total_entities):
             entity_name = entity_list[i]
+
             instance = {'id': paragraph_result[para_id]['id'],
                         'topic': paragraph_result[para_id]['topic'],
                         'prompt': paragraph_result[para_id]['prompt'],
-                        'paragraph': paragraph_result[para_id]['paragraph'],
+                        'paragraph': paragraph,
                         'total_sents': total_sents,
                         'entity': entity_name}
             gold_state_seq = []  # list of gold state changes
             gold_loc_seq = []  # list of gold locations
-            
+
 
         row_index = end_row_index + 1
         para_index += 1
@@ -189,3 +200,85 @@ if __name__ == '__main__':
     dev_instances = read_annotation(opt.state_file, dev_para, train = False)
     test_instances = read_annotation(opt.state_file, test_para, train = False)
 
+
+def find_loc_candidate(para_doc: spacy.tokens.doc.Doc) -> List[str]:
+    """
+    paragraph: the paragraph after tokenization and lower-case transformation
+    """
+    pos_list = [(token, token.tag_) for token in para_doc]
+    num_tokens = len(para_doc)
+    loc_list = []
+
+    # extract nouns (including 'noun + noun' phrases)
+    for i in range(len(pos_list)):
+        if pos_list[i][1].startswith('NN'):
+            candidate = pos_list[i][0].text
+            for k in range(1, i+1):
+                if previous_kth_word(i, k, pos_list)[1].startswith('JJ') \
+                    or previous_kth_word(i, k, pos_list)[1].startswith('NN'):
+                    candidate = pos_list[i-k][0].text + ' ' + candidate
+                else:
+                    break
+            for k in range(1, num_tokens - i):
+                if later_kth_word(i, k, pos_list)[1].startswith('JJ') \
+                    or later_kth_word(i, k, pos_list)[1].startswith('NN'):
+                    candidate = candidate + ' ' + pos_list[i+k][0].text
+                else:
+                    break
+            loc_list.append(candidate)
+
+    # extract 'noun + and/or + noun' phrase
+    for i in range(len(pos_list)):
+        if pos_list[i][1].startswith('NN') \
+            and (previous_kth_word(i, 1, pos_list)[0].text == 'and'\
+             or previous_kth_word(i, 1, pos_list)[0].text == 'or') \
+                and previous_kth_word(i, 2, pos_list)[1].startswith('NN'):
+            loc_list.append(pos_list[i-2][0].text + ' ' + pos_list[i-1][0].text + ' ' + pos_list[i][0].text)
+
+    # # extract 'prep + dt + noun' phrase
+    # for i in range(len(pos_list)):
+    #     if pos_list[i][1].startswith('NN') \
+    #         and previous_kth_word(i, 1, pos_list)[1].startswith('DT') \
+    #             and previous_kth_word(i, 2, pos_list)[1].startswith('IN'):
+    #         loc_list.append(pos_list[i-2][0].text + ' ' + pos_list[i-1][0].text + ' ' + pos_list[i][0].text)
+
+    # # extract 'noun + prep + dt + noun' phrase
+    # for i in range(len(pos_list)):
+    #     if pos_list[i][1].startswith('NN') \
+    #         and previous_kth_word(i, 1, pos_list)[1].startswith('DT') \
+    #             and previous_kth_word(i, 2, pos_list)[1].startswith('IN') \
+    #                 and previous_kth_word(i, 3, pos_list)[1].startswith('NN'):
+    #         loc_list.append(pos_list[i-3][0].text + ' ' + pos_list[i-2][0].text + ' '
+    #                              + pos_list[i-1][0].text + ' ' + pos_list[i][0].text)
+
+    # # extract 'adj + noun' phrase
+    # for i in range(len(pos_list)):
+    #     if pos_list[i][1].startswith('NN') and previous_kth_word(i, 1, pos_list)[1].startswith('JJ'):
+    #         loc_list.append(pos_list[i-1][0].text + ' ' + pos_list[i][0].text)
+    
+    return set(loc_list)
+
+def tokenize(para_doc: spacy.tokens.doc.Doc) -> str:
+    tokens_list = [str(token) for token in para_doc]
+    return ' '.join(tokens_list)
+
+
+def previous_kth_word(i: int, k: int, pos_list: List) -> (str, str):
+    """
+    i: current index
+    k: previous k-th word
+    """
+    if i - k < 0:
+        return '', ''
+    else:
+        return pos_list[i - k]
+
+def later_kth_word(i: int, k: int, pos_list: List) -> (str, str):
+    """
+    i: current index
+    k: later k-th word
+    """
+    if i + k >= len(pos_list):
+        return '', ''
+    else:
+        return pos_list[i + k]
