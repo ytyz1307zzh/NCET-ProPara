@@ -17,6 +17,7 @@ Instance
     |____paragraph (string)
     |____entity (string)
     |____gold state change sequence (list of labels)
+    |____number of words (tokens) in the paragraph
     |____number of sentences in the paragraph
     |____number of location candidates
     |____gold locations (list of strings, len = sent + 1)
@@ -48,6 +49,7 @@ pos_tagger = SequenceTagger.load('pos')
 def find_loc_candidate(paragraph: flair.data.Sentence) -> List[str]:
     """
     paragraph: the paragraph after tokenization and lower-case transformation
+    return: the location candidates found in this paragraph
     """
     pos_tagger.predict(paragraph)
     pos_list = [(token.text, token.get_tag('pos').value) for token in paragraph]
@@ -81,9 +83,13 @@ def find_loc_candidate(paragraph: flair.data.Sentence) -> List[str]:
     return set(loc_list)
     
 
-def tokenize(para_doc: spacy.tokens.doc.Doc) -> str:
+def tokenize(paragraph: str) -> (str, int):
+    """
+    change the paragraph to lower case and tokenize it!
+    """
+    para_doc = nlp(paragraph.lower())  # create a SpaCy Doc instance for paragraph
     tokens_list = [token.text for token in para_doc]
-    return ' '.join(tokens_list)
+    return ' '.join(tokens_list), len(tokens_list)
 
 
 def read_paragraph(filename: str) -> Dict[int, Dict]:
@@ -116,7 +122,8 @@ def read_paragraph(filename: str) -> Dict[int, Dict]:
     return paragraph_result
 
 
-def read_annotation(filename: str, paragraph_result: Dict[int, Dict], train: bool) -> List[Dict]:
+def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
+                    log_dir: str, train: bool) -> List[Dict]:
     """
     1. read csv
     2. get the entities
@@ -136,6 +143,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict], train: boo
     13. infer the gold state change sequence
     """
 
+    log_file = open(f'{log_dir}/info.log', 'w', encoding='utf-8')
     data_instances = []
     column_names = ['para_id', 'sent_id', 'sentence', 'ent1', 'ent2', 'ent3',
                     'ent4', 'ent5', 'ent6', 'ent7', 'ent8']
@@ -166,13 +174,11 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict], train: boo
         end_row_index = row_index + total_lines - 1  # last line
 
         # tokenize, lower cased
-        para_doc = nlp(paragraph_result[para_id]['paragraph'].lower())  # create a SpaCy Doc instance for paragraph
-        paragraph = tokenize(para_doc)
+        paragraph, total_tokens = tokenize(paragraph_result[para_id]['paragraph'])
 
         # find location candidates
-        loc_cand_list = find_loc_candidate(Sentence(paragraph))
-        print(paragraph)
-        print(loc_cand_list)
+        loc_cand_set = find_loc_candidate(Sentence(paragraph))
+        print(f'Paragraph {para_id}: \nLocation candidate set: ', loc_cand_set, file=log_file)
 
         # process data in this paragraph
         # first, figure out how many entities it has
@@ -187,21 +193,61 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict], train: boo
         for i in range(total_entities):
             entity_name = entity_list[i]
 
-            instance = {'id': paragraph_result[para_id]['id'],
+            instance = {'id': para_id,
                         'topic': paragraph_result[para_id]['topic'],
                         'prompt': paragraph_result[para_id]['prompt'],
                         'paragraph': paragraph,
+                        'total_tokens': total_tokens,
                         'total_sents': total_sents,
                         'entity': entity_name}
             gold_state_seq = []  # list of gold state changes
             gold_loc_seq = []  # list of gold locations
+            sentence_list = []
+
+            # read initial state, skip the prompt line
+            row_index += 2
+            row = csv_data.iloc[row_index]
+            assert row['sent_id'] == 'state1'
+            location = row[f'ent{i+1}']
+            gold_loc_seq.append(location)
+
+            # for each sentence, read the sentence and the entity location
+            words_read = 0  # how many words have been read
+            for j in range(total_sents):
+
+                # read sentence
+                row_index += 1
+                row = csv_data.iloc[row_index]
+                assert row['sent_id'] == f'event{j+1}'
+                sentence, num_tokens_in_sent = tokenize(row['sentence'])
+                sent_id = j + 1
+
+                # read gold state
+                row_index += 1
+                row = csv_data.iloc[row_index]
+                assert row['sent_id'] == f'state{j+2}'
+                gold_location = row[f'ent{i+1}']
+                gold_loc_seq.append(gold_location)
+
+                # whether the gold location is in the candidates (training only)
+                if gold_location not in loc_cand_set and train == True:
+                    loc_cand_set.add(gold_location)
+                    print(f'Paragraph {para_id}: gold location "{gold location}" not included in candidate set.', file=log_file)
+
+            # pointer backward, construct instance for next entity
+            row_index = begin_row_index
 
 
         row_index = end_row_index + 1
         para_index += 1
+
+        if para_index % 25 == 0:
+            print(f'[INFO] {para_index} paragraphs processed.')
         if para_index >= len(paragraph_result):
+            print(f'[INFO] All {para_index} paragraphs processed.')
             break
 
+    log_file.close()
     return data_instances
 
 
@@ -232,11 +278,13 @@ def read_split(filename: str, paragraph_result: Dict[int, Dict]):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-para_file', type=str, default='../data/Paragraphs.csv', help='path to the paragraph csv')
-    parser.add_argument('-state_file', type=str, default='../data/State_change_annotations.csv', 
+    parser.add_argument('-para_file', type=str, default='data/Paragraphs.csv', help='path to the paragraph csv')
+    parser.add_argument('-state_file', type=str, default='data/State_change_annotations.csv', 
                         help='path to the state annotation csv')
-    parser.add_argument('-split_file', type=str, default='../data/train_dev_test.csv', 
+    parser.add_argument('-split_file', type=str, default='data/train_dev_test.csv', 
                         help='path to the csv that annotates the train/dev/test split')
+    parsre.add_argument('-log_dir', type=str, default='logs',
+                        help='directory to store the intermediate outputs')
     opt = parser.parse_args()
 
     print('Received arguments:')
@@ -245,7 +293,7 @@ if __name__ == '__main__':
 
     paragraph_result = read_paragraph(opt.para_file)
     train_para, dev_para, test_para = read_split(opt.split_file, paragraph_result)
-    train_instances = read_annotation(opt.state_file, train_para, train = True)
-    dev_instances = read_annotation(opt.state_file, dev_para, train = False)
-    test_instances = read_annotation(opt.state_file, test_para, train = False)
+    train_instances = read_annotation(opt.state_file, train_para, opt.log_dir, train = True)
+    dev_instances = read_annotation(opt.state_file, dev_para, opt.log_dir, train = False)
+    test_instances = read_annotation(opt.state_file, test_para, opt.log_dir, train = False)
 
