@@ -81,6 +81,12 @@ def find_loc_candidate(paragraph: flair.data.Sentence) -> List[str]:
             loc_list.append(pos_list[i-2][0] + ' ' + pos_list[i-1][0] + ' ' + pos_list[i][0])
     
     return set(loc_list)
+
+def find_token_in_sent(sentence: str, keywords: str) -> List[int]:
+    """
+    Find all positions of certain keywords (entities, verbs, locations) in the given sentence. 
+    sentence: lower-case tokenized sentence
+    """
     
 
 def tokenize(paragraph: str) -> (str, int):
@@ -221,6 +227,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
                 assert row['sent_id'] == f'event{j+1}'
                 sentence, num_tokens_in_sent = tokenize(row['sentence'])
                 sent_id = j + 1
+                words_read += num_tokens_in_sent
 
                 # read gold state
                 row_index += 1
@@ -283,7 +290,7 @@ if __name__ == '__main__':
                         help='path to the state annotation csv')
     parser.add_argument('-split_file', type=str, default='data/train_dev_test.csv', 
                         help='path to the csv that annotates the train/dev/test split')
-    parsre.add_argument('-log_dir', type=str, default='logs',
+    parser.add_argument('-log_dir', type=str, default='logs',
                         help='directory to store the intermediate outputs')
     opt = parser.parse_args()
 
