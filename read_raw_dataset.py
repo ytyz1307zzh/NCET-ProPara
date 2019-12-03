@@ -232,7 +232,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
                 # whether the gold location is in the candidates (training only)
                 if gold_location not in loc_cand_set and train == True:
                     loc_cand_set.add(gold_location)
-                    print(f'Paragraph {para_id}: gold location "{gold location}" not included in candidate set.', file=log_file)
+                    print(f'Paragraph {para_id}: gold location "{gold_location}" not included in candidate set.', file=log_file)
 
             # pointer backward, construct instance for next entity
             row_index = begin_row_index
