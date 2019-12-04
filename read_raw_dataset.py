@@ -31,7 +31,7 @@ Instance
                                 (list length equal to number of location candidates)
 """
 
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Set
 import pandas as pd
 import argparse
 import json
@@ -45,6 +45,26 @@ from flair.data import Sentence
 from flair.models import SequenceTagger
 import flair
 pos_tagger = SequenceTagger.load('pos')
+
+
+def tokenize(paragraph: str) -> (str, int):
+    """
+    Change the paragraph to lower case and tokenize it!
+    """
+    para_doc = nlp(paragraph.lower())  # create a SpaCy Doc instance for paragraph
+    tokens_list = [token.text for token in para_doc]
+    return ' '.join(tokens_list), len(tokens_list)
+
+
+def lemmatize(paragraph: str) -> (List[str], str):
+    """
+    Reads a paragraph/sentence/phrase/word and lemmatize it!
+    """
+    if paragraph == '-' or paragraph == '?':
+        return None, paragraph
+    para_doc = nlp(paragraph)
+    lemma_list = [token.lemma_ for token in para_doc]
+    return lemma_list, ' '.join(lemma_list)
 
 
 def find_loc_candidate(paragraph: flair.data.Sentence) -> List[str]:
@@ -81,24 +101,24 @@ def find_loc_candidate(paragraph: flair.data.Sentence) -> List[str]:
                 and pos_list[i-2][1] == 'NOUN':
             loc_list.append(pos_list[i-2][0] + ' ' + pos_list[i-1][0] + ' ' + pos_list[i][0])
     
+    # lemmatization
+    map(lemmatize, loc_list)
+    
     return set(loc_list)
 
 
 def find_mention(paragraph: List[str], phrase: str, norm: bool = False) -> List:
     """
     Judge whether a phrase is a span of the paragraph (or sentence) and return the span
-    norm: whether the phrase and the sentence should be normalized first
+    norm: whether the sentence should be normalized first
     """
     phrase = phrase.strip().split()
     phrase_len = len(phrase)
     span_list = []
 
-    # perform lemmatization on both phrase and paragraph
+    # perform lemmatization on paragraph
     if norm:
-        para_doc = nlp(' '.join(paragraph))
-        paragraph = [token.lemma_ for token in para_doc]
-        phrase_doc = nlp(' '.join(phrase))
-        phrase = [token.lemma_ for token in phrase_doc]
+        paragraph, _ = lemmatize(' '.join(paragraph))
     
     for i in range(0, len(paragraph) - phrase_len):
         sub_para = paragraph[i: i+phrase_len]
@@ -172,15 +192,6 @@ def get_location_mask(sentence: str, location: str, pad_bef_len: int, pad_aft_le
     padding_after = [0 for _ in range(pad_aft_len)]
 
     return padding_before + loc_mask + padding_after
-
-
-def tokenize(paragraph: str) -> (str, int):
-    """
-    change the paragraph to lower case and tokenize it!
-    """
-    para_doc = nlp(paragraph.lower())  # create a SpaCy Doc instance for paragraph
-    tokens_list = [token.text for token in para_doc]
-    return ' '.join(tokens_list), len(tokens_list)
 
 
 def read_paragraph(filename: str) -> Dict[int, Dict]:
@@ -298,8 +309,8 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
             row_index += 2
             row = csv_data.iloc[row_index]
             assert row['sent_id'] == 'state1'
-            location = row[f'ent{i+1}']
-            gold_loc_seq.append(location)
+            _, gold_location = lemmatize(row[f'ent{i+1}'])
+            gold_loc_seq.append(gold_location)
 
             # for each sentence, read the sentence and the entity location
             for j in range(total_sents):
@@ -315,7 +326,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
                 row_index += 1
                 row = csv_data.iloc[row_index]
                 assert row['sent_id'] == f'state{j+2}'
-                gold_location = row[f'ent{i+1}']
+                _, gold_location = lemmatize(row[f'ent{i+1}'])
                 gold_loc_seq.append(gold_location)
 
                 # whether the gold location is in the candidates (training only)
