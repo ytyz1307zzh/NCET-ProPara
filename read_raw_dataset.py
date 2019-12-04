@@ -87,6 +87,37 @@ def find_token_in_sent(sentence: str, keywords: str) -> List[int]:
     Find all positions of certain keywords (entities, verbs, locations) in the given sentence. 
     sentence: lower-case tokenized sentence
     """
+    pass
+
+
+def is_span(paragraph: List[str], phrase: str) -> bool:
+    """
+    Judge whether a phrase is a span of the paragraph
+    """
+    phrase = phrase.strip().split()
+    phrase_len = len(phrase)
+    if phrase_len == 1:
+        return phrase[0] in paragraph
+    
+    for i in range(0, len(paragraph) - phrase_len):
+        sub_para = paragraph[i: i+phrase_len]
+        if sub_para == phrase:
+            return True
+    return False
+
+
+def log_existence(paragraph: str, para_id: int, entity: str, loc_seq: List[str], log_file):
+    entity_list = entity.split('; ')
+    paragraph = paragraph.strip().split()
+    for ent in entity_list:
+        if not is_span(paragraph, ent):
+            print(f'[WARNING] Paragraph {para_id}: entity "{ent}" is not a span in paragraph.', file=log_file)
+    
+    for loc in loc_seq:
+        if loc == '-' or loc == '?':
+            continue
+        if not is_span(paragraph, loc):
+            print(f'[WARNING] Paragraph {para_id}: location "{loc}" is not a span in paragraph.', file=log_file)
     
 
 def tokenize(paragraph: str) -> (str, int):
@@ -129,7 +160,7 @@ def read_paragraph(filename: str) -> Dict[int, Dict]:
 
 
 def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
-                    log_dir: str, train: bool) -> List[Dict]:
+                    log_file, train: bool) -> List[Dict]:
     """
     1. read csv
     2. get the entities
@@ -149,7 +180,6 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
     13. infer the gold state change sequence
     """
 
-    log_file = open(f'{log_dir}/info.log', 'w', encoding='utf-8')
     data_instances = []
     column_names = ['para_id', 'sent_id', 'sentence', 'ent1', 'ent2', 'ent3',
                     'ent4', 'ent5', 'ent6', 'ent7', 'ent8']
@@ -184,7 +214,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
 
         # find location candidates
         loc_cand_set = find_loc_candidate(Sentence(paragraph))
-        print(f'Paragraph {para_id}: \nLocation candidate set: ', loc_cand_set, file=log_file)
+        print(f'[INFO] Paragraph {para_id}: \nLocation candidate set: ', loc_cand_set, file=log_file)
 
         # process data in this paragraph
         # first, figure out how many entities it has
@@ -237,9 +267,13 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
                 gold_loc_seq.append(gold_location)
 
                 # whether the gold location is in the candidates (training only)
-                if gold_location not in loc_cand_set and train == True:
+                if gold_location not in loc_cand_set and train == True\
+                    and gold_location != '-' and gold_location != '?':
                     loc_cand_set.add(gold_location)
-                    print(f'Paragraph {para_id}: gold location "{gold_location}" not included in candidate set.', file=log_file)
+                    print(f'[INFO] Paragraph {para_id}: gold location "{gold_location}" not included in candidate set.',
+                         file=log_file)
+                
+            log_existence(paragraph, para_id, entity_name, gold_loc_seq, log_file)
 
             # pointer backward, construct instance for next entity
             row_index = begin_row_index
@@ -254,7 +288,6 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
             print(f'[INFO] All {para_index} paragraphs processed.')
             break
 
-    log_file.close()
     return data_instances
 
 
@@ -300,7 +333,12 @@ if __name__ == '__main__':
 
     paragraph_result = read_paragraph(opt.para_file)
     train_para, dev_para, test_para = read_split(opt.split_file, paragraph_result)
-    train_instances = read_annotation(opt.state_file, train_para, opt.log_dir, train = True)
-    dev_instances = read_annotation(opt.state_file, dev_para, opt.log_dir, train = False)
-    test_instances = read_annotation(opt.state_file, test_para, opt.log_dir, train = False)
 
+    log_file = open(f'{opt.log_dir}/info.log', 'w', encoding='utf-8')
+    print('Training Set......')
+    train_instances = read_annotation(opt.state_file, train_para, log_file, train = True)
+    print('Dev Set......')
+    dev_instances = read_annotation(opt.state_file, dev_para, log_file, train = False)
+    print('Testing Set......')
+    test_instances = read_annotation(opt.state_file, test_para, log_file, train = False)
+    log_file.close()
