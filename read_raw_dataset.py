@@ -82,42 +82,53 @@ def find_loc_candidate(paragraph: flair.data.Sentence) -> List[str]:
     
     return set(loc_list)
 
-def find_token_in_sent(sentence: str, keywords: str) -> List[int]:
-    """
-    Find all positions of certain keywords (entities, verbs, locations) in the given sentence. 
-    sentence: lower-case tokenized sentence
-    """
-    pass
 
-
-def is_span(paragraph: List[str], phrase: str) -> bool:
+def find_mention(paragraph: List[str], phrase: str) -> List:
     """
-    Judge whether a phrase is a span of the paragraph
+    Judge whether a phrase is a span of the paragraph (or sentence) and return the span
     """
     phrase = phrase.strip().split()
     phrase_len = len(phrase)
-    if phrase_len == 1:
-        return phrase[0] in paragraph
+    span_list = []
     
     for i in range(0, len(paragraph) - phrase_len):
         sub_para = paragraph[i: i+phrase_len]
         if sub_para == phrase:
-            return True
-    return False
+            span_list.extend(list(range(i, i+phrase_len)))
+    return span_list
 
 
 def log_existence(paragraph: str, para_id: int, entity: str, loc_seq: List[str], log_file):
     entity_list = entity.split('; ')
     paragraph = paragraph.strip().split()
     for ent in entity_list:
-        if not is_span(paragraph, ent):
+        if not find_mention(paragraph, ent):
             print(f'[WARNING] Paragraph {para_id}: entity "{ent}" is not a span in paragraph.', file=log_file)
     
     for loc in loc_seq:
         if loc == '-' or loc == '?':
             continue
-        if not is_span(paragraph, loc):
+        if not find_mention(paragraph, loc):
             print(f'[WARNING] Paragraph {para_id}: location "{loc}" is not a span in paragraph.', file=log_file)
+
+
+def entity_mask(sentence: str, entity: str, pad_bef_len: int, pad_aft_len: int) -> List[int]:
+    """
+    return the masked vector pertaining to a certain entity in the paragraph
+    """
+    sentence = sentence.strip().split()
+    sent_len = len(sentence)
+    entity_list = entity.split('; ')
+    span_list = []
+    for ent_name in entity_list:
+        span_list.extend(find_mention(sentence, ent_name))
+    
+    entity_mask = [1 if i in span_list else 0 for i in range(sent_len)]
+    padding_before = [0 for _ in range(pad_bef_len)]
+    padding_after = [0 for _ in range(pad_aft_len)]
+
+    return padding_before + entity_mask + padding_after
+
     
 
 def tokenize(paragraph: str) -> (str, int):
