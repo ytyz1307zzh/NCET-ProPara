@@ -38,7 +38,7 @@ pd.set_option('display.max_columns', 50)
 total_paras = 0  # should equal to 488 after read_paragraph
 
 import spacy
-nlp = spacy.load("en_core_web_sm")
+nlp = spacy.load("en_core_web_sm", disable = ['parser', 'ner'])
 
 from flair.data import Sentence
 from flair.models import SequenceTagger
@@ -83,13 +83,21 @@ def find_loc_candidate(paragraph: flair.data.Sentence) -> List[str]:
     return set(loc_list)
 
 
-def find_mention(paragraph: List[str], phrase: str) -> List:
+def find_mention(paragraph: List[str], phrase: str, norm: bool = False) -> List:
     """
     Judge whether a phrase is a span of the paragraph (or sentence) and return the span
+    norm: whether the phrase and the sentence should be normalized first
     """
     phrase = phrase.strip().split()
     phrase_len = len(phrase)
     span_list = []
+
+    # perform lemmatization on both phrase and paragraph
+    if norm:
+        para_doc = nlp(' '.join(paragraph))
+        paragraph = [token.lemma_ for token in para_doc]
+        phrase_doc = nlp(' '.join(phrase))
+        phrase = [token.lemma_ for token in phrase_doc]
     
     for i in range(0, len(paragraph) - phrase_len):
         sub_para = paragraph[i: i+phrase_len]
@@ -129,7 +137,38 @@ def entity_mask(sentence: str, entity: str, pad_bef_len: int, pad_aft_len: int) 
 
     return padding_before + entity_mask + padding_after
 
+
+def verb_mask(sentence: str, pad_bef_len: int, pad_aft_len: int) -> List[int]:
+    """
+    return the masked vector pertaining to the verb in the sentence
+    """
+    sentence = Sentence(sentence)
+    pos_tagger.predict(sentence)
+    sent_len = len(sentence)
+    pos_list = [(token.text, token.get_tag('pos').value) for token in sentence]
+    span_list = [i for i in range(sent_len) if pos_list[i][1] == 'VERB']
     
+    verb_mask = [1 if i in span_list else 0 for i in range(sent_len)]
+    padding_before = [0 for _ in range(pad_bef_len)]
+    padding_after = [0 for _ in range(pad_aft_len)]
+
+    return padding_before + verb_mask + padding_after
+
+
+def location_mask(sentence: str, location: str, pad_bef_len: int, pad_aft_len: int) -> List[int]:
+    """
+    return the masked vector pertaining to a certain location in the paragraph
+    """
+    sentence = sentence.strip().split()
+    sent_len = len(sentence)
+    span_list = find_mention(sentence, location, norm = True)
+    
+    loc_mask = [1 if i in span_list else 0 for i in range(sent_len)]
+    padding_before = [0 for _ in range(pad_bef_len)]
+    padding_after = [0 for _ in range(pad_aft_len)]
+
+    return padding_before + loc_mask + padding_after
+
 
 def tokenize(paragraph: str) -> (str, int):
     """
