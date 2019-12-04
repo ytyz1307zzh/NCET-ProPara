@@ -23,6 +23,7 @@ Instance
     |____gold locations (list of strings, len = sent + 1)
     |____list of sentences
                |____sentence id
+               |____sentence (string)
                |____entity mask (all 0 if not exist)
                |____verb mask (all 0 if not exist)
                |____list of location candidates
@@ -107,6 +108,9 @@ def find_mention(paragraph: List[str], phrase: str, norm: bool = False) -> List:
 
 
 def log_existence(paragraph: str, para_id: int, entity: str, loc_seq: List[str], log_file):
+    """
+    Record the entities and locations that does not match any span in the paragraph.
+    """
     entity_list = entity.split('; ')
     paragraph = paragraph.strip().split()
     for ent in entity_list:
@@ -120,7 +124,7 @@ def log_existence(paragraph: str, para_id: int, entity: str, loc_seq: List[str],
             print(f'[WARNING] Paragraph {para_id}: location "{loc}" is not a span in paragraph.', file=log_file)
 
 
-def entity_mask(sentence: str, entity: str, pad_bef_len: int, pad_aft_len: int) -> List[int]:
+def get_entity_mask(sentence: str, entity: str, pad_bef_len: int, pad_aft_len: int) -> List[int]:
     """
     return the masked vector pertaining to a certain entity in the paragraph
     """
@@ -138,7 +142,7 @@ def entity_mask(sentence: str, entity: str, pad_bef_len: int, pad_aft_len: int) 
     return padding_before + entity_mask + padding_after
 
 
-def verb_mask(sentence: str, pad_bef_len: int, pad_aft_len: int) -> List[int]:
+def get_verb_mask(sentence: str, pad_bef_len: int, pad_aft_len: int) -> List[int]:
     """
     return the masked vector pertaining to the verb in the sentence
     """
@@ -155,7 +159,7 @@ def verb_mask(sentence: str, pad_bef_len: int, pad_aft_len: int) -> List[int]:
     return padding_before + verb_mask + padding_after
 
 
-def location_mask(sentence: str, location: str, pad_bef_len: int, pad_aft_len: int) -> List[int]:
+def get_location_mask(sentence: str, location: str, pad_bef_len: int, pad_aft_len: int) -> List[int]:
     """
     return the masked vector pertaining to a certain location in the paragraph
     """
@@ -298,7 +302,6 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
             gold_loc_seq.append(location)
 
             # for each sentence, read the sentence and the entity location
-            words_read = 0  # how many words have been read
             for j in range(total_sents):
 
                 # read sentence
@@ -307,7 +310,6 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
                 assert row['sent_id'] == f'event{j+1}'
                 sentence, num_tokens_in_sent = tokenize(row['sentence'])
                 sent_id = j + 1
-                words_read += num_tokens_in_sent
 
                 # read gold state
                 row_index += 1
@@ -322,8 +324,43 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
                     loc_cand_set.add(gold_location)
                     print(f'[INFO] Paragraph {para_id}: gold location "{gold_location}" not included in candidate set.',
                          file=log_file)
-                
+
+                sentence_list.append({'id': sent_id, 
+                                      'sentence': sentence, 
+                                      'total_tokens': num_tokens_in_sent})
+            
+            assert len(sentence_list) == total_sents
+            total_loc_candidates = len(loc_cand_set)
+            # record the entities and locations that does not match any span in the paragraph
             log_existence(paragraph, para_id, entity_name, gold_loc_seq, log_file)
+            
+            words_read = 0  # how many words have been read
+            for j in range(total_sents):
+
+                sent_dict = sentence_list[j]
+                sentence = sent_dict['sentence']
+                num_tokens_in_sent = sent_dict['total_tokens']
+
+                # compute the masks
+                entity_mask = get_entity_mask(sentence, entity_name, words_read, total_tokens - words_read)
+                verb_mask = get_verb_mask(sentence, words_read, total_tokens - words_read)
+                loc_mask_list = []
+
+                for loc_candidate in loc_cand_set:
+                    loc_mask_list.append({'location': loc_candidate,
+                                          'mask': get_location_mask(sentence, loc_candidate, words_read, \
+                                                  total_tokens - words_read)
+                                            })
+                
+                sent_dict['entity_mask'] = entity_mask
+                sent_dict['verb_mask'] = verb_mask
+                sent_dict['loc_mask_list'] = loc_mask_list
+                sentence_list[j] = sent_dict
+                words_read += num_tokens_in_sent
+
+            assert words_read == total_tokens
+            instance['sentence_list'] = sentence_list
+            # print(instance)
 
             # pointer backward, construct instance for next entity
             row_index = begin_row_index
