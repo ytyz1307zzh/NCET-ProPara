@@ -297,6 +297,10 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
     row_index = 0
     para_index = 1
 
+    # variables for computing the accuracy of location prediction
+    total_loc_cnt = 0
+    total_err_cnt = 0
+
     start_time = time.time()
 
     while True:
@@ -339,6 +343,10 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
         verb_mention_per_sent = [None for _ in range(total_sents)]
         loc_mention_per_sent = [None for _ in range(total_sents)]
 
+        # sets for computing the accuracy of location prediction
+        total_loc_set = set()
+        total_err_set = set()
+
         for i in range(total_entities):
             entity_name = entity_list[i]
 
@@ -376,11 +384,15 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
                 _, gold_location = lemmatize(row[f'ent{i+1}'])
                 gold_loc_seq.append(gold_location)
 
+                if gold_location != '-' and gold_location != '?':
+                    total_loc_set.add(gold_location)
+
                 # whether the gold location is in the candidates (training only)
                 if gold_location not in loc_cand_set \
                     and gold_location != '-' and gold_location != '?':
                     if train:
                         loc_cand_set.add(gold_location)
+                    total_err_set.add(gold_location)
                     print(f'[INFO] Paragraph {para_id}: gold location "{gold_location}" not included in candidate set.',
                          file=log_file)
 
@@ -442,6 +454,11 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
             row_index = begin_row_index
             data_instances.append(instance)
 
+        total_loc_cnt += len(total_loc_set)
+        total_err_cnt += len(total_err_set)
+        print(total_loc_set)
+        print(total_err_set)
+
 
         row_index = end_row_index + 1
         para_index += 1
@@ -449,9 +466,14 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
         if para_index % 10 == 0:
             end_time = time.time()
             print(f'[INFO] {para_index} paragraphs processed. Time elapse: {end_time - start_time}s')
-        if para_index >= 10:
+        if para_index >= len(paragraph_result):
+            end_time = time.time()
             print(f'[INFO] All {para_index} paragraphs processed. Time elapse: {end_time - start_time}s')
             break
+    
+    # compute accuracy of location prediction
+    loc_accuracy = 1 - total_err_cnt / total_loc_cnt
+    print(f'[DATA] Accuracy of location prediction: {loc_accuracy} ({total_loc_cnt - total_err_cnt}/{total_loc_cnt})')
 
     return data_instances
 
