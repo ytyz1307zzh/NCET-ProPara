@@ -37,6 +37,7 @@ from typing import Dict, List, Tuple, Set
 import pandas as pd
 import argparse
 import json
+import os
 pd.set_option('display.max_columns', 50)
 total_paras = 0  # should equal to 488 after read_paragraph
 
@@ -291,7 +292,6 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
     max_entity = 8
 
     csv_data = pd.read_csv(filename, header = None, names = column_names)
-    num_rows = len(csv_data.index)
     row_index = 0
     para_index = 1
 
@@ -429,7 +429,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
             instance['total_loc_candidates'] = total_loc_candidates
             instance['gold_loc_seq'] = gold_loc_seq
             instance['gold_state_seq'] = compute_state_change_seq(gold_loc_seq)
-            print(instance)
+            # print(instance)
             assert words_read == total_tokens
 
             # pointer backward, construct instance for next entity
@@ -438,10 +438,11 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
 
         row_index = end_row_index + 1
         para_index += 1
+        data_instances.append(instance)
 
-        if para_index % 25 == 0:
+        if para_index % 10 == 0:
             print(f'[INFO] {para_index} paragraphs processed.')
-        if para_index >= 5:
+        if para_index >= len(paragraph_result):
             print(f'[INFO] All {para_index} paragraphs processed.')
             break
 
@@ -482,6 +483,8 @@ if __name__ == '__main__':
                         help='path to the csv that annotates the train/dev/test split')
     parser.add_argument('-log_dir', type=str, default='logs',
                         help='directory to store the intermediate outputs')
+    parser.add_argument('-store_dir', type=str, default='data/', 
+                        help='directory that you would like to store the generated instances')
     opt = parser.parse_args()
 
     print('Received arguments:')
@@ -498,4 +501,14 @@ if __name__ == '__main__':
     dev_instances = read_annotation(opt.state_file, dev_para, log_file, train = False)
     print('Testing Set......')
     test_instances = read_annotation(opt.state_file, test_para, log_file, train = False)
+
+    # save the instances to JSON files
+    json.dump(train_instances, open(os.path.join(opt.store_dir, 'train.json'), 'w', encoding='utf-8'),
+                ensure_ascii=False, indent=4)
+    json.dump(dev_instances, open(os.path.join(opt.store_dir, 'dev.json'), 'w', encoding='utf-8'),
+                ensure_ascii=False, indent=4)
+    json.dump(test_instances, open(os.path.join(opt.store_dir, 'test.json'), 'w', encoding='utf-8'),
+                ensure_ascii=False, indent=4)
+    print('[INFO] JSON files saved successfully.')
+
     log_file.close()
