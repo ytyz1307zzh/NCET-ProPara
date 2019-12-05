@@ -20,14 +20,16 @@ Instance
     |____number of words (tokens) in the paragraph
     |____number of sentences in the paragraph
     |____number of location candidates
+    |____list of location candidates
     |____gold locations (list of strings, len = sent + 1)
     |____list of sentences
                |____sentence id
+               |____number of words
                |____sentence (string)
-               |____entity mask (all 0 if not exist)
-               |____verb mask (all 0 if not exist)
+               |____entity mention position (list of indices)
+               |____verb mention position (list of indices)
                |____list of location candidates
-                            |____location mask (all 0 if not exist) 
+                            |____location mention position (list of indices)
                                 (list length equal to number of location candidates)
 """
 
@@ -140,7 +142,7 @@ def log_existence(paragraph: str, para_id: int, entity: str, loc_seq: List[str],
     for loc in loc_seq:
         if loc == '-' or loc == '?':
             continue
-        if not find_mention(paragraph, loc):
+        if not find_mention(paragraph, loc, norm = True):
             print(f'[WARNING] Paragraph {para_id}: location "{loc}" is not a span in paragraph.', file=log_file)
 
 
@@ -341,7 +343,8 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
                                       'total_tokens': num_tokens_in_sent})
             
             assert len(sentence_list) == total_sents
-            total_loc_candidates = len(loc_cand_set)
+            loc_cand_list = list(loc_cand_set)
+            total_loc_candidates = len(loc_cand_list)
             # record the entities and locations that does not match any span in the paragraph
             log_existence(paragraph, para_id, entity_name, gold_loc_seq, log_file)
             
@@ -354,24 +357,29 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
 
                 # compute the masks
                 entity_mask = get_entity_mask(sentence, entity_name, words_read, total_tokens - words_read)
+                entity_mention = [idx for idx in range(len(entity_mask)) if entity_mask[idx] == 1]
                 verb_mask = get_verb_mask(sentence, words_read, total_tokens - words_read)
-                loc_mask_list = []
+                verb_mention = [idx for idx in range(len(verb_mask)) if verb_mask[idx] == 1]
+                loc_mention_list = []
 
-                for loc_candidate in loc_cand_set:
-                    loc_mask_list.append({'location': loc_candidate,
-                                          'mask': get_location_mask(sentence, loc_candidate, words_read, \
-                                                  total_tokens - words_read)
-                                            })
-                
-                sent_dict['entity_mask'] = entity_mask
-                sent_dict['verb_mask'] = verb_mask
-                sent_dict['loc_mask_list'] = loc_mask_list
+                for loc_candidate in loc_cand_list:
+                    loc_mask = get_location_mask(sentence, loc_candidate, words_read, total_tokens - words_read)
+                    assert len(entity_mask) == len(verb_mask) == len(loc_mask)
+                    loc_mention = [idx for idx in range(len(loc_mask)) if loc_mask[idx] == 1]
+                    loc_mention_list.append(loc_mention)
+
+                sent_dict['entity_mention'] = entity_mention
+                sent_dict['verb_mention'] = verb_mention
+                sent_dict['loc_mention_list'] = loc_mention_list
                 sentence_list[j] = sent_dict
                 words_read += num_tokens_in_sent
 
-            assert words_read == total_tokens
+
             instance['sentence_list'] = sentence_list
-            # print(instance)
+            instance['loc_cand_list'] = loc_cand_list
+            instance['total_loc_candidates'] = total_loc_candidates
+            instance['gold_loc_seq'] = gold_loc_seq
+            assert words_read == total_tokens
 
             # pointer backward, construct instance for next entity
             row_index = begin_row_index

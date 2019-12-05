@@ -7288,7 +7288,7 @@
 272,state3,,-,-,generator,?,-,,,
 272,event3,A magnet moves near a wire.,,,,,,,,
 272,state4,,-,-,generator,near a wire,-,,,
-272,event4,A steady flow of electrons is C.,,,,,,,,
+272,event4,A steady flow of electrons is created.,,,,,,,,
 272,state5,,-,-,generator,generator,wire,,,
 272,event5,Electricity flows through a wire.,,,,,,,,
 272,state6,,-,-,wire,generator,wire,,,
