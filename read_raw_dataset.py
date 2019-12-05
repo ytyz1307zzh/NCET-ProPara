@@ -104,7 +104,9 @@ def find_loc_candidate(paragraph: flair.data.Sentence) -> List[str]:
             loc_list.append(pos_list[i-2][0] + ' ' + pos_list[i-1][0] + ' ' + pos_list[i][0])
     
     # lemmatization
-    map(lemmatize, loc_list)
+    for i in range(len(loc_list)):
+        _, location = lemmatize(loc_list[i])
+        loc_list[i] = location
     
     return set(loc_list)
 
@@ -194,6 +196,42 @@ def get_location_mask(sentence: str, location: str, pad_bef_len: int, pad_aft_le
     padding_after = [0 for _ in range(pad_aft_len)]
 
     return padding_before + loc_mask + padding_after
+
+
+def compute_state_change_seq(gold_loc_seq: List[str]) -> List[str]:
+    """
+    Compute the state change sequence for the certain entity.
+    Note that the gold location sequence contains an 'initial state'.
+    State change labels: O_C, O_D, E, M, C, D
+    """
+    num_states = len(gold_loc_seq)
+    # whether the entity has been created. (if exists from the beginning, then it should be True)
+    create = False if gold_loc_seq[0] == '-' else True
+    gold_state_seq = []
+
+    for i in range(1, num_states):
+
+        if gold_loc_seq[i] == '-':  # could be O_C, O_D or D
+            if create == True and gold_loc_seq[i-1] == '-':
+                gold_state_seq.append('O_D')
+            elif create == True and gold_loc_seq[i-1] != '-':
+                gold_state_seq.append('D')
+            else:
+                gold_state_seq.append('O_C')
+
+        elif gold_loc_seq[i] == gold_loc_seq[i-1]:
+            gold_state_seq.append('E')
+
+        else:  # location change, could be C or M
+            if gold_loc_seq[i-1] == '-':
+                create = True
+                gold_state_seq.append('C')
+            else:
+                gold_state_seq.append('M')
+    
+    assert len(gold_state_seq) == len(gold_loc_seq) - 1
+    
+    return gold_state_seq
 
 
 def read_paragraph(filename: str) -> Dict[int, Dict]:
@@ -293,6 +331,9 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
             entity_list.append(entity_name)
         
         total_entities = len(entity_list)
+        verb_mention_per_sent = []
+        loc_mention_per_sent = []
+
         for i in range(total_entities):
             entity_name = entity_list[i]
 
@@ -303,7 +344,6 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
                         'total_tokens': total_tokens,
                         'total_sents': total_sents,
                         'entity': entity_name}
-            gold_state_seq = []  # list of gold state changes
             gold_loc_seq = []  # list of gold locations
             sentence_list = []
 
@@ -358,15 +398,24 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
                 # compute the masks
                 entity_mask = get_entity_mask(sentence, entity_name, words_read, total_tokens - words_read)
                 entity_mention = [idx for idx in range(len(entity_mask)) if entity_mask[idx] == 1]
-                verb_mask = get_verb_mask(sentence, words_read, total_tokens - words_read)
-                verb_mention = [idx for idx in range(len(verb_mask)) if verb_mask[idx] == 1]
-                loc_mention_list = []
 
-                for loc_candidate in loc_cand_list:
-                    loc_mask = get_location_mask(sentence, loc_candidate, words_read, total_tokens - words_read)
-                    assert len(entity_mask) == len(verb_mask) == len(loc_mask)
-                    loc_mention = [idx for idx in range(len(loc_mask)) if loc_mask[idx] == 1]
-                    loc_mention_list.append(loc_mention)
+                if not verb_mention_per_sent[j]:
+                    verb_mask = get_verb_mask(sentence, words_read, total_tokens - words_read)
+                    verb_mention = [idx for idx in range(len(verb_mask)) if verb_mask[idx] == 1]
+                    verb_mention_per_sent[j] = verb_mention
+                else:
+                    verb_mention = verb_mention_per_sent[j]
+                
+                if not loc_mention_per_sent[j]:
+                    loc_mention_list = []
+                    for loc_candidate in loc_cand_list:
+                        loc_mask = get_location_mask(sentence, loc_candidate, words_read, total_tokens - words_read)
+                        assert len(entity_mask) == len(verb_mask) == len(loc_mask)
+                        loc_mention = [idx for idx in range(len(loc_mask)) if loc_mask[idx] == 1]
+                        loc_mention_list.append(loc_mention)
+                    loc_mention_per_sent[j] = loc_mention_list
+                else:
+                    loc_mention_list = loc_mention_per_sent[j]
 
                 sent_dict['entity_mention'] = entity_mention
                 sent_dict['verb_mention'] = verb_mention
@@ -374,11 +423,13 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
                 sentence_list[j] = sent_dict
                 words_read += num_tokens_in_sent
 
-
+            assert len(gold_loc_seq) == len(sentence_list) + 1
             instance['sentence_list'] = sentence_list
             instance['loc_cand_list'] = loc_cand_list
             instance['total_loc_candidates'] = total_loc_candidates
             instance['gold_loc_seq'] = gold_loc_seq
+            instance['gold_state_seq'] = compute_state_change_seq(gold_loc_seq)
+            print(instance)
             assert words_read == total_tokens
 
             # pointer backward, construct instance for next entity
@@ -390,7 +441,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
 
         if para_index % 25 == 0:
             print(f'[INFO] {para_index} paragraphs processed.')
-        if para_index >= len(paragraph_result):
+        if para_index >= 5:
             print(f'[INFO] All {para_index} paragraphs processed.')
             break
 
