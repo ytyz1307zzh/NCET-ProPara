@@ -524,12 +524,12 @@ if __name__ == '__main__':
     train_para, dev_para, test_para = read_split(opt.split_file, paragraph_result)
 
     log_file = open(f'{opt.log_dir}/info.log', 'w', encoding='utf-8')
-    print('Training Set......')
-    train_instances = read_annotation(opt.state_file, train_para, log_file, train = True)
     print('Dev Set......')
     dev_instances = read_annotation(opt.state_file, dev_para, log_file, train = False)
     print('Testing Set......')
     test_instances = read_annotation(opt.state_file, test_para, log_file, train = False)
+    print('Training Set......')
+    train_instances = read_annotation(opt.state_file, train_para, log_file, train = True)
 
     # save the instances to JSON files
     json.dump(train_instances, open(os.path.join(opt.store_dir, 'train.json'), 'w', encoding='utf-8'),
