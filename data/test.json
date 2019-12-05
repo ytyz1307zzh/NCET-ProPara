@@ -1,0 +1,2633 @@
+[
+    {
+        "id": 37,
+        "topic": "fossil",
+        "prompt": "How are fossils formed?",
+        "paragraph": "a plant of animal dies in a watery environment . is buried in mud and silt . soft tissues quickly decompose leaving behind hard bones or shells . over time sediment builds over the top and hardens into rock . as the bone decays mineral seeps in replacing it . fossils are formed .",
+        "total_tokens": 54,
+        "total_sents": 6,
+        "entity": "fossils",
+        "sentence_list": [
+            {
+                "id": 1,
+                "sentence": "a plant of animal dies in a watery environment .",
+                "total_tokens": 10,
+                "entity_mention": [],
+                "verb_mention": [
+                    4
+                ],
+                "loc_mention_list": [
+                    [
+                        1
+                    ],
+                    [],
+                    [
+                        7,
+                        8
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        3
+                    ],
+                    []
+                ]
+            },
+            {
+                "id": 2,
+                "sentence": "is buried in mud and silt .",
+                "total_tokens": 7,
+                "entity_mention": [],
+                "verb_mention": [
+                    10,
+                    11
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [
+                        13
+                    ],
+                    [
+                        13,
+                        14,
+                        15
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        15
+                    ],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 3,
+                "sentence": "soft tissues quickly decompose leaving behind hard bones or shells .",
+                "total_tokens": 11,
+                "entity_mention": [],
+                "verb_mention": [
+                    20,
+                    21
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        26
+                    ],
+                    [],
+                    [
+                        17,
+                        18
+                    ],
+                    [],
+                    [
+                        24,
+                        25,
+                        26
+                    ],
+                    [
+                        24
+                    ],
+                    [
+                        23,
+                        24
+                    ],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 4,
+                "sentence": "over time sediment builds over the top and hardens into rock .",
+                "total_tokens": 12,
+                "entity_mention": [],
+                "verb_mention": [
+                    31,
+                    36
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        38
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        34
+                    ],
+                    [],
+                    [
+                        29,
+                        30
+                    ]
+                ]
+            },
+            {
+                "id": 5,
+                "sentence": "as the bone decays mineral seeps in replacing it .",
+                "total_tokens": 10,
+                "entity_mention": [],
+                "verb_mention": [
+                    45,
+                    47
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        44
+                    ],
+                    [],
+                    [
+                        42
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 6,
+                "sentence": "fossils are formed .",
+                "total_tokens": 4,
+                "entity_mention": [
+                    50
+                ],
+                "verb_mention": [
+                    51,
+                    52
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        50
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            }
+        ],
+        "loc_cand_list": [
+            "plant",
+            "rock",
+            "watery environment",
+            "mud",
+            "mud and silt",
+            "shell",
+            "fossil",
+            "soft tissue",
+            "mineral",
+            "bone or shell",
+            "bone",
+            "hard bone",
+            "silt",
+            "top",
+            "animal",
+            "time sediment"
+        ],
+        "total_loc_candidates": 16,
+        "gold_loc_seq": [
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "?"
+        ],
+        "gold_state_seq": [
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "C"
+        ]
+    },
+    {
+        "id": 38,
+        "topic": "fossil",
+        "prompt": "How are fossils formed?",
+        "paragraph": "the animal dies and the body falls down . it is not eaten by anything . the body falls in a sandy or wet place . the soil forms around the body . time passes on and the rock forms . millions years later the fossil forms . a person now finds the fossil .",
+        "total_tokens": 55,
+        "total_sents": 7,
+        "entity": "fossil",
+        "sentence_list": [
+            {
+                "id": 1,
+                "sentence": "the animal dies and the body falls down .",
+                "total_tokens": 9,
+                "entity_mention": [],
+                "verb_mention": [
+                    2,
+                    6
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        5
+                    ],
+                    [
+                        1
+                    ]
+                ]
+            },
+            {
+                "id": 2,
+                "sentence": "it is not eaten by anything .",
+                "total_tokens": 7,
+                "entity_mention": [],
+                "verb_mention": [
+                    10,
+                    12
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        14
+                    ],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 3,
+                "sentence": "the body falls in a sandy or wet place .",
+                "total_tokens": 10,
+                "entity_mention": [],
+                "verb_mention": [
+                    18
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        23,
+                        24
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        17
+                    ],
+                    []
+                ]
+            },
+            {
+                "id": 4,
+                "sentence": "the soil forms around the body .",
+                "total_tokens": 7,
+                "entity_mention": [],
+                "verb_mention": [
+                    28
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [
+                        27
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        31
+                    ],
+                    []
+                ]
+            },
+            {
+                "id": 5,
+                "sentence": "time passes on and the rock forms .",
+                "total_tokens": 8,
+                "entity_mention": [],
+                "verb_mention": [
+                    34
+                ],
+                "loc_mention_list": [
+                    [
+                        33
+                    ],
+                    [],
+                    [
+                        38
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 6,
+                "sentence": "millions years later the fossil forms .",
+                "total_tokens": 7,
+                "entity_mention": [
+                    45
+                ],
+                "verb_mention": [],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        45
+                    ],
+                    [],
+                    [],
+                    [
+                        45,
+                        46
+                    ],
+                    [
+                        41,
+                        42
+                    ],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 7,
+                "sentence": "a person now finds the fossil .",
+                "total_tokens": 7,
+                "entity_mention": [
+                    53
+                ],
+                "verb_mention": [
+                    51
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        49
+                    ],
+                    [],
+                    [],
+                    [
+                        53
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            }
+        ],
+        "loc_cand_list": [
+            "time",
+            "person",
+            "rock",
+            "soil",
+            "fossil",
+            "wet place",
+            "anything",
+            "fossil form",
+            "million year",
+            "body",
+            "animal"
+        ],
+        "total_loc_candidates": 11,
+        "gold_loc_seq": [
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "rock",
+            "rock"
+        ],
+        "gold_state_seq": [
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "C",
+            "E"
+        ]
+    },
+    {
+        "id": 67,
+        "topic": "coal",
+        "prompt": "How does coal form?",
+        "paragraph": "plants die . the dead plants end up in swamps . the dead plants sink to the bottom of the swamps . many more dead plants sink in the same area . the dead plants join together forming peat . sediment covers the peat . the peat continues to decompose . the peat keeps carbon while eliminating other elements . the peat turns into coal after a long time .",
+        "total_tokens": 70,
+        "total_sents": 9,
+        "entity": "coal",
+        "sentence_list": [
+            {
+                "id": 1,
+                "sentence": "plants die .",
+                "total_tokens": 3,
+                "entity_mention": [],
+                "verb_mention": [
+                    1
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        0
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 2,
+                "sentence": "the dead plants end up in swamps .",
+                "total_tokens": 8,
+                "entity_mention": [],
+                "verb_mention": [
+                    6
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        5
+                    ],
+                    [
+                        4,
+                        5
+                    ],
+                    [],
+                    [
+                        9
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 3,
+                "sentence": "the dead plants sink to the bottom of the swamps .",
+                "total_tokens": 11,
+                "entity_mention": [],
+                "verb_mention": [
+                    14
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        13
+                    ],
+                    [
+                        12,
+                        13
+                    ],
+                    [],
+                    [
+                        20
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        17
+                    ],
+                    []
+                ]
+            },
+            {
+                "id": 4,
+                "sentence": "many more dead plants sink in the same area .",
+                "total_tokens": 10,
+                "entity_mention": [],
+                "verb_mention": [
+                    26
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        25
+                    ],
+                    [
+                        24,
+                        25
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        29,
+                        30
+                    ],
+                    [
+                        22,
+                        23,
+                        24,
+                        25
+                    ],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 5,
+                "sentence": "the dead plants join together forming peat .",
+                "total_tokens": 8,
+                "entity_mention": [],
+                "verb_mention": [
+                    35,
+                    37
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        34
+                    ],
+                    [
+                        33,
+                        34
+                    ],
+                    [
+                        38
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 6,
+                "sentence": "sediment covers the peat .",
+                "total_tokens": 5,
+                "entity_mention": [],
+                "verb_mention": [
+                    41
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [
+                        43
+                    ],
+                    [],
+                    [],
+                    [
+                        40
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 7,
+                "sentence": "the peat continues to decompose .",
+                "total_tokens": 6,
+                "entity_mention": [],
+                "verb_mention": [
+                    47,
+                    49
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [
+                        46
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 8,
+                "sentence": "the peat keeps carbon while eliminating other elements .",
+                "total_tokens": 9,
+                "entity_mention": [],
+                "verb_mention": [
+                    53,
+                    56
+                ],
+                "loc_mention_list": [
+                    [
+                        57,
+                        58
+                    ],
+                    [],
+                    [],
+                    [
+                        52
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        54
+                    ],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 9,
+                "sentence": "the peat turns into coal after a long time .",
+                "total_tokens": 10,
+                "entity_mention": [
+                    64
+                ],
+                "verb_mention": [
+                    62
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [
+                        61
+                    ],
+                    [],
+                    [
+                        67,
+                        68
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        64
+                    ]
+                ]
+            }
+        ],
+        "loc_cand_list": [
+            "other element",
+            "plant",
+            "dead plant",
+            "peat",
+            "swamp",
+            "long time",
+            "sediment",
+            "same area",
+            "many more dead plant",
+            "carbon",
+            "bottom",
+            "coal"
+        ],
+        "total_loc_candidates": 12,
+        "gold_loc_seq": [
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "bottom of the swamp"
+        ],
+        "gold_state_seq": [
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "C"
+        ]
+    },
+    {
+        "id": 68,
+        "topic": "coal",
+        "prompt": "How does coal form?",
+        "paragraph": "300 millions years ago plants and trees died . the plant and tree remains sank to the bottom of steamy , swampy areas . layer upon layer of remains accumulated . eventually forming a soggy , dense material called peat . the peat was buried over millions of years by sand , clay , and other mineral material . pressure caused by the wait of the materials squeezed water from the peat . with the heat caused by increased burial peat slowly became coal .",
+        "total_tokens": 85,
+        "total_sents": 7,
+        "entity": "coal",
+        "sentence_list": [
+            {
+                "id": 1,
+                "sentence": "300 millions years ago plants and trees died .",
+                "total_tokens": 9,
+                "entity_mention": [],
+                "verb_mention": [
+                    7
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [
+                        1
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        1,
+                        2
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        6
+                    ],
+                    [
+                        2
+                    ],
+                    [],
+                    [
+                        4
+                    ],
+                    [
+                        4,
+                        5,
+                        6
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 2,
+                "sentence": "the plant and tree remains sank to the bottom of steamy , swampy areas .",
+                "total_tokens": 15,
+                "entity_mention": [],
+                "verb_mention": [
+                    14
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        12,
+                        13
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        13
+                    ],
+                    [
+                        12
+                    ],
+                    [],
+                    [],
+                    [
+                        10
+                    ],
+                    [
+                        10,
+                        11,
+                        12
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        17
+                    ],
+                    [],
+                    [
+                        21,
+                        22
+                    ]
+                ]
+            },
+            {
+                "id": 3,
+                "sentence": "layer upon layer of remains accumulated .",
+                "total_tokens": 7,
+                "entity_mention": [],
+                "verb_mention": [
+                    29
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        28
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        24,
+                        26
+                    ],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 4,
+                "sentence": "eventually forming a soggy , dense material called peat .",
+                "total_tokens": 10,
+                "entity_mention": [],
+                "verb_mention": [
+                    32,
+                    38
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        36,
+                        37
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        39
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        37
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 5,
+                "sentence": "the peat was buried over millions of years by sand , clay , and other mineral material .",
+                "total_tokens": 18,
+                "entity_mention": [],
+                "verb_mention": [
+                    43,
+                    44
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        55,
+                        56,
+                        57
+                    ],
+                    [
+                        50
+                    ],
+                    [
+                        46
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        42
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        48
+                    ],
+                    [
+                        57
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        52
+                    ],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 6,
+                "sentence": "pressure caused by the wait of the materials squeezed water from the peat .",
+                "total_tokens": 14,
+                "entity_mention": [],
+                "verb_mention": [
+                    60,
+                    67
+                ],
+                "loc_mention_list": [
+                    [
+                        59
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        63
+                    ],
+                    [],
+                    [],
+                    [
+                        71
+                    ],
+                    [
+                        68
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        66
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 7,
+                "sentence": "with the heat caused by increased burial peat slowly became coal .",
+                "total_tokens": 12,
+                "entity_mention": [
+                    83
+                ],
+                "verb_mention": [
+                    76,
+                    78,
+                    82
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        79,
+                        80
+                    ],
+                    [
+                        80
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        75
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        83
+                    ],
+                    []
+                ]
+            }
+        ],
+        "loc_cand_list": [
+            "pressure",
+            "other mineral material",
+            "sand",
+            "million",
+            "dense material",
+            "tree remain",
+            "wait",
+            "million year",
+            "burial peat",
+            "peat",
+            "water",
+            "remain",
+            "tree",
+            "year",
+            "material",
+            "plant",
+            "plant and tree",
+            "heat",
+            "clay",
+            "layer",
+            "bottom",
+            "coal",
+            "swampy area"
+        ],
+        "total_loc_candidates": 23,
+        "gold_loc_seq": [
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "burial peat"
+        ],
+        "gold_state_seq": [
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "C"
+        ]
+    },
+    {
+        "id": 69,
+        "topic": "coal",
+        "prompt": "How does coal form?",
+        "paragraph": "plants and trees die . dead plants and trees pile up at the bottom of swamps . dead plants and trees form layers called peat . sand and clay cover the peat . the sand and clay form sedimentary rocks . pressure caused by sedimentary rocks squeezes water out of the peat . heat changes the material into coal .",
+        "total_tokens": 60,
+        "total_sents": 7,
+        "entity": "coal",
+        "sentence_list": [
+            {
+                "id": 1,
+                "sentence": "plants and trees die .",
+                "total_tokens": 5,
+                "entity_mention": [],
+                "verb_mention": [
+                    3
+                ],
+                "loc_mention_list": [
+                    [
+                        0
+                    ],
+                    [],
+                    [
+                        0,
+                        1,
+                        2
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        2
+                    ],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 2,
+                "sentence": "dead plants and trees pile up at the bottom of swamps .",
+                "total_tokens": 12,
+                "entity_mention": [],
+                "verb_mention": [
+                    9
+                ],
+                "loc_mention_list": [
+                    [
+                        6
+                    ],
+                    [
+                        5,
+                        6
+                    ],
+                    [
+                        6,
+                        7,
+                        8
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        15
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        8
+                    ],
+                    [],
+                    [],
+                    [
+                        13
+                    ],
+                    []
+                ]
+            },
+            {
+                "id": 3,
+                "sentence": "dead plants and trees form layers called peat .",
+                "total_tokens": 9,
+                "entity_mention": [],
+                "verb_mention": [
+                    21,
+                    23
+                ],
+                "loc_mention_list": [
+                    [
+                        18
+                    ],
+                    [
+                        17,
+                        18
+                    ],
+                    [
+                        18,
+                        19,
+                        20
+                    ],
+                    [
+                        24
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        20
+                    ],
+                    [],
+                    [
+                        22
+                    ],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 4,
+                "sentence": "sand and clay cover the peat .",
+                "total_tokens": 7,
+                "entity_mention": [],
+                "verb_mention": [
+                    29
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [
+                        31
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        26
+                    ],
+                    [],
+                    [
+                        28
+                    ],
+                    [],
+                    [],
+                    [
+                        26,
+                        27,
+                        28
+                    ],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 5,
+                "sentence": "the sand and clay form sedimentary rocks .",
+                "total_tokens": 8,
+                "entity_mention": [],
+                "verb_mention": [
+                    37
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        34
+                    ],
+                    [
+                        38,
+                        39
+                    ],
+                    [
+                        36
+                    ],
+                    [],
+                    [],
+                    [
+                        34,
+                        35,
+                        36
+                    ],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 6,
+                "sentence": "pressure caused by sedimentary rocks squeezes water out of the peat .",
+                "total_tokens": 12,
+                "entity_mention": [],
+                "verb_mention": [
+                    42,
+                    46
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [
+                        51
+                    ],
+                    [
+                        41
+                    ],
+                    [
+                        47
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        44,
+                        45
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 7,
+                "sentence": "heat changes the material into coal .",
+                "total_tokens": 7,
+                "entity_mention": [
+                    58
+                ],
+                "verb_mention": [
+                    54
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        53
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        56
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        58
+                    ]
+                ]
+            }
+        ],
+        "loc_cand_list": [
+            "plant",
+            "dead plant",
+            "plant and tree",
+            "peat",
+            "pressure",
+            "water",
+            "swamp",
+            "heat",
+            "sand",
+            "sedimentary rock",
+            "clay",
+            "material",
+            "tree",
+            "sand and clay",
+            "layer",
+            "bottom",
+            "coal"
+        ],
+        "total_loc_candidates": 17,
+        "gold_loc_seq": [
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "bottom of swamp"
+        ],
+        "gold_state_seq": [
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "C"
+        ]
+    },
+    {
+        "id": 70,
+        "topic": "flood",
+        "prompt": "What happens during a flood?",
+        "paragraph": "there is a lot of rain . water levels of a river or lake get higher . water builds up on the ground . water covers streets . water goes into houses . the rain or other source of water stops . water flows into streams . the rest of the water evaporates .",
+        "total_tokens": 54,
+        "total_sents": 8,
+        "entity": "water levels",
+        "sentence_list": [
+            {
+                "id": 1,
+                "sentence": "there is a lot of rain .",
+                "total_tokens": 7,
+                "entity_mention": [],
+                "verb_mention": [
+                    1
+                ],
+                "loc_mention_list": [
+                    [
+                        5
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        3
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 2,
+                "sentence": "water levels of a river or lake get higher .",
+                "total_tokens": 10,
+                "entity_mention": [
+                    7,
+                    8
+                ],
+                "verb_mention": [
+                    14
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [
+                        7
+                    ],
+                    [
+                        11
+                    ],
+                    [],
+                    [],
+                    [
+                        7,
+                        8
+                    ],
+                    [
+                        13
+                    ],
+                    [],
+                    [
+                        11,
+                        12,
+                        13
+                    ],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 3,
+                "sentence": "water builds up on the ground .",
+                "total_tokens": 7,
+                "entity_mention": [],
+                "verb_mention": [
+                    18
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        22
+                    ],
+                    [
+                        17
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 4,
+                "sentence": "water covers streets .",
+                "total_tokens": 4,
+                "entity_mention": [],
+                "verb_mention": [
+                    25
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [
+                        24
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        26
+                    ],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 5,
+                "sentence": "water goes into houses .",
+                "total_tokens": 5,
+                "entity_mention": [],
+                "verb_mention": [
+                    29
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [
+                        28
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        31
+                    ],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 6,
+                "sentence": "the rain or other source of water stops .",
+                "total_tokens": 9,
+                "entity_mention": [],
+                "verb_mention": [
+                    40
+                ],
+                "loc_mention_list": [
+                    [
+                        34
+                    ],
+                    [],
+                    [
+                        39
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        36,
+                        37
+                    ]
+                ]
+            },
+            {
+                "id": 7,
+                "sentence": "water flows into streams .",
+                "total_tokens": 5,
+                "entity_mention": [],
+                "verb_mention": [
+                    43
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [
+                        42
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        45
+                    ],
+                    []
+                ]
+            },
+            {
+                "id": 8,
+                "sentence": "the rest of the water evaporates .",
+                "total_tokens": 7,
+                "entity_mention": [],
+                "verb_mention": [
+                    52
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [
+                        51
+                    ],
+                    [],
+                    [],
+                    [
+                        48
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            }
+        ],
+        "loc_cand_list": [
+            "rain",
+            "ground",
+            "water",
+            "river",
+            "lot",
+            "rest",
+            "water level",
+            "lake",
+            "house",
+            "river or lake",
+            "street",
+            "stream",
+            "other source"
+        ],
+        "total_loc_candidates": 13,
+        "gold_loc_seq": [
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?"
+        ],
+        "gold_state_seq": [
+            "E",
+            "E",
+            "E",
+            "E",
+            "E",
+            "E",
+            "E",
+            "E"
+        ]
+    },
+    {
+        "id": 99,
+        "topic": "deserts",
+        "prompt": "How are deserts formed?",
+        "paragraph": "rain clouds travel across the sky . rain clouds are stopped or slowed by mountains or wind . the rain clouds drop the rain . the clouds are no longer raining when or if they reach the other side of the obstacle . on the other side of the mountains or rain , there is n't much rain . the area that receives little rain develops a very different ecosystem . the area that receives little rain becomes a desert .",
+        "total_tokens": 81,
+        "total_sents": 7,
+        "entity": "desert",
+        "sentence_list": [
+            {
+                "id": 1,
+                "sentence": "rain clouds travel across the sky .",
+                "total_tokens": 7,
+                "entity_mention": [],
+                "verb_mention": [
+                    2
+                ],
+                "loc_mention_list": [
+                    [
+                        0
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        1
+                    ],
+                    [],
+                    [],
+                    [
+                        5
+                    ],
+                    [
+                        0,
+                        1
+                    ],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 2,
+                "sentence": "rain clouds are stopped or slowed by mountains or wind .",
+                "total_tokens": 11,
+                "entity_mention": [],
+                "verb_mention": [
+                    9,
+                    10,
+                    12
+                ],
+                "loc_mention_list": [
+                    [
+                        7
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        14
+                    ],
+                    [
+                        16
+                    ],
+                    [],
+                    [
+                        8
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        7,
+                        8
+                    ],
+                    [
+                        14,
+                        15,
+                        16
+                    ],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 3,
+                "sentence": "the rain clouds drop the rain .",
+                "total_tokens": 7,
+                "entity_mention": [],
+                "verb_mention": [
+                    21
+                ],
+                "loc_mention_list": [
+                    [
+                        19,
+                        23
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        20
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        19,
+                        20
+                    ],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 4,
+                "sentence": "the clouds are no longer raining when or if they reach the other side of the obstacle .",
+                "total_tokens": 18,
+                "entity_mention": [],
+                "verb_mention": [
+                    27,
+                    30,
+                    35
+                ],
+                "loc_mention_list": [
+                    [
+                        30
+                    ],
+                    [
+                        41
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        26
+                    ],
+                    [
+                        37,
+                        38
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 5,
+                "sentence": "on the other side of the mountains or rain , there is n't much rain .",
+                "total_tokens": 16,
+                "entity_mention": [],
+                "verb_mention": [
+                    54
+                ],
+                "loc_mention_list": [
+                    [
+                        51,
+                        57
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        49
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        45,
+                        46
+                    ],
+                    [
+                        56,
+                        57
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        49,
+                        50,
+                        51
+                    ]
+                ]
+            },
+            {
+                "id": 6,
+                "sentence": "the area that receives little rain develops a very different ecosystem .",
+                "total_tokens": 12,
+                "entity_mention": [],
+                "verb_mention": [
+                    62,
+                    65
+                ],
+                "loc_mention_list": [
+                    [
+                        64
+                    ],
+                    [],
+                    [
+                        63,
+                        64
+                    ],
+                    [
+                        68,
+                        69
+                    ],
+                    [],
+                    [],
+                    [
+                        60
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 7,
+                "sentence": "the area that receives little rain becomes a desert .",
+                "total_tokens": 10,
+                "entity_mention": [
+                    79
+                ],
+                "verb_mention": [
+                    74,
+                    77
+                ],
+                "loc_mention_list": [
+                    [
+                        76
+                    ],
+                    [],
+                    [
+                        75,
+                        76
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        72
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        79
+                    ],
+                    []
+                ]
+            }
+        ],
+        "loc_cand_list": [
+            "rain",
+            "obstacle",
+            "little rain",
+            "different ecosystem",
+            "mountain",
+            "wind",
+            "area",
+            "cloud",
+            "other side",
+            "much rain",
+            "sky",
+            "rain cloud",
+            "mountain or wind",
+            "desert",
+            "mountain or rain"
+        ],
+        "total_loc_candidates": 15,
+        "gold_loc_seq": [
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "area that receive little rain"
+        ],
+        "gold_state_seq": [
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "C"
+        ]
+    },
+    {
+        "id": 152,
+        "topic": "precipitation",
+        "prompt": "Describe the process of precipitation",
+        "paragraph": "water vapor is in the atmosphere . water vapor is lifted up . lifted vapor cools below dew point . vapor turns into a solid . cloud droplets aggregate into larger sizes . cloud droplets drop from the sky .",
+        "total_tokens": 40,
+        "total_sents": 6,
+        "entity": "solid ; cloud droplets",
+        "sentence_list": [
+            {
+                "id": 1,
+                "sentence": "water vapor is in the atmosphere .",
+                "total_tokens": 7,
+                "entity_mention": [],
+                "verb_mention": [
+                    2
+                ],
+                "loc_mention_list": [
+                    [
+                        5
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        0,
+                        1
+                    ],
+                    [
+                        1
+                    ]
+                ]
+            },
+            {
+                "id": 2,
+                "sentence": "water vapor is lifted up .",
+                "total_tokens": 6,
+                "entity_mention": [],
+                "verb_mention": [
+                    9,
+                    10
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        7,
+                        8
+                    ],
+                    [
+                        8
+                    ]
+                ]
+            },
+            {
+                "id": 3,
+                "sentence": "lifted vapor cools below dew point .",
+                "total_tokens": 7,
+                "entity_mention": [],
+                "verb_mention": [
+                    13
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        14,
+                        15
+                    ],
+                    [],
+                    [
+                        17,
+                        18
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        14
+                    ]
+                ]
+            },
+            {
+                "id": 4,
+                "sentence": "vapor turns into a solid .",
+                "total_tokens": 6,
+                "entity_mention": [
+                    24
+                ],
+                "verb_mention": [
+                    21
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        20
+                    ]
+                ]
+            },
+            {
+                "id": 5,
+                "sentence": "cloud droplets aggregate into larger sizes .",
+                "total_tokens": 7,
+                "entity_mention": [
+                    26,
+                    27
+                ],
+                "verb_mention": [
+                    28
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [
+                        30,
+                        31
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 6,
+                "sentence": "cloud droplets drop from the sky .",
+                "total_tokens": 7,
+                "entity_mention": [
+                    33,
+                    34
+                ],
+                "verb_mention": [
+                    35
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        38
+                    ],
+                    [
+                        33,
+                        34
+                    ],
+                    [],
+                    []
+                ]
+            }
+        ],
+        "loc_cand_list": [
+            "atmosphere",
+            "vapor cool",
+            "large size",
+            "dew point",
+            "sky",
+            "cloud droplets",
+            "water vapor",
+            "vapor"
+        ],
+        "total_loc_candidates": 8,
+        "gold_loc_seq": [
+            "-",
+            "-",
+            "-",
+            "-",
+            "atmosphere",
+            "atmosphere",
+            "atmosphere"
+        ],
+        "gold_state_seq": [
+            "O_C",
+            "O_C",
+            "O_C",
+            "C",
+            "E",
+            "E"
+        ]
+    },
+    {
+        "id": 249,
+        "topic": "weathering; chemical",
+        "prompt": "What happens during chemical weathering?",
+        "paragraph": "chemical reactions break down the bonds holding the rocks together . the rocks fall apart . they form smaller and smaller pieces . oxidation takes place when oxygen combines with other elements in rocks . they form new types of rocks . the new substance is softer . carbonation takes place when carbon dioxide reactions with certain types of rocks . a solution is formed that can easily be carried away by water .",
+        "total_tokens": 74,
+        "total_sents": 8,
+        "entity": "new types of rocks ; new substance ; certain types of rocks",
+        "sentence_list": [
+            {
+                "id": 1,
+                "sentence": "chemical reactions break down the bonds holding the rocks together .",
+                "total_tokens": 11,
+                "entity_mention": [],
+                "verb_mention": [
+                    2,
+                    6
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        8
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        5
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        0,
+                        1
+                    ],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 2,
+                "sentence": "the rocks fall apart .",
+                "total_tokens": 5,
+                "entity_mention": [],
+                "verb_mention": [
+                    13
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        12
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 3,
+                "sentence": "they form smaller and smaller pieces .",
+                "total_tokens": 7,
+                "entity_mention": [],
+                "verb_mention": [
+                    17
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        20,
+                        21
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 4,
+                "sentence": "oxidation takes place when oxygen combines with other elements in rocks .",
+                "total_tokens": 12,
+                "entity_mention": [],
+                "verb_mention": [
+                    24,
+                    28
+                ],
+                "loc_mention_list": [
+                    [
+                        30,
+                        31
+                    ],
+                    [
+                        33
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        25
+                    ],
+                    [],
+                    [],
+                    [
+                        23
+                    ],
+                    [],
+                    [
+                        27
+                    ]
+                ]
+            },
+            {
+                "id": 5,
+                "sentence": "they form new types of rocks .",
+                "total_tokens": 7,
+                "entity_mention": [
+                    37,
+                    38,
+                    39,
+                    40
+                ],
+                "verb_mention": [
+                    36
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        40
+                    ],
+                    [
+                        37,
+                        38
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 6,
+                "sentence": "the new substance is softer .",
+                "total_tokens": 6,
+                "entity_mention": [
+                    43,
+                    44
+                ],
+                "verb_mention": [
+                    45
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        43,
+                        44
+                    ],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 7,
+                "sentence": "carbonation takes place when carbon dioxide reactions with certain types of rocks .",
+                "total_tokens": 13,
+                "entity_mention": [
+                    56,
+                    57,
+                    58,
+                    59
+                ],
+                "verb_mention": [
+                    49
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        59
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        48
+                    ],
+                    [
+                        52,
+                        53,
+                        54
+                    ],
+                    [],
+                    [
+                        56,
+                        57
+                    ],
+                    [
+                        50
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 8,
+                "sentence": "a solution is formed that can easily be carried away by water .",
+                "total_tokens": 13,
+                "entity_mention": [],
+                "verb_mention": [
+                    63,
+                    64,
+                    68,
+                    69
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [
+                        72
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        62
+                    ],
+                    []
+                ]
+            }
+        ],
+        "loc_cand_list": [
+            "other element",
+            "rock",
+            "new type",
+            "water",
+            "small piece",
+            "carbonation",
+            "carbon dioxide reaction",
+            "bond",
+            "certain type",
+            "place",
+            "new substance",
+            "chemical reaction",
+            "oxidation",
+            "solution",
+            "oxygen"
+        ],
+        "total_loc_candidates": 15,
+        "gold_loc_seq": [
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "?",
+            "?",
+            "?",
+            "water"
+        ],
+        "gold_state_seq": [
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "C",
+            "E",
+            "E",
+            "M"
+        ]
+    }
+]

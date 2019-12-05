@@ -1,0 +1,2840 @@
+[
+    {
+        "id": 7,
+        "topic": "volcano",
+        "prompt": "What causes a volcano to erupt?",
+        "paragraph": "magma rises from deep in the earth . the magma goes into volcanos . the volcanos pressure the magma upwards . the pressure causes the magma to push through the surface of the volcano . the lava cools . the lava forms new rock . new magma is pressured to the surface of the volcano . the volcano bursts through the rock the formed after the last eruption .",
+        "total_tokens": 69,
+        "total_sents": 8,
+        "entity": "new rock",
+        "sentence_list": [
+            {
+                "id": 1,
+                "sentence": "magma rises from deep in the earth .",
+                "total_tokens": 8,
+                "entity_mention": [],
+                "verb_mention": [
+                    1
+                ],
+                "loc_mention_list": [
+                    [
+                        6
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        3,
+                        4,
+                        5,
+                        6
+                    ],
+                    [],
+                    [
+                        0
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 2,
+                "sentence": "the magma goes into volcanos .",
+                "total_tokens": 6,
+                "entity_mention": [],
+                "verb_mention": [
+                    10
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        9
+                    ],
+                    [
+                        12
+                    ],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 3,
+                "sentence": "the volcanos pressure the magma upwards .",
+                "total_tokens": 7,
+                "entity_mention": [],
+                "verb_mention": [
+                    16
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [
+                        16
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        18
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        15
+                    ],
+                    []
+                ]
+            },
+            {
+                "id": 4,
+                "sentence": "the pressure causes the magma to push through the surface of the volcano .",
+                "total_tokens": 14,
+                "entity_mention": [],
+                "verb_mention": [
+                    23,
+                    27
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [
+                        22
+                    ],
+                    [],
+                    [],
+                    [
+                        30
+                    ],
+                    [
+                        25
+                    ],
+                    [
+                        33
+                    ],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 5,
+                "sentence": "the lava cools .",
+                "total_tokens": 4,
+                "entity_mention": [],
+                "verb_mention": [],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        36,
+                        37
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        36
+                    ]
+                ]
+            },
+            {
+                "id": 6,
+                "sentence": "the lava forms new rock .",
+                "total_tokens": 6,
+                "entity_mention": [
+                    42,
+                    43
+                ],
+                "verb_mention": [
+                    41
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [
+                        43
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        42,
+                        43
+                    ],
+                    [],
+                    [],
+                    [
+                        40
+                    ]
+                ]
+            },
+            {
+                "id": 7,
+                "sentence": "new magma is pressured to the surface of the volcano .",
+                "total_tokens": 11,
+                "entity_mention": [],
+                "verb_mention": [
+                    47,
+                    48
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        45,
+                        46
+                    ],
+                    [],
+                    [
+                        48
+                    ],
+                    [],
+                    [],
+                    [
+                        51
+                    ],
+                    [
+                        46
+                    ],
+                    [
+                        54
+                    ],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 8,
+                "sentence": "the volcano bursts through the rock the formed after the last eruption .",
+                "total_tokens": 13,
+                "entity_mention": [],
+                "verb_mention": [
+                    58,
+                    63
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [
+                        61
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        57
+                    ],
+                    [],
+                    [
+                        66,
+                        67
+                    ],
+                    [],
+                    []
+                ]
+            }
+        ],
+        "loc_cand_list": [
+            "earth",
+            "new magma",
+            "rock",
+            "pressure",
+            "lava cool",
+            "deep in the earth",
+            "surface",
+            "magma",
+            "volcano",
+            "new rock",
+            "last eruption",
+            "volcanos",
+            "lava"
+        ],
+        "total_loc_candidates": 13,
+        "gold_loc_seq": [
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "?",
+            "?",
+            "?"
+        ],
+        "gold_state_seq": [
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "C",
+            "E",
+            "E"
+        ]
+    },
+    {
+        "id": 11,
+        "topic": "erosion by ocean",
+        "prompt": "What happens during erosion by the ocean?",
+        "paragraph": "water from the ocean washes onto beaches in waves . the waves contain sediment from the ocean . the water and particles in it hit rocks and sand on the beach . the wind and current sometimes push the water and particles harder . tiny parts of the rocks on the shore come off the larger rocks . the waves pick up sand and small rocks from the beach . the waves go back out into the ocean . the waves carry the new particles with them . rocks and the beach look a little different .",
+        "total_tokens": 97,
+        "total_sents": 9,
+        "entity": "tiny parts of the rocks",
+        "sentence_list": [
+            {
+                "id": 1,
+                "sentence": "water from the ocean washes onto beaches in waves .",
+                "total_tokens": 10,
+                "entity_mention": [],
+                "verb_mention": [
+                    4
+                ],
+                "loc_mention_list": [
+                    [
+                        6
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        8
+                    ],
+                    [],
+                    [],
+                    [
+                        0
+                    ],
+                    [],
+                    [],
+                    [
+                        3
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 2,
+                "sentence": "the waves contain sediment from the ocean .",
+                "total_tokens": 8,
+                "entity_mention": [],
+                "verb_mention": [
+                    12
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        11
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        16
+                    ],
+                    [],
+                    [
+                        13
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 3,
+                "sentence": "the water and particles in it hit rocks and sand on the beach .",
+                "total_tokens": 14,
+                "entity_mention": [],
+                "verb_mention": [
+                    24
+                ],
+                "loc_mention_list": [
+                    [
+                        30
+                    ],
+                    [],
+                    [
+                        27
+                    ],
+                    [
+                        21
+                    ],
+                    [],
+                    [],
+                    [
+                        19,
+                        20,
+                        21
+                    ],
+                    [
+                        19
+                    ],
+                    [
+                        25,
+                        26,
+                        27
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        25
+                    ],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 4,
+                "sentence": "the wind and current sometimes push the water and particles harder .",
+                "total_tokens": 12,
+                "entity_mention": [],
+                "verb_mention": [
+                    37
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [
+                        41
+                    ],
+                    [],
+                    [],
+                    [
+                        39,
+                        40,
+                        41
+                    ],
+                    [
+                        39
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        33
+                    ],
+                    [],
+                    [
+                        41,
+                        42
+                    ],
+                    [],
+                    [],
+                    [
+                        35
+                    ],
+                    [],
+                    [
+                        33,
+                        34,
+                        35
+                    ]
+                ]
+            },
+            {
+                "id": 5,
+                "sentence": "tiny parts of the rocks on the shore come off the larger rocks .",
+                "total_tokens": 14,
+                "entity_mention": [
+                    44,
+                    45,
+                    46,
+                    47,
+                    48
+                ],
+                "verb_mention": [
+                    52
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        44,
+                        45
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        55,
+                        56
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        48,
+                        56
+                    ],
+                    [],
+                    [],
+                    [
+                        51
+                    ],
+                    []
+                ]
+            },
+            {
+                "id": 6,
+                "sentence": "the waves pick up sand and small rocks from the beach .",
+                "total_tokens": 12,
+                "entity_mention": [],
+                "verb_mention": [
+                    60
+                ],
+                "loc_mention_list": [
+                    [
+                        68
+                    ],
+                    [
+                        64,
+                        65
+                    ],
+                    [
+                        62
+                    ],
+                    [],
+                    [
+                        59
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        65
+                    ],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 7,
+                "sentence": "the waves go back out into the ocean .",
+                "total_tokens": 9,
+                "entity_mention": [],
+                "verb_mention": [
+                    72
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        71
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        77
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 8,
+                "sentence": "the waves carry the new particles with them .",
+                "total_tokens": 9,
+                "entity_mention": [],
+                "verb_mention": [
+                    81
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [
+                        84
+                    ],
+                    [
+                        80
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        83,
+                        84
+                    ],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 9,
+                "sentence": "rocks and the beach look a little different .",
+                "total_tokens": 9,
+                "entity_mention": [],
+                "verb_mention": [
+                    92
+                ],
+                "loc_mention_list": [
+                    [
+                        91
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        88
+                    ],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            }
+        ],
+        "loc_cand_list": [
+            "beach",
+            "small rock",
+            "sand",
+            "particle",
+            "wave",
+            "tiny part",
+            "water and particle",
+            "water",
+            "rock and sand",
+            "large rock",
+            "ocean",
+            "wind",
+            "sediment",
+            "particle harder",
+            "rock",
+            "new particle",
+            "current",
+            "shore",
+            "wind and current"
+        ],
+        "total_loc_candidates": 19,
+        "gold_loc_seq": [
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "beach",
+            "wave",
+            "ocean",
+            "ocean",
+            "ocean"
+        ],
+        "gold_state_seq": [
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "C",
+            "M",
+            "M",
+            "E",
+            "E"
+        ]
+    },
+    {
+        "id": 13,
+        "topic": "water cycle",
+        "prompt": "What happens during the water cycle?",
+        "paragraph": "water from oceans , lakes , swamps , rivers , and plants turns into water vapor . water vapor condenses into millions of tiny droplets that form clouds . clouds lose these droplets through rain or snow , also caused precipitation . precipitation is either absorbed into the ground or runs off into rivers . water that was absorbed into the ground is taken up by plants . plants lose water from their surfaces as vapor . the vapor goes back into the atmosphere . water that runs off into rivers flows into ponds , lakes , or oceans . the water evaporates back into the atmosphere .",
+        "total_tokens": 108,
+        "total_sents": 9,
+        "entity": "snow",
+        "sentence_list": [
+            {
+                "id": 1,
+                "sentence": "water from oceans , lakes , swamps , rivers , and plants turns into water vapor .",
+                "total_tokens": 17,
+                "entity_mention": [],
+                "verb_mention": [
+                    12
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [
+                        6
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        0,
+                        14
+                    ],
+                    [],
+                    [],
+                    [
+                        2
+                    ],
+                    [],
+                    [
+                        4
+                    ],
+                    [
+                        15
+                    ],
+                    [],
+                    [],
+                    [
+                        11
+                    ],
+                    [],
+                    [
+                        8
+                    ],
+                    [
+                        14,
+                        15
+                    ],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 2,
+                "sentence": "water vapor condenses into millions of tiny droplets that form clouds .",
+                "total_tokens": 12,
+                "entity_mention": [],
+                "verb_mention": [
+                    19,
+                    26
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [
+                        21
+                    ],
+                    [],
+                    [],
+                    [
+                        17
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        27
+                    ],
+                    [],
+                    [
+                        18
+                    ],
+                    [],
+                    [
+                        23,
+                        24
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        17,
+                        18
+                    ],
+                    [
+                        24
+                    ],
+                    []
+                ]
+            },
+            {
+                "id": 3,
+                "sentence": "clouds lose these droplets through rain or snow , also caused precipitation .",
+                "total_tokens": 13,
+                "entity_mention": [
+                    36
+                ],
+                "verb_mention": [
+                    30,
+                    39
+                ],
+                "loc_mention_list": [
+                    [
+                        34
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        40
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        29
+                    ],
+                    [],
+                    [],
+                    [
+                        34,
+                        35,
+                        36
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        32
+                    ],
+                    [
+                        36
+                    ]
+                ]
+            },
+            {
+                "id": 4,
+                "sentence": "precipitation is either absorbed into the ground or runs off into rivers .",
+                "total_tokens": 13,
+                "entity_mention": [],
+                "verb_mention": [
+                    43,
+                    45,
+                    50
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        42
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        48
+                    ],
+                    [
+                        53
+                    ],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 5,
+                "sentence": "water that was absorbed into the ground is taken up by plants .",
+                "total_tokens": 13,
+                "entity_mention": [],
+                "verb_mention": [
+                    57,
+                    58,
+                    62,
+                    63
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        55
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        66
+                    ],
+                    [
+                        61
+                    ],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 6,
+                "sentence": "plants lose water from their surfaces as vapor .",
+                "total_tokens": 9,
+                "entity_mention": [],
+                "verb_mention": [
+                    69
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        70
+                    ],
+                    [
+                        73
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        75
+                    ],
+                    [],
+                    [],
+                    [
+                        68
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 7,
+                "sentence": "the vapor goes back into the atmosphere .",
+                "total_tokens": 8,
+                "entity_mention": [],
+                "verb_mention": [
+                    79
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        83
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        78
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 8,
+                "sentence": "water that runs off into rivers flows into ponds , lakes , or oceans .",
+                "total_tokens": 15,
+                "entity_mention": [],
+                "verb_mention": [
+                    87,
+                    91
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        93
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        85
+                    ],
+                    [],
+                    [
+                        93,
+                        94,
+                        95,
+                        96,
+                        97,
+                        98
+                    ],
+                    [
+                        98
+                    ],
+                    [],
+                    [
+                        95
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        90
+                    ],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 9,
+                "sentence": "the water evaporates back into the atmosphere .",
+                "total_tokens": 8,
+                "entity_mention": [],
+                "verb_mention": [
+                    102
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        106
+                    ],
+                    [
+                        101
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            }
+        ],
+        "loc_cand_list": [
+            "rain",
+            "pond",
+            "swamp",
+            "million",
+            "precipitation",
+            "atmosphere",
+            "water",
+            "surface",
+            "pond , lake , or ocean",
+            "ocean",
+            "cloud",
+            "lake",
+            "vapor",
+            "rain or snow",
+            "tiny droplet",
+            "plant",
+            "ground",
+            "river",
+            "water vapor",
+            "droplet",
+            "snow"
+        ],
+        "total_loc_candidates": 21,
+        "gold_loc_seq": [
+            "-",
+            "-",
+            "-",
+            "cloud",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-"
+        ],
+        "gold_state_seq": [
+            "O_C",
+            "O_C",
+            "C",
+            "D",
+            "O_D",
+            "O_D",
+            "O_D",
+            "O_D",
+            "O_D"
+        ]
+    },
+    {
+        "id": 14,
+        "topic": "water cycle",
+        "prompt": "What happens during the water cycle?",
+        "paragraph": "water from oceans , lakes , rivers , swamps , and plants turns into water vapor . water vapor forms droplets in clouds . water droplets in clouds become rain or snow and fall . some water goes into the ground . some water flows down streams into rivers and oceans .",
+        "total_tokens": 52,
+        "total_sents": 5,
+        "entity": "snow",
+        "sentence_list": [
+            {
+                "id": 1,
+                "sentence": "water from oceans , lakes , rivers , swamps , and plants turns into water vapor .",
+                "total_tokens": 17,
+                "entity_mention": [],
+                "verb_mention": [
+                    12
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        11
+                    ],
+                    [],
+                    [],
+                    [
+                        0,
+                        14
+                    ],
+                    [],
+                    [
+                        6
+                    ],
+                    [
+                        8
+                    ],
+                    [
+                        2
+                    ],
+                    [],
+                    [
+                        4
+                    ],
+                    [],
+                    [
+                        14,
+                        15
+                    ],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 2,
+                "sentence": "water vapor forms droplets in clouds .",
+                "total_tokens": 7,
+                "entity_mention": [],
+                "verb_mention": [
+                    19
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        17
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        22
+                    ],
+                    [],
+                    [],
+                    [
+                        17,
+                        18
+                    ],
+                    [],
+                    [
+                        20
+                    ],
+                    []
+                ]
+            },
+            {
+                "id": 3,
+                "sentence": "water droplets in clouds become rain or snow and fall .",
+                "total_tokens": 11,
+                "entity_mention": [
+                    31
+                ],
+                "verb_mention": [
+                    28,
+                    33
+                ],
+                "loc_mention_list": [
+                    [
+                        29
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        24
+                    ],
+                    [
+                        29,
+                        30,
+                        31
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        27
+                    ],
+                    [],
+                    [
+                        24,
+                        25
+                    ],
+                    [],
+                    [],
+                    [
+                        25
+                    ],
+                    [
+                        31
+                    ]
+                ]
+            },
+            {
+                "id": 4,
+                "sentence": "some water goes into the ground .",
+                "total_tokens": 7,
+                "entity_mention": [],
+                "verb_mention": [
+                    37
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [
+                        40
+                    ],
+                    [
+                        36
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 5,
+                "sentence": "some water flows down streams into rivers and oceans .",
+                "total_tokens": 10,
+                "entity_mention": [],
+                "verb_mention": [
+                    44
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [
+                        48,
+                        49,
+                        50
+                    ],
+                    [],
+                    [
+                        43
+                    ],
+                    [],
+                    [
+                        48
+                    ],
+                    [],
+                    [
+                        50
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        46
+                    ],
+                    [],
+                    []
+                ]
+            }
+        ],
+        "loc_cand_list": [
+            "rain",
+            "plant",
+            "river and ocean",
+            "ground",
+            "water",
+            "rain or snow",
+            "river",
+            "swamp",
+            "ocean",
+            "cloud",
+            "lake",
+            "water droplet",
+            "water vapor",
+            "stream",
+            "droplet",
+            "snow"
+        ],
+        "total_loc_candidates": 16,
+        "gold_loc_seq": [
+            "-",
+            "-",
+            "-",
+            "ground",
+            "-",
+            "-"
+        ],
+        "gold_state_seq": [
+            "O_C",
+            "O_C",
+            "C",
+            "D",
+            "O_D"
+        ]
+    },
+    {
+        "id": 15,
+        "topic": "water cycle",
+        "prompt": "What happens during the water cycle?",
+        "paragraph": "water is on the earth in oceans , other bodies of water , and living creatures . water evaporates from the earth . water accumulates in the sky . the water forms clouds in the sky . large amounts of water end up in bigger clouds as more water evaporates . the clouds become heavy from all the water . the water falls back to earth as rain or snow from the clouds .",
+        "total_tokens": 74,
+        "total_sents": 7,
+        "entity": "snow",
+        "sentence_list": [
+            {
+                "id": 1,
+                "sentence": "water is on the earth in oceans , other bodies of water , and living creatures .",
+                "total_tokens": 17,
+                "entity_mention": [],
+                "verb_mention": [
+                    1,
+                    14
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        4
+                    ],
+                    [
+                        0,
+                        11
+                    ],
+                    [],
+                    [],
+                    [
+                        15
+                    ],
+                    [
+                        8,
+                        9
+                    ],
+                    [
+                        6
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 2,
+                "sentence": "water evaporates from the earth .",
+                "total_tokens": 6,
+                "entity_mention": [],
+                "verb_mention": [
+                    18
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        21
+                    ],
+                    [
+                        17
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 3,
+                "sentence": "water accumulates in the sky .",
+                "total_tokens": 6,
+                "entity_mention": [],
+                "verb_mention": [
+                    24
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [
+                        23
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        27
+                    ],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 4,
+                "sentence": "the water forms clouds in the sky .",
+                "total_tokens": 8,
+                "entity_mention": [],
+                "verb_mention": [
+                    31
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [
+                        30
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        32
+                    ],
+                    [],
+                    [
+                        35
+                    ],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 5,
+                "sentence": "large amounts of water end up in bigger clouds as more water evaporates .",
+                "total_tokens": 14,
+                "entity_mention": [],
+                "verb_mention": [
+                    41,
+                    49
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [
+                        40,
+                        48
+                    ],
+                    [],
+                    [
+                        44,
+                        45
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        45
+                    ],
+                    [
+                        37,
+                        38
+                    ],
+                    [],
+                    [
+                        47,
+                        48
+                    ],
+                    []
+                ]
+            },
+            {
+                "id": 6,
+                "sentence": "the clouds become heavy from all the water .",
+                "total_tokens": 9,
+                "entity_mention": [],
+                "verb_mention": [
+                    53
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [
+                        58
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        52
+                    ],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 7,
+                "sentence": "the water falls back to earth as rain or snow from the clouds .",
+                "total_tokens": 14,
+                "entity_mention": [
+                    69
+                ],
+                "verb_mention": [
+                    62
+                ],
+                "loc_mention_list": [
+                    [
+                        67
+                    ],
+                    [
+                        65
+                    ],
+                    [
+                        61
+                    ],
+                    [
+                        67,
+                        68,
+                        69
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        72
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        69
+                    ]
+                ]
+            }
+        ],
+        "loc_cand_list": [
+            "rain",
+            "earth",
+            "water",
+            "rain or snow",
+            "big cloud",
+            "creature",
+            "other body",
+            "ocean",
+            "cloud",
+            "large amount",
+            "sky",
+            "more water",
+            "snow"
+        ],
+        "total_loc_candidates": 13,
+        "gold_loc_seq": [
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "earth"
+        ],
+        "gold_state_seq": [
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "C"
+        ]
+    },
+    {
+        "id": 20,
+        "topic": "sediment",
+        "prompt": "How is sediment transported across the Earth?",
+        "paragraph": "sediment settles in a place due to gravity . the sediment breaks down into small particles . wind or water picks up the sediment . the sediment travels along the same route as the wind or water . the sediment is deposited at new locations by the wind or water . the sediment is picked up again by new wind or water . the sediment travels further . the sediment is deposited again in a new place .",
+        "total_tokens": 78,
+        "total_sents": 8,
+        "entity": "sediment; small particles",
+        "sentence_list": [
+            {
+                "id": 1,
+                "sentence": "sediment settles in a place due to gravity .",
+                "total_tokens": 9,
+                "entity_mention": [
+                    0
+                ],
+                "verb_mention": [
+                    1
+                ],
+                "loc_mention_list": [
+                    [
+                        4,
+                        5
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        0
+                    ],
+                    [],
+                    [
+                        4
+                    ],
+                    [
+                        7
+                    ],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 2,
+                "sentence": "the sediment breaks down into small particles .",
+                "total_tokens": 8,
+                "entity_mention": [
+                    10,
+                    14,
+                    15
+                ],
+                "verb_mention": [
+                    11
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        10
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        14,
+                        15
+                    ],
+                    []
+                ]
+            },
+            {
+                "id": 3,
+                "sentence": "wind or water picks up the sediment .",
+                "total_tokens": 8,
+                "entity_mention": [
+                    23
+                ],
+                "verb_mention": [
+                    20
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        17,
+                        18,
+                        19
+                    ],
+                    [
+                        19
+                    ],
+                    [
+                        17
+                    ],
+                    [],
+                    [],
+                    [
+                        23
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 4,
+                "sentence": "the sediment travels along the same route as the wind or water .",
+                "total_tokens": 13,
+                "entity_mention": [
+                    26
+                ],
+                "verb_mention": [
+                    27
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        34,
+                        35,
+                        36
+                    ],
+                    [
+                        36
+                    ],
+                    [
+                        34
+                    ],
+                    [
+                        30,
+                        31
+                    ],
+                    [],
+                    [
+                        26
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 5,
+                "sentence": "the sediment is deposited at new locations by the wind or water .",
+                "total_tokens": 13,
+                "entity_mention": [
+                    39
+                ],
+                "verb_mention": [
+                    40,
+                    41
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        47,
+                        48,
+                        49
+                    ],
+                    [
+                        49
+                    ],
+                    [
+                        47
+                    ],
+                    [],
+                    [],
+                    [
+                        39
+                    ],
+                    [
+                        43,
+                        44
+                    ],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 6,
+                "sentence": "the sediment is picked up again by new wind or water .",
+                "total_tokens": 12,
+                "entity_mention": [
+                    52
+                ],
+                "verb_mention": [
+                    53,
+                    54
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        59,
+                        60,
+                        61
+                    ],
+                    [
+                        61
+                    ],
+                    [
+                        59
+                    ],
+                    [],
+                    [],
+                    [
+                        52
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        58,
+                        59
+                    ]
+                ]
+            },
+            {
+                "id": 7,
+                "sentence": "the sediment travels further .",
+                "total_tokens": 5,
+                "entity_mention": [
+                    64
+                ],
+                "verb_mention": [
+                    65
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        64
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 8,
+                "sentence": "the sediment is deposited again in a new place .",
+                "total_tokens": 10,
+                "entity_mention": [
+                    69
+                ],
+                "verb_mention": [
+                    70,
+                    71
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        75,
+                        76
+                    ],
+                    [
+                        69
+                    ],
+                    [],
+                    [
+                        76
+                    ],
+                    [],
+                    [],
+                    []
+                ]
+            }
+        ],
+        "loc_cand_list": [
+            "place due",
+            "wind or water",
+            "water",
+            "wind",
+            "same route",
+            "new place",
+            "sediment",
+            "new location",
+            "place",
+            "gravity",
+            "small particle",
+            "new wind"
+        ],
+        "total_loc_candidates": 12,
+        "gold_loc_seq": [
+            "?",
+            "place",
+            "?",
+            "?",
+            "?",
+            "new location",
+            "?",
+            "?",
+            "new place"
+        ],
+        "gold_state_seq": [
+            "M",
+            "M",
+            "E",
+            "E",
+            "M",
+            "M",
+            "E",
+            "M"
+        ]
+    },
+    {
+        "id": 22,
+        "topic": "valley",
+        "prompt": "How are valleys formed?",
+        "paragraph": "a large rocky area is formed . the rocky area has a higher elevation than the surrounding areas . water from precipitation falls in the area . the water forms a stream . the stream flows towards lower elevation . the stream becomes a river . the river continues to flow along the same path for a long time . the river erodes the rocky area that it touches . the eroded area cuts deeply into the rock .",
+        "total_tokens": 79,
+        "total_sents": 9,
+        "entity": "eroded area; valley",
+        "sentence_list": [
+            {
+                "id": 1,
+                "sentence": "a large rocky area is formed .",
+                "total_tokens": 7,
+                "entity_mention": [],
+                "verb_mention": [
+                    4,
+                    5
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [
+                        2,
+                        3
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        1,
+                        2,
+                        3
+                    ],
+                    [],
+                    [],
+                    [
+                        3
+                    ],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 2,
+                "sentence": "the rocky area has a higher elevation than the surrounding areas .",
+                "total_tokens": 12,
+                "entity_mention": [],
+                "verb_mention": [
+                    10,
+                    16
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [
+                        8,
+                        9
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        12,
+                        13
+                    ],
+                    [],
+                    [
+                        9,
+                        17
+                    ],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 3,
+                "sentence": "water from precipitation falls in the area .",
+                "total_tokens": 8,
+                "entity_mention": [],
+                "verb_mention": [
+                    22
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        19
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        25
+                    ],
+                    [
+                        21
+                    ],
+                    []
+                ]
+            },
+            {
+                "id": 4,
+                "sentence": "the water forms a stream .",
+                "total_tokens": 6,
+                "entity_mention": [],
+                "verb_mention": [
+                    29
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        28
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        31
+                    ]
+                ]
+            },
+            {
+                "id": 5,
+                "sentence": "the stream flows towards lower elevation .",
+                "total_tokens": 7,
+                "entity_mention": [],
+                "verb_mention": [
+                    35
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        37,
+                        38
+                    ],
+                    [],
+                    [],
+                    [
+                        34
+                    ]
+                ]
+            },
+            {
+                "id": 6,
+                "sentence": "the stream becomes a river .",
+                "total_tokens": 6,
+                "entity_mention": [],
+                "verb_mention": [
+                    42
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        44
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        41
+                    ]
+                ]
+            },
+            {
+                "id": 7,
+                "sentence": "the river continues to flow along the same path for a long time .",
+                "total_tokens": 14,
+                "entity_mention": [],
+                "verb_mention": [
+                    48,
+                    50
+                ],
+                "loc_mention_list": [
+                    [
+                        53,
+                        54
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        47
+                    ],
+                    [
+                        57,
+                        58
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 8,
+                "sentence": "the river erodes the rocky area that it touches .",
+                "total_tokens": 10,
+                "entity_mention": [],
+                "verb_mention": [
+                    62,
+                    68
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [
+                        64,
+                        65
+                    ],
+                    [],
+                    [
+                        61
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        65
+                    ],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 9,
+                "sentence": "the eroded area cuts deeply into the rock .",
+                "total_tokens": 9,
+                "entity_mention": [
+                    71,
+                    72
+                ],
+                "verb_mention": [
+                    71,
+                    73
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [
+                        77
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        72
+                    ],
+                    [],
+                    []
+                ]
+            }
+        ],
+        "loc_cand_list": [
+            "same path",
+            "water",
+            "rocky area",
+            "rock",
+            "river",
+            "long time",
+            "large rocky area",
+            "high elevation",
+            "low elevation",
+            "area",
+            "precipitation",
+            "stream"
+        ],
+        "total_loc_candidates": 12,
+        "gold_loc_seq": [
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "rock",
+            "rock"
+        ],
+        "gold_state_seq": [
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "C",
+            "E"
+        ]
+    },
+    {
+        "id": 31,
+        "topic": "cavern",
+        "prompt": "How do caverns form?",
+        "paragraph": "limestone is located under the soil . rain picks up carbon dioxide as it falls to earth . the rain falls on the soil over the limestone . the carbon dioxide in the rain washes through the soil . the carbon dioxide turns into acid . the acid in the rain gets to the limestone below the soil . the acid dissolves the limestone . acid continues to erode the limestone with more rain over time . the eroded limestone sometimes forms caves .",
+        "total_tokens": 84,
+        "total_sents": 9,
+        "entity": "caves",
+        "sentence_list": [
+            {
+                "id": 1,
+                "sentence": "limestone is located under the soil .",
+                "total_tokens": 7,
+                "entity_mention": [],
+                "verb_mention": [
+                    1,
+                    2
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        5
+                    ],
+                    [],
+                    [
+                        0
+                    ],
+                    []
+                ]
+            },
+            {
+                "id": 2,
+                "sentence": "rain picks up carbon dioxide as it falls to earth .",
+                "total_tokens": 11,
+                "entity_mention": [],
+                "verb_mention": [
+                    8,
+                    14
+                ],
+                "loc_mention_list": [
+                    [
+                        7
+                    ],
+                    [
+                        10,
+                        11
+                    ],
+                    [
+                        16
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 3,
+                "sentence": "the rain falls on the soil over the limestone .",
+                "total_tokens": 10,
+                "entity_mention": [],
+                "verb_mention": [
+                    20
+                ],
+                "loc_mention_list": [
+                    [
+                        19
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        23
+                    ],
+                    [],
+                    [
+                        26
+                    ],
+                    []
+                ]
+            },
+            {
+                "id": 4,
+                "sentence": "the carbon dioxide in the rain washes through the soil .",
+                "total_tokens": 11,
+                "entity_mention": [],
+                "verb_mention": [
+                    34
+                ],
+                "loc_mention_list": [
+                    [
+                        33
+                    ],
+                    [
+                        29,
+                        30
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        37
+                    ],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 5,
+                "sentence": "the carbon dioxide turns into acid .",
+                "total_tokens": 7,
+                "entity_mention": [],
+                "verb_mention": [
+                    42
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        40,
+                        41
+                    ],
+                    [],
+                    [],
+                    [
+                        44
+                    ],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 6,
+                "sentence": "the acid in the rain gets to the limestone below the soil .",
+                "total_tokens": 13,
+                "entity_mention": [],
+                "verb_mention": [
+                    51
+                ],
+                "loc_mention_list": [
+                    [
+                        50
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        47
+                    ],
+                    [
+                        57
+                    ],
+                    [],
+                    [
+                        54
+                    ],
+                    []
+                ]
+            },
+            {
+                "id": 7,
+                "sentence": "the acid dissolves the limestone .",
+                "total_tokens": 6,
+                "entity_mention": [],
+                "verb_mention": [
+                    61
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        60
+                    ],
+                    [],
+                    [],
+                    [
+                        63
+                    ],
+                    []
+                ]
+            },
+            {
+                "id": 8,
+                "sentence": "acid continues to erode the limestone with more rain over time .",
+                "total_tokens": 12,
+                "entity_mention": [],
+                "verb_mention": [
+                    66,
+                    68
+                ],
+                "loc_mention_list": [
+                    [
+                        73
+                    ],
+                    [],
+                    [],
+                    [
+                        75
+                    ],
+                    [
+                        65
+                    ],
+                    [],
+                    [
+                        72,
+                        73
+                    ],
+                    [
+                        70
+                    ],
+                    []
+                ]
+            },
+            {
+                "id": 9,
+                "sentence": "the eroded limestone sometimes forms caves .",
+                "total_tokens": 7,
+                "entity_mention": [
+                    82
+                ],
+                "verb_mention": [
+                    78,
+                    81
+                ],
+                "loc_mention_list": [
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [
+                        79
+                    ],
+                    [
+                        82
+                    ]
+                ]
+            }
+        ],
+        "loc_cand_list": [
+            "rain",
+            "carbon dioxide",
+            "earth",
+            "time",
+            "acid",
+            "soil",
+            "more rain",
+            "limestone",
+            "cave"
+        ],
+        "total_loc_candidates": 9,
+        "gold_loc_seq": [
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "cave"
+        ],
+        "gold_state_seq": [
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "C"
+        ]
+    },
+    {
+        "id": 34,
+        "topic": "igneous rock",
+        "prompt": "How does igneous rock form?",
+        "paragraph": "volcanos contain magma . the magma is very hot . the magma rises toward the surface of the volcano . the magma cools . the magma starts to harden as it cools . the magma is sometimes released from the volcano as lava . the magma or lava becomes a hard rock as it solidifies .",
+        "total_tokens": 56,
+        "total_sents": 7,
+        "entity": "hard rock; igneous rock",
+        "sentence_list": [
+            {
+                "id": 1,
+                "sentence": "volcanos contain magma .",
+                "total_tokens": 4,
+                "entity_mention": [],
+                "verb_mention": [
+                    1
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        2
+                    ],
+                    [],
+                    [],
+                    [],
+                    [
+                        0
+                    ],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 2,
+                "sentence": "the magma is very hot .",
+                "total_tokens": 6,
+                "entity_mention": [],
+                "verb_mention": [
+                    6
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        5
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 3,
+                "sentence": "the magma rises toward the surface of the volcano .",
+                "total_tokens": 10,
+                "entity_mention": [],
+                "verb_mention": [
+                    12
+                ],
+                "loc_mention_list": [
+                    [
+                        15
+                    ],
+                    [
+                        11
+                    ],
+                    [
+                        18
+                    ],
+                    [
+                        15,
+                        16,
+                        17,
+                        18
+                    ],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 4,
+                "sentence": "the magma cools .",
+                "total_tokens": 4,
+                "entity_mention": [],
+                "verb_mention": [
+                    22
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        21
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 5,
+                "sentence": "the magma starts to harden as it cools .",
+                "total_tokens": 9,
+                "entity_mention": [],
+                "verb_mention": [
+                    26,
+                    28,
+                    31
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        25
+                    ],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 6,
+                "sentence": "the magma is sometimes released from the volcano as lava .",
+                "total_tokens": 11,
+                "entity_mention": [],
+                "verb_mention": [
+                    35,
+                    37
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        34
+                    ],
+                    [
+                        40
+                    ],
+                    [],
+                    [
+                        42
+                    ],
+                    [],
+                    [],
+                    []
+                ]
+            },
+            {
+                "id": 7,
+                "sentence": "the magma or lava becomes a hard rock as it solidifies .",
+                "total_tokens": 12,
+                "entity_mention": [
+                    50,
+                    51
+                ],
+                "verb_mention": [
+                    48,
+                    54
+                ],
+                "loc_mention_list": [
+                    [],
+                    [
+                        45
+                    ],
+                    [],
+                    [],
+                    [
+                        47
+                    ],
+                    [],
+                    [
+                        50,
+                        51
+                    ],
+                    [
+                        45,
+                        46,
+                        47
+                    ]
+                ]
+            }
+        ],
+        "loc_cand_list": [
+            "surface",
+            "magma",
+            "volcano",
+            "surface of the volcano",
+            "lava",
+            "volcanos",
+            "hard rock",
+            "magma or lava"
+        ],
+        "total_loc_candidates": 8,
+        "gold_loc_seq": [
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "surface of the volcano"
+        ],
+        "gold_state_seq": [
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "O_C",
+            "C"
+        ]
+    }
+]

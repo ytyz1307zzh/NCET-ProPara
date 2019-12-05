@@ -38,6 +38,8 @@ import pandas as pd
 import argparse
 import json
 import os
+import time
+import re
 pd.set_option('display.max_columns', 50)
 total_paras = 0  # should equal to 488 after read_paragraph
 
@@ -155,7 +157,7 @@ def get_entity_mask(sentence: str, entity: str, pad_bef_len: int, pad_aft_len: i
     """
     sentence = sentence.strip().split()
     sent_len = len(sentence)
-    entity_list = entity.split('; ')
+    entity_list = re.split('; |;', entity)
     span_list = []
     for ent_name in entity_list:
         span_list.extend(find_mention(sentence, ent_name))
@@ -295,6 +297,8 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
     row_index = 0
     para_index = 1
 
+    start_time = time.time()
+
     while True:
 
         row = csv_data.iloc[row_index]
@@ -316,6 +320,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
 
         # tokenize, lower cased
         paragraph, total_tokens = tokenize(paragraph_result[para_id]['paragraph'])
+        prompt, _ = tokenize(paragraph_result[para_id]['prompt'])
 
         # find location candidates
         loc_cand_set = find_loc_candidate(Sentence(paragraph))
@@ -331,15 +336,15 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
             entity_list.append(entity_name)
         
         total_entities = len(entity_list)
-        verb_mention_per_sent = []
-        loc_mention_per_sent = []
+        verb_mention_per_sent = [None for _ in range(total_sents)]
+        loc_mention_per_sent = [None for _ in range(total_sents)]
 
         for i in range(total_entities):
             entity_name = entity_list[i]
 
             instance = {'id': para_id,
                         'topic': paragraph_result[para_id]['topic'],
-                        'prompt': paragraph_result[para_id]['prompt'],
+                        'prompt': prompt,
                         'paragraph': paragraph,
                         'total_tokens': total_tokens,
                         'total_sents': total_sents,
@@ -434,16 +439,17 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
 
             # pointer backward, construct instance for next entity
             row_index = begin_row_index
+            data_instances.append(instance)
 
 
         row_index = end_row_index + 1
         para_index += 1
-        data_instances.append(instance)
 
         if para_index % 10 == 0:
-            print(f'[INFO] {para_index} paragraphs processed.')
-        if para_index >= len(paragraph_result):
-            print(f'[INFO] All {para_index} paragraphs processed.')
+            end_time = time.time()
+            print(f'[INFO] {para_index} paragraphs processed. Time elapse: {end_time - start_time}s')
+        if para_index >= 10:
+            print(f'[INFO] All {para_index} paragraphs processed. Time elapse: {end_time - start_time}s')
             break
 
     return data_instances
