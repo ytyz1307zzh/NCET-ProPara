@@ -138,7 +138,7 @@ def log_existence(paragraph: str, para_id: int, entity: str, loc_seq: List[str],
     """
     Record the entities and locations that does not match any span in the paragraph.
     """
-    entity_list = entity.split('; ')
+    entity_list = re.split('; |;', entity)
     paragraph = paragraph.strip().split()
     for ent in entity_list:
         if not find_mention(paragraph, ent):
@@ -377,9 +377,10 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
                 gold_loc_seq.append(gold_location)
 
                 # whether the gold location is in the candidates (training only)
-                if gold_location not in loc_cand_set and train == True\
+                if gold_location not in loc_cand_set \
                     and gold_location != '-' and gold_location != '?':
-                    loc_cand_set.add(gold_location)
+                    if train:
+                        loc_cand_set.add(gold_location)
                     print(f'[INFO] Paragraph {para_id}: gold location "{gold_location}" not included in candidate set.',
                          file=log_file)
 
