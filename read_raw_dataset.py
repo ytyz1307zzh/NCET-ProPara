@@ -91,12 +91,6 @@ def find_loc_candidate(paragraph: flair.data.Sentence) -> List[str]:
                     candidate = pos_list[i-k][0] + ' ' + candidate
                 else:
                     break
-            for k in range(1, num_tokens - i):
-                if pos_list[i+k][1] == 'ADJ' \
-                    or pos_list[i+k][1] == 'NOUN':
-                    candidate = candidate + ' ' + pos_list[i+k][0]
-                else:
-                    break
             loc_list.append(candidate)
 
     # extract 'noun + and/or + noun' phrase
@@ -328,7 +322,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
 
         # find location candidates
         loc_cand_set = find_loc_candidate(Sentence(paragraph))
-        print(f'[INFO] Paragraph {para_id}: \nLocation candidate set: ', loc_cand_set, file=log_file)
+        print(f'Paragraph {para_id}: \nLocation candidate set: ', loc_cand_set, file=log_file)
 
         # process data in this paragraph
         # first, figure out how many entities it has
