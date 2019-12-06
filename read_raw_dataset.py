@@ -337,6 +337,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
             entity_name = row[f'ent{i}']
             if pd.isna(entity_name):
                 break
+            entity_name, _ = tokenize(entity_name)
             entity_list.append(entity_name)
         
         total_entities = len(entity_list)
