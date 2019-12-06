@@ -2536,7 +2536,7 @@
 525,state1,,-,-,-,-,,,,
 525,event1,A man and woman mate.,,,,,,,,
 525,state2,,-,-,-,-,,,,
-525,event2,Embryo is C.,,,,,,,,
+525,event2,Embryo is created.,,,,,,,,
 525,state3,,woman 's womb,-,-,-,,,,
 525,event3,Embryo grows and develops into a fetus inside the woman's womb.,,,,,,,,
 525,state4,,-,womb,-,-,,,,

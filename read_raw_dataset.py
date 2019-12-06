@@ -268,7 +268,7 @@ def read_paragraph(filename: str) -> Dict[int, Dict]:
 
 
 def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
-                    log_file, train: bool) -> List[Dict]:
+                    log_file, test: bool) -> List[Dict]:
     """
     1. read csv
     2. get the entities
@@ -390,7 +390,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
                 # whether the gold location is in the candidates (training only)
                 if gold_location not in loc_cand_set \
                     and gold_location != '-' and gold_location != '?':
-                    if train:
+                    if not test:
                         loc_cand_set.add(gold_location)
                     total_err_set.add(gold_location)
                     print(f'[INFO] Paragraph {para_id}: gold location "{gold_location}" not included in candidate set.',
@@ -456,8 +456,8 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
 
         total_loc_cnt += len(total_loc_set)
         total_err_cnt += len(total_err_set)
-        print(total_loc_set)
-        print(total_err_set)
+        # print(total_loc_set)
+        # print(total_err_set)
 
 
         row_index = end_row_index + 1
@@ -473,7 +473,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
     
     # compute accuracy of location prediction
     loc_accuracy = 1 - total_err_cnt / total_loc_cnt
-    print(f'[DATA] Accuracy of location prediction: {loc_accuracy} ({total_loc_cnt - total_err_cnt}/{total_loc_cnt})')
+    print(f'[DATA] Recall of location prediction: {loc_accuracy} ({total_loc_cnt - total_err_cnt}/{total_loc_cnt})')
 
     return data_instances
 
@@ -524,20 +524,22 @@ if __name__ == '__main__':
     train_para, dev_para, test_para = read_split(opt.split_file, paragraph_result)
 
     log_file = open(f'{opt.log_dir}/info.log', 'w', encoding='utf-8')
-    print('Dev Set......')
-    dev_instances = read_annotation(opt.state_file, dev_para, log_file, train = False)
-    print('Testing Set......')
-    test_instances = read_annotation(opt.state_file, test_para, log_file, train = False)
-    print('Training Set......')
-    train_instances = read_annotation(opt.state_file, train_para, log_file, train = True)
-
     # save the instances to JSON files
-    json.dump(train_instances, open(os.path.join(opt.store_dir, 'train.json'), 'w', encoding='utf-8'),
-                ensure_ascii=False, indent=4)
+    print('Dev Set......')
+    dev_instances = read_annotation(opt.state_file, dev_para, log_file, test = False)
     json.dump(dev_instances, open(os.path.join(opt.store_dir, 'dev.json'), 'w', encoding='utf-8'),
                 ensure_ascii=False, indent=4)
+                
+    print('Testing Set......')
+    test_instances = read_annotation(opt.state_file, test_para, log_file, test = True)
     json.dump(test_instances, open(os.path.join(opt.store_dir, 'test.json'), 'w', encoding='utf-8'),
                 ensure_ascii=False, indent=4)
+
+    print('Training Set......')
+    train_instances = read_annotation(opt.state_file, train_para, log_file, test = False)
+    json.dump(train_instances, open(os.path.join(opt.store_dir, 'train.json'), 'w', encoding='utf-8'),
+                ensure_ascii=False, indent=4)
+    
     print('[INFO] JSON files saved successfully.')
 
     log_file.close()
