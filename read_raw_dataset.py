@@ -68,7 +68,7 @@ def lemmatize(paragraph: str) -> (List[str], str):
     if paragraph == '-' or paragraph == '?':
         return None, paragraph
     para_doc = nlp(paragraph)
-    lemma_list = [token.lemma_ for token in para_doc]
+    lemma_list = [token.lemma_ if token.lemma_ != '-PRON-' else token.text for token in para_doc]
     return lemma_list, ' '.join(lemma_list)
 
 
@@ -79,7 +79,6 @@ def find_loc_candidate(paragraph: flair.data.Sentence) -> List[str]:
     """
     pos_tagger.predict(paragraph)
     pos_list = [(token.text, token.get_tag('pos').value) for token in paragraph]
-    num_tokens = len(pos_list)
     loc_list = []
 
     # extract nouns (including 'noun + noun' phrases)
@@ -87,7 +86,10 @@ def find_loc_candidate(paragraph: flair.data.Sentence) -> List[str]:
         if pos_list[i][1] == 'NOUN':
             candidate = pos_list[i][0]
             for k in range(1, i+1):
-                if pos_list[i-k][1] == 'ADJ' or pos_list[i-k][1] == 'NOUN':
+                if pos_list[i-k][1] == 'ADJ':
+                    candidate = pos_list[i-k][0] + ' ' + candidate
+                elif pos_list[i-k][1] == 'NOUN':
+                    loc_list.append(candidate)
                     candidate = pos_list[i-k][0] + ' ' + candidate
                 else:
                     break
@@ -354,6 +356,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
                         'entity': entity_name}
             gold_loc_seq = []  # list of gold locations
             sentence_list = []
+            sentence_concat = []
 
             # read initial state, skip the prompt line
             row_index += 2
@@ -370,6 +373,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
                 row = csv_data.iloc[row_index]
                 assert row['sent_id'] == f'event{j+1}'
                 sentence, num_tokens_in_sent = tokenize(row['sentence'])
+                sentence_concat.append(sentence)
                 sent_id = j + 1
 
                 # read gold state
@@ -443,7 +447,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
             instance['gold_loc_seq'] = gold_loc_seq
             instance['gold_state_seq'] = compute_state_change_seq(gold_loc_seq)
             # print(instance)
-            assert words_read == total_tokens
+            assert paragraph == ' '.join(sentence_concat)
 
             # pointer backward, construct instance for next entity
             row_index = begin_row_index
@@ -520,6 +524,11 @@ if __name__ == '__main__':
 
     log_file = open(f'{opt.log_dir}/info.log', 'w', encoding='utf-8')
     # save the instances to JSON files
+    print('Training Set......')
+    train_instances = read_annotation(opt.state_file, train_para, log_file, test = False)
+    json.dump(train_instances, open(os.path.join(opt.store_dir, 'train.json'), 'w', encoding='utf-8'),
+                ensure_ascii=False, indent=4)
+    
     print('Dev Set......')
     dev_instances = read_annotation(opt.state_file, dev_para, log_file, test = False)
     json.dump(dev_instances, open(os.path.join(opt.store_dir, 'dev.json'), 'w', encoding='utf-8'),
@@ -530,10 +539,6 @@ if __name__ == '__main__':
     json.dump(test_instances, open(os.path.join(opt.store_dir, 'test.json'), 'w', encoding='utf-8'),
                 ensure_ascii=False, indent=4)
 
-    print('Training Set......')
-    train_instances = read_annotation(opt.state_file, train_para, log_file, test = False)
-    json.dump(train_instances, open(os.path.join(opt.store_dir, 'train.json'), 'w', encoding='utf-8'),
-                ensure_ascii=False, indent=4)
     
     print('[INFO] JSON files saved successfully.')
 
