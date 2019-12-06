@@ -524,11 +524,6 @@ if __name__ == '__main__':
 
     log_file = open(f'{opt.log_dir}/info.log', 'w', encoding='utf-8')
     # save the instances to JSON files
-    print('Training Set......')
-    train_instances = read_annotation(opt.state_file, train_para, log_file, test = False)
-    json.dump(train_instances, open(os.path.join(opt.store_dir, 'train.json'), 'w', encoding='utf-8'),
-                ensure_ascii=False, indent=4)
-    
     print('Dev Set......')
     dev_instances = read_annotation(opt.state_file, dev_para, log_file, test = False)
     json.dump(dev_instances, open(os.path.join(opt.store_dir, 'dev.json'), 'w', encoding='utf-8'),
@@ -537,6 +532,11 @@ if __name__ == '__main__':
     print('Testing Set......')
     test_instances = read_annotation(opt.state_file, test_para, log_file, test = True)
     json.dump(test_instances, open(os.path.join(opt.store_dir, 'test.json'), 'w', encoding='utf-8'),
+                ensure_ascii=False, indent=4)
+
+    print('Training Set......')
+    train_instances = read_annotation(opt.state_file, train_para, log_file, test = False)
+    json.dump(train_instances, open(os.path.join(opt.store_dir, 'train.json'), 'w', encoding='utf-8'),
                 ensure_ascii=False, indent=4)
 
     
