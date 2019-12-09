@@ -4,3 +4,5 @@ idx2state = {0: 'O_C', 1: 'O_D', 2: 'E', 3: 'M', 4: 'C', 5: 'D'}
 
 UNK_LOC = -1
 NIL_LOC = -2
+
+MAX_LOC_CANDS = 45

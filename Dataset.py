@@ -13,7 +13,6 @@ import time
 import numpy as np
 from typing import List
 from Constants import *
-torch.set_printoptions(threshold=np.inf)
 
 
 class ProparaDataset(torch.utils.data.Dataset):
@@ -30,14 +29,23 @@ class ProparaDataset(torch.utils.data.Dataset):
         self.idx2state = idx2state
 
         print(f'{len(self.dataset)} instances of data loaded. Time Elapse: {time.time() - start_time}')
+
     
     def __len__(self):
         return len(self.dataset)
 
+
+    def get_mask(self, mention_idx: List[int], para_len: int) -> List[int]:
+        """
+        Given a list of mention positions of the entity/verb/location in a paragraph,
+        compute the mask of it.
+        """
+        return [1 if i in mention_idx else 0 for i in range(para_len)]
+
+
     def __getitem__(self, index: int):
 
         instance = self.dataset[index]
-        sample = {}
 
         entity_name = instance['entity']  # used in the evaluation process
         para_id = instance['id']  # used in the evaluation process
@@ -47,7 +55,10 @@ class ProparaDataset(torch.utils.data.Dataset):
         loc_cand_list = instance['loc_cand_list']
 
         metadata = {'para_id': para_id,
-                    'entity': entity_name}
+                    'entity': entity_name,
+                    'total_sents': total_sents,
+                    'total_loc_cands': total_loc_cands
+                    }
         paragraph = instance['paragraph'].strip().split()  # Elmo processes list of words     
         gold_state_seq = torch.IntTensor([self.state2idx[label] for label in instance['gold_state_seq']])
 
@@ -58,20 +69,28 @@ class ProparaDataset(torch.utils.data.Dataset):
         gold_loc_seq = torch.IntTensor([loc2idx[loc] for loc in instance['gold_loc_seq']])
 
         sentence_list = instance['sentence_list']
+        # (num_sent, num_tokens)
         entity_mask_list = torch.IntTensor([self.get_mask(sent['entity_mention'], total_tokens) for sent in sentence_list])
+        # (num_sent, num_tokens)
         verb_mask_list = torch.IntTensor([self.get_mask(sent['verb_mention'], total_tokens) for sent in sentence_list])
+        # (num_cand, num_sent, num_tokens)
         loc_mask_list = torch.IntTensor([[self.get_mask(sent['loc_mention_list'][idx], total_tokens) for sent in sentence_list]
                                             for idx in range(total_loc_cands)])
 
+        sample = {'metadata': metadata,
+                  'paragraph': paragraph,
+                  'gold_loc_seq': gold_loc_seq,
+                  'gold_state_seq': gold_state_seq,
+                  'entity_mask': entity_mask_list,
+                  'verb_mask': verb_mask_list,
+                  'loc_mask': loc_mask_list
+                }
 
-    def get_mask(self, mention_idx: List[int], para_len: int) -> List[int]:
-        """
-        Given a list of mention positions of the entity/verb/location in a paragraph,
-        compute the mask of it.
-        """
-        return [1 if i in mention_idx else 0 for i in range(para_len)]
+        return sample
 
         
 # debug script
+# torch.set_printoptions(threshold=np.inf)
 dev_dataset = ProparaDataset('data/dev.json', is_train = False)
 instance = dev_dataset[0]
+print(instance)
