@@ -10,7 +10,10 @@ import torch
 import json
 import os
 import time
+import numpy as np
+from typing import List
 from Constants import *
+torch.set_printoptions(threshold=np.inf)
 
 
 class ProparaDataset(torch.utils.data.Dataset):
@@ -31,7 +34,7 @@ class ProparaDataset(torch.utils.data.Dataset):
     def __len__(self):
         return len(self.dataset)
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int):
 
         instance = self.dataset[index]
         sample = {}
@@ -42,7 +45,6 @@ class ProparaDataset(torch.utils.data.Dataset):
         total_sents = instance['total_sents']
         total_loc_cands = instance['total_loc_candidates']
         loc_cand_list = instance['loc_cand_list']
-        sentence_list = instance['sentence_list']
 
         metadata = {'para_id': para_id,
                     'entity': entity_name}
@@ -52,10 +54,22 @@ class ProparaDataset(torch.utils.data.Dataset):
         loc2idx = {loc_cand_list[idx]: idx for idx in range(total_loc_cands)}
         loc2idx['-'] = NIL_LOC
         loc2idx['?'] = UNK_LOC
-        # note that the loc_cand_list in exactly "idx2loc"
+        # note that the loc_cand_list in exactly "idx2loc" (excluding '?' and '-')
         gold_loc_seq = torch.IntTensor([loc2idx[loc] for loc in instance['gold_loc_seq']])
 
+        sentence_list = instance['sentence_list']
+        entity_mask_list = torch.IntTensor([self.get_mask(sent['entity_mention'], total_tokens) for sent in sentence_list])
+        verb_mask_list = torch.IntTensor([self.get_mask(sent['verb_mention'], total_tokens) for sent in sentence_list])
+        loc_mask_list = torch.IntTensor([[self.get_mask(sent['loc_mention_list'][idx], total_tokens) for sent in sentence_list]
+                                            for idx in range(total_loc_cands)])
 
+
+    def get_mask(self, mention_idx: List[int], para_len: int) -> List[int]:
+        """
+        Given a list of mention positions of the entity/verb/location in a paragraph,
+        compute the mask of it.
+        """
+        return [1 if i in mention_idx else 0 for i in range(para_len)]
 
         
 # debug script
