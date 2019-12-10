@@ -10,13 +10,13 @@ import json
 import os
 import time
 import numpy as np
-from typing import List
+from typing import List, Dict
 from Constants import *
 
 
 class ProparaDataset(torch.utils.data.Dataset):
 
-    def __init__(self, data_path: str, is_train: bool):
+    def __init__(self, data_path: str):
         super(ProparaDataset, self).__init__()
 
         print('Starting load...')
@@ -53,21 +53,27 @@ class ProparaDataset(torch.utils.data.Dataset):
         total_loc_cands = instance['total_loc_candidates']
         loc_cand_list = instance['loc_cand_list']
 
+        print('total_loc_cands: ', total_loc_cands)
+
         metadata = {'para_id': para_id,
                     'entity': entity_name,
                     'total_sents': total_sents,
                     'total_loc_cands': total_loc_cands
                     }
         paragraph = instance['paragraph'].strip().split()  # Elmo processes list of words     
+        assert len(paragraph) == total_tokens
         gold_state_seq = torch.IntTensor([self.state2idx[label] for label in instance['gold_state_seq']])
 
         loc2idx = {loc_cand_list[idx]: idx for idx in range(total_loc_cands)}
         loc2idx['-'] = NIL_LOC
         loc2idx['?'] = UNK_LOC
         # note that the loc_cand_list in exactly "idx2loc" (excluding '?' and '-')
-        gold_loc_seq = torch.IntTensor([loc2idx[loc] for loc in instance['gold_loc_seq']])
+        gold_loc_seq = torch.IntTensor([loc2idx[loc] for loc in instance['gold_loc_seq']])[1:]  # won't predict initial location (step 0)
 
+        assert gold_loc_seq.size() == gold_state_seq.size()
         sentence_list = instance['sentence_list']
+        assert total_sents == len(sentence_list)
+
         # (num_sent, num_tokens)
         entity_mask_list = torch.IntTensor([self.get_mask(sent['entity_mention'], total_tokens) for sent in sentence_list])
         # (num_sent, num_tokens)
@@ -88,20 +94,13 @@ class ProparaDataset(torch.utils.data.Dataset):
         return sample
 
 
-class PadCollate:
+class Collate:
     """
     a variant of callate_fn that pads according to the longest sequence in
     a batch of sequences
     """
 
-    def __init__(self, dim=0):
-        """
-        args:
-            dim - the dimension to be padded (dimension of time in sequences)
-        """
-        self.dim = dim
-
-    def pad_collate(self, batch):
+    def collate(self, batch: List[Dict]) -> List[Dict]:
         """
         args:
             batch - list of instances constructed by dataset
@@ -109,17 +108,43 @@ class PadCollate:
         reutrn:
             batch - list of padded instances
         """
-        # find longest sequence
-        max_len = max(map(lambda x: x[0].shape[self.dim], batch))
+        # find max number of sentences & tokens
+        max_sents = max([inst['metadata']['total_sents'] for inst in batch])
+        max_tokens = max([len(inst['paragraph']) for inst in batch])
+        print('max_sents: ', max_sents)
+        print('max_tokens: ', max_tokens)
+
         # pad according to max_len
-        batch = map(lambda x, y: (self.pad_tensor(x, pad=max_len, dim=self.dim), y), batch)
-        # stack all
-        xs = torch.stack(map(lambda x: x[0], batch), dim=0)
-        ys = torch.LongTensor(map(lambda x: x[1], batch))
-        return xs, ys
+        batch = list(map(lambda x: self.pad_instance(x, max_sents = max_sents, max_tokens = max_tokens), batch))
+        return batch
 
     
-    def pad_tensor(self, vec, pad, dim):
+    def pad_instance(self, instance: Dict, max_sents: int, max_tokens: int) -> Dict:
+        """
+        args: instance - instance to pad
+        max_sents: maximum number of sentences in this batch
+        max_tokens: maximum number of tokens in this batch
+        """
+        instance['gold_state_seq'] = self.pad_tensor(instance['gold_state_seq'], pad = max_sents, dim = 0)
+        instance['gold_loc_seq'] = self.pad_tensor(instance['gold_loc_seq'], pad = max_sents, dim = 0, pad_val = PAD_LOC)
+        
+        instance['entity_mask'] = self.pad_mask_list(instance['entity_mask'], max_sents = max_sents, max_tokens = max_tokens)
+        instance['verb_mask'] = self.pad_mask_list(instance['verb_mask'], max_sents = max_sents, max_tokens = max_tokens)
+        instance['loc_mask'] = torch.stack(list(map(lambda x: self.pad_mask_list(x, max_sents = max_sents, max_tokens = max_tokens), 
+                                        instance['loc_mask'])))
+
+        return instance
+
+    
+    def pad_mask_list(self, vec: torch.Tensor, max_sents: int, max_tokens: int) -> torch.Tensor:
+        """
+        Pad a tensor of mask list
+        """
+        tmp_vec = self.pad_tensor(vec, pad = max_tokens, dim = 1)
+        return self.pad_tensor(tmp_vec, pad = max_sents, dim = 0)
+
+    
+    def pad_tensor(self, vec: torch.Tensor, pad: int, dim: int, pad_val: int = 0) -> torch.Tensor:
         """
         args:
             vec - tensor to pad
@@ -129,17 +154,17 @@ class PadCollate:
         return:
             a new tensor padded to 'pad' in dimension 'dim'
         """
-        pad_size = list(vec.shape)
+        pad_size = list(vec.size())
         pad_size[dim] = pad - vec.size(dim)
-        return torch.cat([vec, torch.zeros(*pad_size)], dim=dim)
+        pad_vec = torch.zeros(*pad_size, dtype=vec.dtype)
+
+        if pad_val != 0:
+            pad_vec.fill_(pad_val)
+
+        return torch.cat([vec, pad_vec], dim=dim)
 
 
     def __call__(self, batch):
-        return self.pad_collate(batch)
+        return self.collate(batch)
 
         
-# debug script
-# torch.set_printoptions(threshold=np.inf)
-dev_dataset = ProparaDataset('data/dev.json', is_train = False)
-instance = dev_dataset[0]
-print(instance)
