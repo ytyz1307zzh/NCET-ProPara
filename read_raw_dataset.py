@@ -417,6 +417,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
 
                 if not verb_mention_per_sent[j]:
                     verb_mask = get_verb_mask(sentence, words_read, total_tokens - words_read)
+                    assert len(entity_mask) == len(verb_mask)
                     verb_mention = [idx for idx in range(len(verb_mask)) if verb_mask[idx] == 1]
                     verb_mention_per_sent[j] = verb_mention
                 else:
@@ -425,7 +426,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
                 loc_mention_list = []
                 for loc_candidate in loc_cand_list:
                     loc_mask = get_location_mask(sentence, loc_candidate, words_read, total_tokens - words_read)
-                    assert len(entity_mask) == len(verb_mask) == len(loc_mask)
+                    assert len(entity_mask) == len(loc_mask)
                     loc_mention = [idx for idx in range(len(loc_mask)) if loc_mask[idx] == 1]
                     loc_mention_list.append(loc_mention)
 
