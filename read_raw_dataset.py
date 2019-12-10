@@ -338,7 +338,6 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
         
         total_entities = len(entity_list)
         verb_mention_per_sent = [None for _ in range(total_sents)]
-        loc_mention_per_sent = [None for _ in range(total_sents)]
 
         # sets for computing the accuracy of location prediction
         total_loc_set = set()
@@ -423,16 +422,12 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
                 else:
                     verb_mention = verb_mention_per_sent[j]
                 
-                if not loc_mention_per_sent[j]:
-                    loc_mention_list = []
-                    for loc_candidate in loc_cand_list:
-                        loc_mask = get_location_mask(sentence, loc_candidate, words_read, total_tokens - words_read)
-                        assert len(entity_mask) == len(verb_mask) == len(loc_mask)
-                        loc_mention = [idx for idx in range(len(loc_mask)) if loc_mask[idx] == 1]
-                        loc_mention_list.append(loc_mention)
-                    loc_mention_per_sent[j] = loc_mention_list
-                else:
-                    loc_mention_list = loc_mention_per_sent[j]
+                loc_mention_list = []
+                for loc_candidate in loc_cand_list:
+                    loc_mask = get_location_mask(sentence, loc_candidate, words_read, total_tokens - words_read)
+                    assert len(entity_mask) == len(verb_mask) == len(loc_mask)
+                    loc_mention = [idx for idx in range(len(loc_mask)) if loc_mask[idx] == 1]
+                    loc_mention_list.append(loc_mention)
 
                 sent_dict['entity_mention'] = entity_mention
                 sent_dict['verb_mention'] = verb_mention
