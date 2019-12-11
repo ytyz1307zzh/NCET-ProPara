@@ -5,6 +5,7 @@
  @homepage: ytyz1307zzh.github.io
 '''
 import time
+print('[INFO] Starting import...')
 import_start_time = time.time()
 import torch
 import json

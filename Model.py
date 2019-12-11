@@ -32,8 +32,8 @@ class NCETModel(nn.Module):
                 verb_mask: torch.IntTensor, loc_mask: torch.IntTensor):
 
         embeddings = self.EmbeddingLayer(char_paragraph, verb_mask)  # (batch, max_tokens, embed_size)
-        token_rep, _ = self.TokenEncoder(embeddings)
-        return token_rep
+        token_rep, _ = self.TokenEncoder(embeddings)  # (batch, max_tokens, 2*embed_size)
+        
         
 
     
