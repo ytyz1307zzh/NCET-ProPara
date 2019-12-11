@@ -72,6 +72,9 @@ def lemmatize(paragraph: str) -> (List[str], str):
     return lemma_list, ' '.join(lemma_list)
 
 
+# TODO: Maybe we shouldn't perform lemmatization to location candidates for the test set
+#       in order to generate raw spans in the paragraph while filling the grids.
+#       (candidate masks are still computed after masking both the candidate and the paragraph)
 def find_loc_candidate(paragraph: flair.data.Sentence) -> List[str]:
     """
     paragraph: the paragraph after tokenization and lower-case transformation
