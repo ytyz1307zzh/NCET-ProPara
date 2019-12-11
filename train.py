@@ -14,6 +14,7 @@ from typing import List, Dict
 from Constants import *
 import argparse
 from torchsummaryX import summary
+from tensorboardX import SummaryWriter
 from torch.utils.data import DataLoader
 from utils import *
 from Dataset import *
@@ -53,6 +54,8 @@ def train():
         verb_mask = batch['verb_mask'].cuda()
         loc_mask = batch['loc_mask'].cuda()
         summary(model, paragraphs, entity_mask, verb_mask, loc_mask)
+        with SummaryWriter() as writer:
+            writer.add_graph(model, (paragraphs, entity_mask, verb_mask, loc_mask))
 
 
 if __name__ == "__main__":

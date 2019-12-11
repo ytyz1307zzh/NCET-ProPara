@@ -32,7 +32,6 @@ class NCETModel(nn.Module):
                 verb_mask: torch.IntTensor, loc_mask: torch.IntTensor):
 
         embeddings = self.EmbeddingLayer(paragraphs, verb_mask)  # (batch, max_tokens, embed_size)
-        print('final embeddings: ', embeddings)
         token_rep, _ = self.TokenEncoder(embeddings)
         
 
@@ -62,9 +61,7 @@ class NCETEmbedding(nn.Module):
         max_tokens = max([len(para) for para in paragraphs])
         elmo_embeddings = self.get_elmo(paragraphs, max_tokens)
         elmo_embeddings = self.embed_project(elmo_embeddings)
-        print('embeddings after project: ', elmo_embeddings)
         verb_indicator = self.get_verb_indicator(verb_mask, max_tokens)
-        print('verb indicator: ', verb_indicator)
         embeddings = torch.cat([elmo_embeddings, verb_indicator], dim = -1)
 
         assert embeddings.size() == (self.batch_size, max_tokens, self.embed_size)
