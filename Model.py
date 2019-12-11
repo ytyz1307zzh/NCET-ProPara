@@ -85,7 +85,7 @@ class NCETEmbedding(nn.Module):
         """
         Get the binary scalar indicator for each token
         """
-        verb_indicator = torch.sum(verb_mask, dim = 1).unsqueeze_(dim = -1)
+        verb_indicator = torch.sum(verb_mask, dim = 1, dtype = torch.float).unsqueeze_(dim = -1)
         assert verb_indicator.size() == (self.batch_size, max_tokens, 1)
         return verb_indicator
 
