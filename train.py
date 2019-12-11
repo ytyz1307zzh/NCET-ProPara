@@ -49,9 +49,9 @@ def train():
     for batch in debug_batch:
         model.train()
         paragraphs = batch['paragraph']
-        entity_mask = batch['entity_mask']
-        verb_mask = batch['verb_mask']
-        loc_mask = batch['loc_mask']
+        entity_mask = batch['entity_mask'].cuda()
+        verb_mask = batch['verb_mask'].cuda()
+        loc_mask = batch['loc_mask'].cuda()
         summary(model, paragraphs, entity_mask, verb_mask, loc_mask)
 
 
