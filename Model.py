@@ -25,12 +25,15 @@ class NCETModel(nn.Module):
 
         super(NCETModel, self).__init__()
         self.EmbeddingLayer = NCETEmbedding(opt)
+        self.TokenEncoder = nn.LSTM(input_size = opt.embed_size, hidden_size = opt.hidden_size,
+                                    num_layers = 1, batch_first = True, dropout = opt.dropout, bidirectional = True)
         
 
     def foward(self, paragraphs: List, entity_mask: torch.IntTensor, 
                 verb_mask: torch.IntTensor, loc_mask: torch.IntTensor):
 
         embeddings = self.EmbeddingLayer(paragraphs, verb_mask)  # (batch, max_tokens, embed_size)
+        token_rep, _ = self.TokenEncoder(embeddings)
 
     
 @torchsnooper.snoop()
