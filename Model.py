@@ -7,7 +7,6 @@
 
 import torch
 import torch.nn as nn
-import torchsnooper
 import json
 import os
 import time
@@ -18,7 +17,6 @@ from utils import *
 from allennlp.modules.elmo import Elmo, batch_to_ids
 
 
-@torchsnooper.snoop()
 class NCETModel(nn.Module):
 
     def __init__(self, batch_size: int, embed_size: int, hidden_size: int, dropout: float, elmo_dir: str):
@@ -35,9 +33,9 @@ class NCETModel(nn.Module):
 
         embeddings = self.EmbeddingLayer(paragraphs, verb_mask)  # (batch, max_tokens, embed_size)
         token_rep, _ = self.TokenEncoder(embeddings)
+        return token_rep
 
     
-@torchsnooper.snoop()
 class NCETEmbedding(nn.Module):
 
     def __init__(self, batch_size: int, embed_size: int, elmo_dir: str, dropout: float):
