@@ -21,12 +21,13 @@ from allennlp.modules.elmo import Elmo, batch_to_ids
 @torchsnooper.snoop()
 class NCETModel(nn.Module):
 
-    def __init__(self, opt):
+    def __init__(self, batch_size: int, embed_size: int, hidden_size: int, dropout: float, elmo_dir: str):
 
         super(NCETModel, self).__init__()
-        self.EmbeddingLayer = NCETEmbedding(opt)
-        self.TokenEncoder = nn.LSTM(input_size = opt.embed_size, hidden_size = opt.hidden_size,
-                                    num_layers = 1, batch_first = True, dropout = opt.dropout, bidirectional = True)
+        self.EmbeddingLayer = NCETEmbedding(batch_size = batch_size, embed_size = embed_size,
+                                            elmo_dir = elmo_dir, dropout = dropout)
+        self.TokenEncoder = nn.LSTM(input_size = embed_size, hidden_size = hidden_size,
+                                    num_layers = 1, batch_first = True, dropout = dropout, bidirectional = True)
         
 
     def foward(self, paragraphs: List, entity_mask: torch.IntTensor, 
@@ -39,16 +40,16 @@ class NCETModel(nn.Module):
 @torchsnooper.snoop()
 class NCETEmbedding(nn.Module):
 
-    def __init__(self, opt):
+    def __init__(self, batch_size: int, embed_size: int, elmo_dir: str, dropout: float):
 
         super(NCETEmbedding, self).__init__()
-        self.batch_size = opt.batch_size
-        self.embed_size = opt.embed_size
-        self.options_file = os.path.join(opt.elmo, 'elmo_2x4096_512_2048cnn_2xhighway_options.json')
-        self.weight_file = os.path.join(opt.elmo, 'elmo_2x4096_512_2048cnn_2xhighway_weights.hdf5')
+        self.batch_size = batch_size
+        self.embed_size = embed_size
+        self.options_file = os.path.join(elmo_dir, 'elmo_2x4096_512_2048cnn_2xhighway_options.json')
+        self.weight_file = os.path.join(elmo_dir, 'elmo_2x4096_512_2048cnn_2xhighway_weights.hdf5')
         self.elmo = Elmo(self.options_file, self.weight_file, num_output_representations=1, requires_grad=False,
                             do_layer_norm=False, dropout=0)
-        self.embed_project = nn.Linear(1024, self.embed_size - 1)  # 1024 is the default size of Elmo, leave 1 dim for verb indicator
+        self.embed_project = Linear(1024, self.embed_size - 1, dropout = dropout)  # 1024 is the default size of Elmo, leave 1 dim for verb indicator
 
 
     def foward(self, paragraphs: List, verb_mask: torch.IntTensor):
@@ -91,3 +92,15 @@ class NCETEmbedding(nn.Module):
         return verb_indicator
 
 
+class Linear(nn.Module):
+    ''' 
+    Simple Linear layer with xavier init 
+    '''
+    def __init__(self, d_in: int, d_out: int, dropout: float, bias: bool = True):
+        super(Linear, self).__init__()
+        self.linear = nn.Linear(d_in, d_out, bias=bias)
+        self.dropout = nn.Dropout(p = dropout)
+        nn.init.xavier_normal_(self.linear.weight)
+
+    def forward(self, x):
+        return self.dropout(self.linear(x))
