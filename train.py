@@ -4,11 +4,11 @@
  @mail  : zhangzhihan@pku.edu.cn
  @homepage: ytyz1307zzh.github.io
 '''
-
+import time
+import_start_time = time.time()
 import torch
 import json
 import os
-import time
 import numpy as np
 from typing import List, Dict
 from Constants import *
@@ -16,9 +16,11 @@ import argparse
 from torchsummaryX import summary
 from tensorboardX import SummaryWriter
 from torch.utils.data import DataLoader
+from allennlp.modules.elmo import batch_to_ids
 from utils import *
 from Dataset import *
 from Model import *
+print(f'[INFO] Import modules time: {time.time() - import_start_time}')
 
 
 parser = argparse.ArgumentParser()
@@ -47,15 +49,20 @@ def train():
     model = NCETModel(batch_size = opt.batch_size, embed_size = opt.embed_size, hidden_size = opt.hidden_size,
                         dropout = opt.dropout, elmo_dir = opt.elmo_dir)
     model.cuda()
+
     for batch in debug_batch:
         model.train()
+
         paragraphs = batch['paragraph']
+        char_paragraph = batch_to_ids(paragraphs).cuda()
+        print('char_paragraph: ', char_paragraph.size())
         entity_mask = batch['entity_mask'].cuda()
         verb_mask = batch['verb_mask'].cuda()
         loc_mask = batch['loc_mask'].cuda()
-        summary(model, paragraphs, entity_mask, verb_mask, loc_mask)
-        with SummaryWriter() as writer:
-            writer.add_graph(model, (paragraphs, entity_mask, verb_mask, loc_mask))
+
+        # summary(model, char_paragraph, entity_mask, verb_mask, loc_mask)
+        # with SummaryWriter() as writer:
+        #     writer.add_graph(model, (char_paragraph, entity_mask, verb_mask, loc_mask))
 
 
 if __name__ == "__main__":

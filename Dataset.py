@@ -19,15 +19,15 @@ class ProparaDataset(torch.utils.data.Dataset):
     def __init__(self, data_path: str):
         super(ProparaDataset, self).__init__()
 
-        print('Starting load...')
-        print(f'Load data from {data_path}')
+        print('[INFO] Starting load...')
+        print(f'[INFO] Load data from {data_path}')
         start_time = time.time()
 
         self.dataset = json.load(open(data_path, 'r', encoding='utf-8'))
         self.state2idx = state2idx
         self.idx2state = idx2state
 
-        print(f'{len(self.dataset)} instances of data loaded. Time Elapse: {time.time() - start_time}')
+        print(f'[INFO] {len(self.dataset)} instances of data loaded. Time Elapse: {time.time() - start_time}')
 
     
     def __len__(self):
