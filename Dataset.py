@@ -141,7 +141,7 @@ class Collate:
         assert loc_mask.size() == (batch_size, max_cands, max_sents, max_tokens)
 
         return {'metadata': metadata,
-                'paragraph': paragraph,
+                'paragraph': paragraph,  # unpadded, 2-dimension
                 'gold_loc_seq': gold_loc_seq,
                 'gold_state_seq': gold_state_seq,
                 'entity_mask': entity_mask,
