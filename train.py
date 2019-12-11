@@ -43,7 +43,7 @@ def train():
     debug_batch = DataLoader(dataset = debug_set, batch_size = opt.batch_size, shuffle = True, collate_fn = Collate())
 
     model = NCETModel(batch_size = opt.batch_size, embed_size = opt.embed_size, hidden_size = opt.hidden_size,
-                        dropout = opt.dropout, elmo_dir = opt.elmo)
+                        dropout = opt.dropout, elmo_dir = opt.elmo_dir)
     model.cuda()
     for batch in debug_batch:
         model.train()
