@@ -50,7 +50,7 @@ class NCETEmbedding(nn.Module):
         self.embed_project = Linear(1024, self.embed_size - 1, dropout = dropout)  # 1024 is the default size of Elmo, leave 1 dim for verb indicator
 
 
-    def foward(self, paragraphs: List, verb_mask: torch.IntTensor):
+    def forward(self, paragraphs: List, verb_mask: torch.IntTensor):
         """
         Args: 
             paragraphs - unpadded paragraphs, size (batch, tokens(unidentical))
