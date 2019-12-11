@@ -28,12 +28,12 @@ class NCETModel(nn.Module):
                                     num_layers = 1, batch_first = True, dropout = dropout, bidirectional = True)
         
 
-    def foward(self, paragraphs: List, entity_mask: torch.IntTensor, 
+    def forward(self, paragraphs: List, entity_mask: torch.IntTensor, 
                 verb_mask: torch.IntTensor, loc_mask: torch.IntTensor):
 
         embeddings = self.EmbeddingLayer(paragraphs, verb_mask)  # (batch, max_tokens, embed_size)
         token_rep, _ = self.TokenEncoder(embeddings)
-        return token_rep
+        
 
     
 class NCETEmbedding(nn.Module):
