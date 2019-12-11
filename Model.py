@@ -74,7 +74,7 @@ class NCETEmbedding(nn.Module):
         Return:
             Elmo embeddings, size(batch, max_tokens, elmo_embed_size=1024)
         """
-        character_ids = batch_to_ids(paragraphs)
+        character_ids = batch_to_ids(paragraphs).cuda()
         # embeddings['elmo_representations'] is a list of tensors with length 'num_output_representations' (here it = 1)
         elmo_embeddings = self.elmo(character_ids)['elmo_representations'][0]  # (batch, max_tokens, elmo_embed_size=1024)
         assert elmo_embeddings.size() == (self.batch_size, max_tokens, 1024)
