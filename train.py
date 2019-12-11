@@ -16,6 +16,7 @@ import argparse
 from torch.utils.data import DataLoader
 from utils import *
 from Dataset import *
+from Model import *
 
 
 parser = argparse.ArgumentParser()
@@ -39,16 +40,24 @@ opt = parser.parse_args()
 def train():
 
     debug_set = ProparaDataset('./data/debug.json')
-    debug_batch = DataLoader(dataset = debug_set, batch_size = 2, shuffle = True, collate_fn = Collate())
+    debug_batch = DataLoader(dataset = debug_set, batch_size = opt.batch_size, shuffle = True, collate_fn = Collate())
 
-    with open('logs/debug.log', 'w', encoding='utf-8') as debug_file:
-        for batch in debug_batch:
-            print(batch, file = debug_file)
+    model = NCETModel(batch_size = opt.batch_size, embed_size = opt.embed_size, hidden_size = opt.hidden_size,
+                        dropout = opt.dropout, elmo_dir = opt.elmo)
+    model.cuda()
+    for batch in debug_batch:
+        model.train()
+        paragraphs = batch['paragraph']
+        entity_mask = batch['entity_mask']
+        verb_mask = batch['verb_mask']
+        loc_mask = batch['loc_mask']
+        model(paragraphs, entity_mask, verb_mask, loc_mask)
 
 
 if __name__ == "__main__":
 
-    train_set = ProparaDataset(os.path.join(opt.data_dir, 'train.json'))
-    dev_set = ProparaDataset(os.path.join(opt.data_dir, 'dev.json'))
-    test_set = ProparaDataset(os.path.join(opt.data_dir, 'test.json'))
+    # train_set = ProparaDataset(os.path.join(opt.data_dir, 'train.json'))
+    # dev_set = ProparaDataset(os.path.join(opt.data_dir, 'dev.json'))
+    # test_set = ProparaDataset(os.path.join(opt.data_dir, 'test.json'))
+    train()
 
