@@ -46,7 +46,7 @@ opt = parser.parse_args()
 def train():
 
     debug_set = ProparaDataset('./data/debug.json')
-    debug_batch = DataLoader(dataset = debug_set, batch_size = opt.batch_size, shuffle = True, collate_fn = Collate())
+    debug_batch = DataLoader(dataset = debug_set, batch_size = opt.batch_size, shuffle = False, collate_fn = Collate())
 
     model = NCETModel(batch_size = opt.batch_size, embed_size = opt.embed_size, hidden_size = opt.hidden_size,
                         dropout = opt.dropout, elmo_dir = opt.elmo_dir)
@@ -54,6 +54,9 @@ def train():
         model.cuda()
 
     for batch in debug_batch:
+        with open('logs/debug.log', 'w', encoding='utf-8') as debug_file:
+            torch.set_printoptions(threshold=np.inf)
+            print(batch, file = debug_file)
         model.train()
 
         paragraphs = batch['paragraph']
@@ -68,9 +71,9 @@ def train():
             verb_mask.cuda()
             loc_mask.cuda()
 
-        # model(char_paragraph, entity_mask, verb_mask, loc_mask)
+        model(char_paragraph, entity_mask, verb_mask, loc_mask)
 
-        summary(model, char_paragraph, entity_mask, verb_mask, loc_mask)
+        # summary(model, char_paragraph, entity_mask, verb_mask, loc_mask)
         # with SummaryWriter() as writer:
         #     writer.add_graph(model, (char_paragraph, entity_mask, verb_mask, loc_mask))
 

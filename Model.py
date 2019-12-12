@@ -173,10 +173,14 @@ class StateTracker(nn.Module):
         max_sents = mask.size(-2)
 
         bool_mask = (mask.unsqueeze(dim = -1) == 0)  # turn binary masks to boolean values
-        masked_source = source.unsqueeze(dim = 1).masked_fill(bool_mask, 0)
+        masked_source = source.unsqueeze(dim = 1).masked_fill(bool_mask, value = 0)
         masked_source = torch.sum(masked_source, dim = -2)  # sum the unmasked vectors
         num_unmasked_tokens = torch.sum(mask, dim = -1, keepdim = True)  # compute the denominator of average op
         masked_mean = torch.div(input = masked_source, other = num_unmasked_tokens)  # average the unmasked vectors
+
+        # division op may cause nan while encoutering 0, so replace nan with 0
+        is_nan = torch.isnan(masked_mean)
+        masked_mean = masked_mean.masked_fill(is_nan, value = 0)
 
         assert masked_mean.size() == (self.batch_size, max_sents, self.embed_size)
         return masked_mean
