@@ -26,7 +26,7 @@ print(f'[INFO] Import modules time: {time.time() - import_start_time}')
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-batch_size', type=int, default=64)
-parser.add_argument('-embed_size', type=int, default=256, help="embedding size (including the verb indicator)")
+parser.add_argument('-embed_size', type=int, default=128, help="embedding size (including the verb indicator)")
 parser.add_argument('-hidden_size', type=int, default=128, help="hidden size of lstm")
 parser.add_argument('-epoch', type=int, default=100, help="number of epochs")
 parser.add_argument('-impatience', type=int, default=20, help='number of evaluation rounds for early stopping')

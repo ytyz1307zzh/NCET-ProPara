@@ -6,6 +6,7 @@
 '''
 
 import json
+import torch
 
 max_num_candidates = 0
 max_num_tokens = 0
@@ -41,3 +42,15 @@ def count_maximum():
     print(f'max number of tokens: {max_num_tokens}')
     print(f'max number of sentences: {max_num_sents}')
 
+
+def find_allzero_rows(vector: torch.IntTensor) -> torch.BoolTensor:
+    """
+    Find all-zero rows of a given tensor, which is of size (batch, max_sents, max_tokens).
+    This function is used to find unmentioned sentences of a certain entity/location.
+    So the input tensor is typically a entity_mask or loc_mask.
+    Return:
+        a BoolTensor indicating that a all-zero row is True. Convenient for masked_fill.
+    """
+    assert vector.dtype == torch.int
+    column_sum = torch.sum(vector, dim = -1)
+    return column_sum == 0

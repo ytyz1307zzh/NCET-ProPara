@@ -22,17 +22,25 @@ class NCETModel(nn.Module):
     def __init__(self, batch_size: int, embed_size: int, hidden_size: int, dropout: float, elmo_dir: str):
 
         super(NCETModel, self).__init__()
+        self.batch_size = batch_size
+        self.embed_size = embed_size
+
         self.EmbeddingLayer = NCETEmbedding(batch_size = batch_size, embed_size = embed_size,
                                             elmo_dir = elmo_dir, dropout = dropout)
         self.TokenEncoder = nn.LSTM(input_size = embed_size, hidden_size = hidden_size,
-                                    num_layers = 1, batch_first = True, dropout = dropout, bidirectional = True)
+                                    num_layers = 1, batch_first = True, bidirectional = True)
+        self.Dropout = nn.Dropout(p = dropout)
         
 
+    # TODO: May change "sum" to "concat" while handling Bi-LSTM outputs
     def forward(self, char_paragraph: torch.Tensor, entity_mask: torch.IntTensor, 
                 verb_mask: torch.IntTensor, loc_mask: torch.IntTensor):
 
+        max_tokens = char_paragraph.size(1)
         embeddings = self.EmbeddingLayer(char_paragraph, verb_mask)  # (batch, max_tokens, embed_size)
-        token_rep, _ = self.TokenEncoder(embeddings)  # (batch, max_tokens, 2*embed_size)
+        token_rep, _ = self.Dropout(self.TokenEncoder(embeddings))  # (batch, max_tokens, 2*embed_size)
+        token_rep = torch.sum(token_rep.view(self.batch_size, -1, 2, self.embed_size), dim = -2)  # sum forward and backward
+        assert token_rep.size() == (self.batch_size, max_tokens, self.embed_size)
         
         
 
@@ -85,7 +93,7 @@ class NCETEmbedding(nn.Module):
         """
         Get the binary scalar indicator for each token
         """
-        verb_indicator = torch.sum(verb_mask, dim = 1, dtype = torch.float).unsqueeze_(dim = -1)
+        verb_indicator = torch.sum(verb_mask, dim = 1, dtype = torch.float).unsqueeze(dim = -1)
         assert verb_indicator.size() == (self.batch_size, max_tokens, 1)
         return verb_indicator
 
@@ -102,3 +110,68 @@ class Linear(nn.Module):
 
     def forward(self, x):
         return self.dropout(self.linear(x))
+
+
+class StateTracker(nn.Module):
+    """
+    State tracking decoder: sentence-level Bi-LSTM + linear + CRF
+    """
+    def __init__(self, batch_size: int, embed_size: int, hidden_size: int, entity_mask, verb_mask, dropout):
+
+        self.batch_size = batch_size
+        self.embed_size = embed_size
+        self.StateDecoder = nn.LSTM(input_size = 2 * embed_size, hidden_size = hidden_size,
+                                    num_layers = 1, batch_first = True, bidirectional = True)
+
+
+    def forward(self, encoder_out, entity_mask, verb_mask):
+        """
+        Args:
+            encoder_out: output of the encoder, size (batch, max_tokens, embed_size)
+            entity_mask: size (batch, max_sents, max_tokens)
+            verb_mask: size (batch, max_sents, max_tokens)
+        """
+
+        decoder_in = self.get_masked_input(encoder_out, entity_mask, verb_mask)
+    
+
+    def get_masked_input(self, encoder_out, entity_mask, verb_mask):
+        """
+        If the entity does not exist in this sentence (entity_mask is all-zero),
+        then replace it with an all-zero vector;
+        Otherwise, concat the average embeddings of entity and verb
+        """
+        assert entity_mask.size() == verb_mask.size()
+        assert entity_mask.size(-1) == encoder_out.size(-2)
+
+        max_sents = entity_mask.size(-2)
+        entity_rep = self.get_masked_mean(source = encoder_out, mask = entity_mask)  # (batch, max_sents, embed_size)
+        verb_rep = self.get_masked_mean(source = encoder_out, mask = verb_mask)  # (batch, max_sents, embed_size)
+        concat_rep = torch.cat([entity_rep, verb_rep], dim = -1)  # (batch, max_sents, 2 * embed_size)
+
+        assert concat_rep.size() == (self.batch_size, max_sents, self.embed_size)
+        entity_existence = find_allzero_rows(vector = entity_mask).unsqueeze(dim = -1)  # (batch, max_sents, 1)
+        masked_rep = concat_rep.masked_fill(mask = entity_existence, value = 0)
+        assert masked_rep.size() == (self.batch_size, max_sents, self.embed_size)
+
+        return masked_rep
+
+
+    def get_masked_mean(self, source, mask):
+        """
+        Args:
+            source - input tensors, size(batch, tokens, embed_size)
+            mask - binary masked vectors, size(batch, sents, tokens)
+        Return:
+            the average of unmasked input tensors, size (batch, sents, embed_size)
+        """
+        max_sents = mask.size(-2)
+
+        bool_mask = (mask.unsqueeze(dim = -1) == 0)  # turn binary masks to boolean values
+        masked_source = source.unsqueeze(dim = 1).masked_fill(bool_mask, 0)
+        masked_source = torch.sum(masked_source, dim = -2)  # sum the unmasked vectors
+        num_unmasked_tokens = torch.sum(mask, dim = -1, keepdim = True)  # compute the denominator of average op
+        masked_mean = torch.div(input = masked_source, other = num_unmasked_tokens)  # average the unmasked vectors
+
+        assert masked_mean.size() == (self.batch_size, max_sents, self.embed_size)
+        return masked_mean
