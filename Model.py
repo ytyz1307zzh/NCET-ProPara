@@ -30,6 +30,8 @@ class NCETModel(nn.Module):
         self.TokenEncoder = nn.LSTM(input_size = embed_size, hidden_size = hidden_size,
                                     num_layers = 1, batch_first = True, bidirectional = True)
         self.Dropout = nn.Dropout(p = dropout)
+        self.StateTracker = StateTracker(batch_size = batch_size, embed_size = embed_size, hidden_size = hidden_size,
+                                         dropout = dropout)
         
 
     # TODO: May change "sum" to "concat" while handling Bi-LSTM outputs
@@ -38,11 +40,12 @@ class NCETModel(nn.Module):
 
         max_tokens = char_paragraph.size(1)
         embeddings = self.EmbeddingLayer(char_paragraph, verb_mask)  # (batch, max_tokens, embed_size)
-        token_rep, _ = self.Dropout(self.TokenEncoder(embeddings))  # (batch, max_tokens, 2*embed_size)
+        token_rep, _ = self.TokenEncoder(embeddings)  # (batch, max_tokens, 2*embed_size)
+        token_rep = self.Dropout(token_rep)
         token_rep = torch.sum(token_rep.view(self.batch_size, -1, 2, self.embed_size), dim = -2)  # sum forward and backward
         assert token_rep.size() == (self.batch_size, max_tokens, self.embed_size)
         
-        
+        self.StateTracker(encoder_out = token_rep, entity_mask = entity_mask, verb_mask = verb_mask)
 
     
 class NCETEmbedding(nn.Module):
@@ -116,12 +119,14 @@ class StateTracker(nn.Module):
     """
     State tracking decoder: sentence-level Bi-LSTM + linear + CRF
     """
-    def __init__(self, batch_size: int, embed_size: int, hidden_size: int, entity_mask, verb_mask, dropout):
+    def __init__(self, batch_size: int, embed_size: int, hidden_size: int, dropout: float):
 
+        super(StateTracker, self).__init__()
         self.batch_size = batch_size
         self.embed_size = embed_size
-        self.StateDecoder = nn.LSTM(input_size = 2 * embed_size, hidden_size = hidden_size,
+        self.Decoder = nn.LSTM(input_size = 2 * embed_size, hidden_size = hidden_size,
                                     num_layers = 1, batch_first = True, bidirectional = True)
+        self.Dropout = nn.Dropout(p = dropout)
 
 
     def forward(self, encoder_out, entity_mask, verb_mask):
@@ -149,10 +154,10 @@ class StateTracker(nn.Module):
         verb_rep = self.get_masked_mean(source = encoder_out, mask = verb_mask)  # (batch, max_sents, embed_size)
         concat_rep = torch.cat([entity_rep, verb_rep], dim = -1)  # (batch, max_sents, 2 * embed_size)
 
-        assert concat_rep.size() == (self.batch_size, max_sents, self.embed_size)
+        assert concat_rep.size() == (self.batch_size, max_sents, 2 * self.embed_size)
         entity_existence = find_allzero_rows(vector = entity_mask).unsqueeze(dim = -1)  # (batch, max_sents, 1)
         masked_rep = concat_rep.masked_fill(mask = entity_existence, value = 0)
-        assert masked_rep.size() == (self.batch_size, max_sents, self.embed_size)
+        assert masked_rep.size() == (self.batch_size, max_sents, 2 * self.embed_size)
 
         return masked_rep
 

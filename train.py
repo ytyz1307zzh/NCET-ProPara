@@ -39,6 +39,7 @@ parser.add_argument('-report', type=int, default=2, help="report frequence per e
 parser.add_argument('-elmo_dir', type=str, default='elmo', help="directory that contains options and weight files for allennlp Elmo")
 parser.add_argument('-data_dir', type=str, default='data', help="directory to the train/dev/test data")
 parser.add_argument('-debug', action='store_true', default=False, help="enable debug mode, change data files to debug data")
+parser.add_argument('-no_cuda', action='store_true', default=False, help="if true, will only use cpu")
 opt = parser.parse_args()
 
 
@@ -49,19 +50,27 @@ def train():
 
     model = NCETModel(batch_size = opt.batch_size, embed_size = opt.embed_size, hidden_size = opt.hidden_size,
                         dropout = opt.dropout, elmo_dir = opt.elmo_dir)
-    model.cuda()
+    if not opt.no_cuda:
+        model.cuda()
 
     for batch in debug_batch:
         model.train()
 
         paragraphs = batch['paragraph']
-        char_paragraph = batch_to_ids(paragraphs).cuda()
-        print('char_paragraph: ', char_paragraph.size())
-        entity_mask = batch['entity_mask'].cuda()
-        verb_mask = batch['verb_mask'].cuda()
-        loc_mask = batch['loc_mask'].cuda()
+        char_paragraph = batch_to_ids(paragraphs)
+        entity_mask = batch['entity_mask']
+        verb_mask = batch['verb_mask']
+        loc_mask = batch['loc_mask']
 
-        # summary(model, char_paragraph, entity_mask, verb_mask, loc_mask)
+        if not opt.no_cuda:
+            char_paragraph.cuda()
+            entity_mask.cuda()
+            verb_mask.cuda()
+            loc_mask.cuda()
+
+        # model(char_paragraph, entity_mask, verb_mask, loc_mask)
+
+        summary(model, char_paragraph, entity_mask, verb_mask, loc_mask)
         # with SummaryWriter() as writer:
         #     writer.add_graph(model, (char_paragraph, entity_mask, verb_mask, loc_mask))
 
