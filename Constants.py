@@ -7,3 +7,4 @@ NIL_LOC = -2
 PAD_LOC = -3
 
 MAX_LOC_CANDS = 45
+NUM_STATES = len(state2idx)

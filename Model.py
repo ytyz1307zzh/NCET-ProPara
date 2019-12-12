@@ -127,6 +127,7 @@ class StateTracker(nn.Module):
         self.Decoder = nn.LSTM(input_size = 2 * embed_size, hidden_size = hidden_size,
                                     num_layers = 1, batch_first = True, bidirectional = True)
         self.Dropout = nn.Dropout(p = dropout)
+        self.Hidden2Tag = Linear(d_in = 4 * embed_size, d_out = NUM_STATES, dropout = dropout)
 
 
     def forward(self, encoder_out, entity_mask, verb_mask):
@@ -136,8 +137,12 @@ class StateTracker(nn.Module):
             entity_mask: size (batch, max_sents, max_tokens)
             verb_mask: size (batch, max_sents, max_tokens)
         """
-
-        decoder_in = self.get_masked_input(encoder_out, entity_mask, verb_mask)
+        max_sents = entity_mask.size(-2)
+        decoder_in = self.get_masked_input(encoder_out, entity_mask, verb_mask)  # (batch, max_sents, 2 * embed_size)
+        decoder_out, _ = self.Decoder(decoder_in)  # (batch, max_sents, 4 * embed_size), forward & backward concatenated
+        decoder_out = self.Dropout(decoder_out)
+        tag_logits = self.Hidden2Tag(decoder_out)  # (batch, max_sents, num_tags)
+        assert tag_logits.size() == (self.batch_size, max_sents, NUM_STATES)
     
 
     def get_masked_input(self, encoder_out, entity_mask, verb_mask):
