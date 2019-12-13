@@ -60,11 +60,11 @@ def train():
         model.cuda()
 
     optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=opt.lr)
-    best_score = 0
+    best_score = np.NINF
     impatience = 0
 
     for epoch_i in range(opt.epoch):
-        
+
         model.train()
         train_instances = len(train_set)
         report_loss, report_accuracy, start_time = [], [], time.time()
@@ -122,7 +122,7 @@ def train():
                 else:
                     impatience += 1
                     print(f'Impatience: {impatience}, best score: {best_score:.3f}.')
-                    save_model(os.path.join(opt.ckpt_dir, f'impatience_{eval_score:.3f}.pt'), model)
+                    save_model(os.path.join(opt.ckpt_dir, f'checkpoint_{eval_score:.3f}.pt'), model)
                     if impatience >= opt.impatience:
                         print('Early Stopping!')
                         quit()
@@ -163,7 +163,7 @@ def eval(dev_set, model):
             report_accuracy.append(eval_accuracy)
 
     print(f'Evaluation: eval loss: {mean(report_loss):.3f}, '
-          f'eval state prediction accuracy: {mean(report_accuracy)*100:.3f}%, time elapse: {time.time() - start_time:.2f}')
+          f'eval state prediction accuracy: {mean(report_accuracy)*100:.3f}%, time elapse: {time.time()-start_time:.2f}')
 
     return eval_accuracy
 
