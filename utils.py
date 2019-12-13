@@ -77,6 +77,19 @@ def compute_tag_accuracy(pred: List[List[int]], gold: List[List[int]], pad_value
     return correct_pred / total_pred
 
 
+def get_report_time(total_batches: int, report_times: int) -> List[int]:
+    """
+    Given the total number of batches in an epoch and the report times per epoch,
+    compute on which timesteps do we need to report
+    e.g. total_batches = 25, report_times = 3, then we should report on batch number [8, 16, 25]
+    Batch numbers start from one.
+    """
+    report_span = round(total_batches / report_times)
+    report_batch = [i * report_span for i in range(1, report_times)]
+    report_batch.append(total_batches)
+    return report_batch
+
+
 def unpad(source: List[int], pad_value: int) -> List[int]:
     """
     Remove padded elements from a list

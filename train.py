@@ -35,7 +35,7 @@ parser.add_argument('-dropout', type=float, default=0.1, help="droppout rate")
 parser.add_argument('-mode', type=str, default='train', help="train or test")
 parser.add_argument('-ckpt_dir', type=str, required=True, help="checkpoint directory")
 parser.add_argument('-restore', type=str, default='', help="restoring model path")
-parser.add_argument('-report', type=int, default=2, help="report frequence per epoch")
+parser.add_argument('-report', type=int, default=2, help="report frequence per epoch, should be at least 1")
 parser.add_argument('-elmo_dir', type=str, default='elmo', help="directory that contains options and weight files for allennlp Elmo")
 parser.add_argument('-data_dir', type=str, default='data', help="directory to the train/dev/test data")
 parser.add_argument('-debug', action='store_true', default=False, help="enable debug mode, change data files to debug data")
@@ -46,6 +46,8 @@ opt = parser.parse_args()
 print('Received arguments:')
 print(opt)
 print('-' * 50)
+
+assert opt.report >= 1
 
 if opt.log:
     log_file = open(opt.log, 'w', encoding='utf-8')
@@ -105,7 +107,7 @@ def train():
             total_batches = train_instances // opt.batch_size
         else:
             total_batches = train_instances // opt.batch_size + 1
-        report_freq = train_instances // opt.report  # frequency of reporting results (in batches)
+        report_batch = get_report_time(total_batches = total_batches, report_times = opt.report)  # when to report results
 
         for batch in train_batch:
             # with open('logs/debug.log', 'w', encoding='utf-8') as debug_file:
@@ -139,7 +141,7 @@ def train():
             batch_cnt += 1
 
             # time to report results
-            if batch_cnt % report_freq == 0 or batch_cnt == total_batches:
+            if batch_cnt in report_batch:
 
                 output(f'{batch_cnt}/{total_batches}, Epoch {epoch_i+1}: training loss: {mean(report_loss):.3f}, '
                       f'training state prediction accuracy: {mean(report_accuracy)*100:.3f}%, time elapse: {time.time()-start_time:.2f}')
