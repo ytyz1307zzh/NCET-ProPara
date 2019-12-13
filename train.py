@@ -40,7 +40,18 @@ parser.add_argument('-elmo_dir', type=str, default='elmo', help="directory that 
 parser.add_argument('-data_dir', type=str, default='data', help="directory to the train/dev/test data")
 parser.add_argument('-debug', action='store_true', default=False, help="enable debug mode, change data files to debug data")
 parser.add_argument('-no_cuda', action='store_true', default=False, help="if true, will only use cpu")
+parser.add_argument('-log', type=str, default=None, help="the log file to store training details")
 opt = parser.parse_args()
+
+if opt.log:
+    log_file = open(opt.log, 'w', encoding='utf-8')
+
+
+def output(text: str):
+    assert type(text) == str
+    print(text)
+    if opt.log:
+        print(text, file = log_file)
 
 
 # TODO: Implement this save_model function
@@ -119,7 +130,7 @@ def train():
             # time to report results
             if batch_cnt % report_freq == 0 or batch_cnt == total_batches:
 
-                print(f'{batch_cnt}/{total_batches}, Epoch {epoch_i+1}: training loss: {mean(report_loss):.3f}, '
+                output(f'{batch_cnt}/{total_batches}, Epoch {epoch_i+1}: training loss: {mean(report_loss):.3f}, '
                       f'training state prediction accuracy: {mean(report_accuracy)*100:.3f}%, time elapse: {time.time()-start_time:.2f}')
 
                 model.eval()
@@ -129,14 +140,14 @@ def train():
                 if eval_score > best_score:  # new best score
                     best_score = eval_score
                     impatience = 0
-                    print('New best score!')
+                    output('New best score!')
                     save_model(os.path.join(opt.ckpt_dir, f'best_checkpoint_{best_score:.3f}.pt'), model)
                 else:
                     impatience += 1
-                    print(f'Impatience: {impatience}, best score: {best_score:.3f}.')
+                    output(f'Impatience: {impatience}, best score: {best_score:.3f}.')
                     save_model(os.path.join(opt.ckpt_dir, f'checkpoint_{eval_score:.3f}.pt'), model)
                     if impatience >= opt.impatience:
-                        print('Early Stopping!')
+                        output('Early Stopping!')
                         quit()
 
                 report_loss, report_accuracy, start_time = [], [], time.time()
@@ -176,7 +187,7 @@ def eval(dev_set, model):
             report_loss.append(eval_loss.item())
             report_accuracy.append(eval_accuracy)
 
-    print(f'Evaluation: eval loss: {mean(report_loss):.3f}, '
+    output(f'Evaluation: eval loss: {mean(report_loss):.3f}, '
           f'eval state prediction accuracy: {mean(report_accuracy)*100:.3f}%, time elapse: {time.time()-start_time:.2f}')
 
     return eval_accuracy
