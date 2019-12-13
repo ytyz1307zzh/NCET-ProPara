@@ -7,6 +7,9 @@
 
 import json
 import torch
+from typing import List
+import numpy as np
+from Constants import *
 
 max_num_candidates = 0
 max_num_tokens = 0
@@ -54,3 +57,31 @@ def find_allzero_rows(vector: torch.IntTensor) -> torch.BoolTensor:
     assert vector.dtype == torch.int
     column_sum = torch.sum(vector, dim = -1)
     return column_sum == 0
+
+
+def compute_tag_accuracy(pred: List[List[int]], gold: List[List[int]], pad_value: int) -> float:
+    """
+    Given the predicted tags and gold tags, compute the prediction accuracy.
+    Note that we first need to deal with the padded parts of the gold tags.
+    """
+    assert len(pred) == len(gold)
+    unpad_gold = [unpad(li, pad_value = pad_value) for li in gold]
+    correct_pred = 0
+    total_pred = 0
+
+    for i in range(len(pred)):
+        assert len(pred[i]) == len(unpad_gold[i])
+        total_pred += len(pred[i])
+        correct_pred += np.sum(np.equal(pred[i], unpad_gold[i]))
+        print(total_pred)
+        print(correct_pred)
+
+    return correct_pred / total_pred
+
+
+def unpad(source: List[int], pad_value: int) -> List[int]:
+    """
+    Remove padded elements from a list
+    """
+    return [x for x in source if x != pad_value]
+

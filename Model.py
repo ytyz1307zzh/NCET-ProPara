@@ -44,7 +44,6 @@ class NCETModel(nn.Module):
             gold_loc_seq: size (batch, max_sents)
             gold_state_seq: size (batch, max_sents)
         """
-
         max_tokens = char_paragraph.size(1)
         embeddings = self.EmbeddingLayer(char_paragraph, verb_mask)  # (batch, max_tokens, embed_size)
         token_rep, _ = self.TokenEncoder(embeddings)  # (batch, max_tokens, 2*hidden_size)
@@ -53,11 +52,15 @@ class NCETModel(nn.Module):
 
         # size (batch, max_sents, NUM_STATES)
         tag_logits = self.StateTracker(encoder_out = token_rep, entity_mask = entity_mask, verb_mask = verb_mask)
-        tag_mask = (gold_state_seq != 0) # mask the padded part so they won't count in loss
+        tag_mask = (gold_state_seq != PAD_STATE) # mask the padded part so they won't count in loss
         log_likelihood = self.CRFLayer(emissions = tag_logits, tags = gold_state_seq.long(), mask = tag_mask, reduction = 'mean')
 
         loss = -log_likelihood  # State classification loss is negative log likelihood
-        return loss
+        pred_sequence = self.CRFLayer.decode(emissions = tag_logits, mask = tag_mask)
+        assert len(pred_sequence) == self.batch_size
+        accuracy = compute_tag_accuracy(pred = pred_sequence, gold = gold_state_seq.tolist(), pad_value = PAD_STATE)
+
+        return loss, accuracy
 
     
 class NCETEmbedding(nn.Module):

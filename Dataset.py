@@ -159,7 +159,7 @@ class Collate:
             max_sents -  maximum number of sentences in this batch
             max_tokens -  maximum number of tokens in this batch
         """
-        instance['gold_state_seq'] = self.pad_tensor(instance['gold_state_seq'], pad = max_sents, dim = 0)
+        instance['gold_state_seq'] = self.pad_tensor(instance['gold_state_seq'], pad = max_sents, dim = 0, pad_val = PAD_STATE)
         instance['gold_loc_seq'] = self.pad_tensor(instance['gold_loc_seq'], pad = max_sents, dim = 0, pad_val = PAD_LOC)
         
         instance['entity_mask'] = self.pad_mask_list(instance['entity_mask'], max_sents = max_sents, max_tokens = max_tokens)
