@@ -28,7 +28,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-batch_size', type=int, default=64)
 parser.add_argument('-embed_size', type=int, default=128, help="embedding size (including the verb indicator)")
 parser.add_argument('-hidden_size', type=int, default=128, help="hidden size of lstm")
-parser.add_argument('-epoch', type=int, default=100, help="number of epochs")
+parser.add_argument('-epoch', type=int, default=100, help="number of epochs, use -1 to rely on early stopping only")
 parser.add_argument('-impatience', type=int, default=20, help='number of evaluation rounds for early stopping')
 parser.add_argument('-lr', type=float, default=1e-3, help="learning rate")
 parser.add_argument('-dropout', type=float, default=0.1, help="droppout rate")
@@ -70,8 +70,12 @@ def train():
     optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=opt.lr)
     best_score = np.NINF
     impatience = 0
+    epoch_i = 0
 
-    for epoch_i in range(opt.epoch):
+    if opt.epoch == -1:
+        opt.epoch = np.inf
+
+    while epoch_i < opt.epoch:
 
         model.train()
         train_instances = len(train_set)
@@ -136,6 +140,8 @@ def train():
                         quit()
 
                 report_loss, report_accuracy, start_time = [], [], time.time()
+
+        epoch_i += 1
 
 
 
