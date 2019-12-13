@@ -206,3 +206,22 @@ class StateTracker(nn.Module):
 
         assert masked_mean.size() == (self.batch_size, max_sents, 2 * self.hidden_size)
         return masked_mean
+
+
+class LocationPredictor(nn.Module):
+    """
+    Location prediction decoder: sentence-level Bi-LSTM + linear + softmax
+    """
+    def __init__(self, batch_size: int, hidden_size: int, dropout: float):
+
+        super(LocationPredictor, self).__init__()
+        self.batch_size = batch_size
+        self.hidden_size = hidden_size
+        self.Decoder = nn.LSTM(input_size = 4 * hidden_size, hidden_size = hidden_size,
+                                    num_layers = 1, batch_first = True, bidirectional = True)
+        self.Dropout = nn.Dropout(p = dropout)
+        self.Hidden2Score = Linear(d_in = 2 * hidden_size, d_out = 1, dropout = 0)
+
+
+    def forward(self, encoder_out, entity_mask, loc_mask):
+        pass

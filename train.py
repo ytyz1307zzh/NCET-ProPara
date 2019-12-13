@@ -46,6 +46,9 @@ opt = parser.parse_args()
 if opt.log:
     log_file = open(opt.log, 'w', encoding='utf-8')
 
+torch.manual_seed(1234)
+torch.cuda.manual_seed(1234)
+
 
 def output(text: str):
     assert type(text) == str
@@ -115,10 +118,12 @@ def train():
             gold_state_seq = batch['gold_state_seq']
 
             if not opt.no_cuda:
-                char_paragraph.cuda()
-                entity_mask.cuda()
-                verb_mask.cuda()
-                loc_mask.cuda()
+                char_paragraph = char_paragraph.cuda()
+                entity_mask = entity_mask.cuda()
+                verb_mask = verb_mask.cuda()
+                loc_mask = loc_mask.cuda()
+                gold_loc_seq = gold_loc_seq.cuda()
+                gold_state_seq = gold_state_seq.cuda()
 
             train_loss, train_accuracy = model(char_paragraph = char_paragraph, entity_mask = entity_mask, verb_mask = verb_mask,
                                                loc_mask = loc_mask, gold_loc_seq = gold_loc_seq, gold_state_seq = gold_state_seq)
@@ -179,10 +184,12 @@ def eval(dev_set, model):
             gold_state_seq = batch['gold_state_seq']
 
             if not opt.no_cuda:
-                char_paragraph.cuda()
-                entity_mask.cuda()
-                verb_mask.cuda()
-                loc_mask.cuda()
+                char_paragraph = char_paragraph.cuda()
+                entity_mask = entity_mask.cuda()
+                verb_mask = verb_mask.cuda()
+                loc_mask = loc_mask.cuda()
+                gold_loc_seq = gold_loc_seq.cuda()
+                gold_state_seq = gold_state_seq.cuda()
 
             eval_loss, eval_accuracy = model(char_paragraph=char_paragraph, entity_mask=entity_mask, verb_mask=verb_mask,
                                             loc_mask=loc_mask, gold_loc_seq=gold_loc_seq, gold_state_seq=gold_state_seq)
