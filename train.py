@@ -86,6 +86,8 @@ def train():
     if opt.epoch == -1:
         opt.epoch = np.inf
 
+    print('Start training...')
+
     while epoch_i < opt.epoch:
 
         model.train()
