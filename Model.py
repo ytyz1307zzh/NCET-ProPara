@@ -20,19 +20,18 @@ from torchcrf import CRF
 
 class NCETModel(nn.Module):
 
-    def __init__(self, batch_size: int, embed_size: int, hidden_size: int, dropout: float, elmo_dir: str):
+    def __init__(self, embed_size: int, hidden_size: int, dropout: float, elmo_dir: str):
 
         super(NCETModel, self).__init__()
-        self.batch_size = batch_size
         self.hidden_size = hidden_size
         self.embed_size = embed_size
 
-        self.EmbeddingLayer = NCETEmbedding(batch_size = batch_size, embed_size = embed_size,
+        self.EmbeddingLayer = NCETEmbedding(embed_size = embed_size,
                                             elmo_dir = elmo_dir, dropout = dropout)
         self.TokenEncoder = nn.LSTM(input_size = embed_size, hidden_size = hidden_size,
                                     num_layers = 1, batch_first = True, bidirectional = True)
         self.Dropout = nn.Dropout(p = dropout)
-        self.StateTracker = StateTracker(batch_size = batch_size, hidden_size = hidden_size,
+        self.StateTracker = StateTracker(hidden_size = hidden_size,
                                          dropout = dropout)
         self.CRFLayer = CRF(NUM_STATES, batch_first = True)
         
@@ -44,11 +43,13 @@ class NCETModel(nn.Module):
             gold_loc_seq: size (batch, max_sents)
             gold_state_seq: size (batch, max_sents)
         """
+        batch_size = char_paragraph.size(0)
         max_tokens = char_paragraph.size(1)
+
         embeddings = self.EmbeddingLayer(char_paragraph, verb_mask)  # (batch, max_tokens, embed_size)
         token_rep, _ = self.TokenEncoder(embeddings)  # (batch, max_tokens, 2*hidden_size)
         token_rep = self.Dropout(token_rep)
-        assert token_rep.size() == (self.batch_size, max_tokens, 2 * self.hidden_size)
+        assert token_rep.size() == (batch_size, max_tokens, 2 * self.hidden_size)
 
         # size (batch, max_sents, NUM_STATES)
         tag_logits = self.StateTracker(encoder_out = token_rep, entity_mask = entity_mask, verb_mask = verb_mask)
@@ -57,7 +58,7 @@ class NCETModel(nn.Module):
 
         loss = -log_likelihood  # State classification loss is negative log likelihood
         pred_sequence = self.CRFLayer.decode(emissions = tag_logits, mask = tag_mask)
-        assert len(pred_sequence) == self.batch_size
+        assert len(pred_sequence) == batch_size
         accuracy = compute_tag_accuracy(pred = pred_sequence, gold = gold_state_seq.tolist(), pad_value = PAD_STATE)
 
         return loss, accuracy
@@ -65,10 +66,9 @@ class NCETModel(nn.Module):
     
 class NCETEmbedding(nn.Module):
 
-    def __init__(self, batch_size: int, embed_size: int, elmo_dir: str, dropout: float):
+    def __init__(self, embed_size: int, elmo_dir: str, dropout: float):
 
         super(NCETEmbedding, self).__init__()
-        self.batch_size = batch_size
         self.embed_size = embed_size
         self.options_file = os.path.join(elmo_dir, 'elmo_2x4096_512_2048cnn_2xhighway_options.json')
         self.weight_file = os.path.join(elmo_dir, 'elmo_2x4096_512_2048cnn_2xhighway_weights.hdf5')
@@ -85,17 +85,19 @@ class NCETEmbedding(nn.Module):
         Return:
             embeddings - token embeddings, size (batch, max_tokens, embed_size)
         """
+        batch_size = char_paragraph.size(0)
         max_tokens = char_paragraph.size(1)
-        elmo_embeddings = self.get_elmo(char_paragraph, max_tokens)
+
+        elmo_embeddings = self.get_elmo(char_paragraph, batch_size = batch_size, max_tokens = max_tokens)
         elmo_embeddings = self.embed_project(elmo_embeddings)
-        verb_indicator = self.get_verb_indicator(verb_mask, max_tokens)
+        verb_indicator = self.get_verb_indicator(verb_mask, batch_size = batch_size, max_tokens = max_tokens)
         embeddings = torch.cat([elmo_embeddings, verb_indicator], dim = -1)
 
-        assert embeddings.size() == (self.batch_size, max_tokens, self.embed_size)
+        assert embeddings.size() == (batch_size, max_tokens, self.embed_size)
         return embeddings
 
 
-    def get_elmo(self, char_paragraph: torch.Tensor, max_tokens: int):
+    def get_elmo(self, char_paragraph: torch.Tensor, batch_size: int, max_tokens: int):
         """
         Compute the Elmo embedding of the paragraphs.
         Return:
@@ -103,16 +105,16 @@ class NCETEmbedding(nn.Module):
         """
         # embeddings['elmo_representations'] is a list of tensors with length 'num_output_representations' (here it = 1)
         elmo_embeddings = self.elmo(char_paragraph)['elmo_representations'][0]  # (batch, max_tokens, elmo_embed_size=1024)
-        assert elmo_embeddings.size() == (self.batch_size, max_tokens, 1024)
+        assert elmo_embeddings.size() == (batch_size, max_tokens, 1024)
         return elmo_embeddings
 
     
-    def get_verb_indicator(self, verb_mask, max_tokens: int):
+    def get_verb_indicator(self, verb_mask: torch.IntTensor, batch_size: int, max_tokens: int):
         """
         Get the binary scalar indicator for each token
         """
         verb_indicator = torch.sum(verb_mask, dim = 1, dtype = torch.float).unsqueeze(dim = -1)
-        assert verb_indicator.size() == (self.batch_size, max_tokens, 1)
+        assert verb_indicator.size() == (batch_size, max_tokens, 1)
         return verb_indicator
 
 
@@ -134,10 +136,9 @@ class StateTracker(nn.Module):
     """
     State tracking decoder: sentence-level Bi-LSTM + linear + CRF
     """
-    def __init__(self, batch_size: int, hidden_size: int, dropout: float):
+    def __init__(self, hidden_size: int, dropout: float):
 
         super(StateTracker, self).__init__()
-        self.batch_size = batch_size
         self.hidden_size = hidden_size
         self.Decoder = nn.LSTM(input_size = 4 * hidden_size, hidden_size = hidden_size,
                                     num_layers = 1, batch_first = True, bidirectional = True)
@@ -152,17 +153,19 @@ class StateTracker(nn.Module):
             entity_mask: size (batch, max_sents, max_tokens)
             verb_mask: size (batch, max_sents, max_tokens)
         """
+        batch_size = encoder_out.size(0)
         max_sents = entity_mask.size(-2)
-        decoder_in = self.get_masked_input(encoder_out, entity_mask, verb_mask)  # (batch, max_sents, 4 * hidden_size)
+
+        decoder_in = self.get_masked_input(encoder_out, entity_mask, verb_mask, batch_size = batch_size)  # (batch, max_sents, 4 * hidden_size)
         decoder_out, _ = self.Decoder(decoder_in)  # (batch, max_sents, 2 * hidden_size), forward & backward concatenated
         decoder_out = self.Dropout(decoder_out)
         tag_logits = self.Hidden2Tag(decoder_out)  # (batch, max_sents, num_tags)
-        assert tag_logits.size() == (self.batch_size, max_sents, NUM_STATES)
+        assert tag_logits.size() == (batch_size, max_sents, NUM_STATES)
 
         return tag_logits
     
 
-    def get_masked_input(self, encoder_out, entity_mask, verb_mask):
+    def get_masked_input(self, encoder_out, entity_mask, verb_mask, batch_size: int):
         """
         If the entity does not exist in this sentence (entity_mask is all-zero),
         then replace it with an all-zero vector;
@@ -172,19 +175,19 @@ class StateTracker(nn.Module):
         assert entity_mask.size(-1) == encoder_out.size(-2)
 
         max_sents = entity_mask.size(-2)
-        entity_rep = self.get_masked_mean(source = encoder_out, mask = entity_mask)  # (batch, max_sents, 2 * hidden_size)
-        verb_rep = self.get_masked_mean(source = encoder_out, mask = verb_mask)  # (batch, max_sents, 2 * hidden_size)
+        entity_rep = self.get_masked_mean(source = encoder_out, mask = entity_mask, batch_size = batch_size)  # (batch, max_sents, 2 * hidden_size)
+        verb_rep = self.get_masked_mean(source = encoder_out, mask = verb_mask, batch_size = batch_size)  # (batch, max_sents, 2 * hidden_size)
         concat_rep = torch.cat([entity_rep, verb_rep], dim = -1)  # (batch, max_sents, 4 * hidden_size)
 
-        assert concat_rep.size() == (self.batch_size, max_sents, 4 * self.hidden_size)
+        assert concat_rep.size() == (batch_size, max_sents, 4 * self.hidden_size)
         entity_existence = find_allzero_rows(vector = entity_mask).unsqueeze(dim = -1)  # (batch, max_sents, 1)
         masked_rep = concat_rep.masked_fill(mask = entity_existence, value = 0)
-        assert masked_rep.size() == (self.batch_size, max_sents, 4 * self.hidden_size)
+        assert masked_rep.size() == (batch_size, max_sents, 4 * self.hidden_size)
 
         return masked_rep
 
 
-    def get_masked_mean(self, source, mask):
+    def get_masked_mean(self, source, mask, batch_size: int):
         """
         Args:
             source - input tensors, size(batch, tokens, 2 * hidden_size)
@@ -204,7 +207,7 @@ class StateTracker(nn.Module):
         is_nan = torch.isnan(masked_mean)
         masked_mean = masked_mean.masked_fill(is_nan, value = 0)
 
-        assert masked_mean.size() == (self.batch_size, max_sents, 2 * self.hidden_size)
+        assert masked_mean.size() == (batch_size, max_sents, 2 * self.hidden_size)
         return masked_mean
 
 
@@ -212,10 +215,9 @@ class LocationPredictor(nn.Module):
     """
     Location prediction decoder: sentence-level Bi-LSTM + linear + softmax
     """
-    def __init__(self, batch_size: int, hidden_size: int, dropout: float):
+    def __init__(self, hidden_size: int, dropout: float):
 
         super(LocationPredictor, self).__init__()
-        self.batch_size = batch_size
         self.hidden_size = hidden_size
         self.Decoder = nn.LSTM(input_size = 4 * hidden_size, hidden_size = hidden_size,
                                     num_layers = 1, batch_first = True, bidirectional = True)

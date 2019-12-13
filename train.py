@@ -43,6 +43,10 @@ parser.add_argument('-no_cuda', action='store_true', default=False, help="if tru
 parser.add_argument('-log', type=str, default=None, help="the log file to store training details")
 opt = parser.parse_args()
 
+print('Received arguments:')
+print(opt)
+print('-' * 50)
+
 if opt.log:
     log_file = open(opt.log, 'w', encoding='utf-8')
 
@@ -76,7 +80,7 @@ def train():
         print('*'*20 + '[INFO] Debug mode enabled. Switch dev set to debug.json' + '*'*20)
         dev_set = ProparaDataset(os.path.join(opt.data_dir, 'debug.json'), is_test = False)
 
-    model = NCETModel(batch_size = opt.batch_size, embed_size = opt.embed_size, hidden_size = opt.hidden_size,
+    model = NCETModel(embed_size = opt.embed_size, hidden_size = opt.hidden_size,
                         dropout = opt.dropout, elmo_dir = opt.elmo_dir)
     if not opt.no_cuda:
         model.cuda()
