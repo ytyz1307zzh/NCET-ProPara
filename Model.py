@@ -15,6 +15,7 @@ from typing import List, Dict
 from Constants import *
 from utils import *
 from allennlp.modules.elmo import Elmo
+from torchcrf import CRF
 
 
 class NCETModel(nn.Module):
@@ -23,6 +24,7 @@ class NCETModel(nn.Module):
 
         super(NCETModel, self).__init__()
         self.batch_size = batch_size
+        self.hidden_size = hidden_size
         self.embed_size = embed_size
 
         self.EmbeddingLayer = NCETEmbedding(batch_size = batch_size, embed_size = embed_size,
@@ -30,22 +32,33 @@ class NCETModel(nn.Module):
         self.TokenEncoder = nn.LSTM(input_size = embed_size, hidden_size = hidden_size,
                                     num_layers = 1, batch_first = True, bidirectional = True)
         self.Dropout = nn.Dropout(p = dropout)
-        self.StateTracker = StateTracker(batch_size = batch_size, embed_size = embed_size, hidden_size = hidden_size,
+        self.StateTracker = StateTracker(batch_size = batch_size, hidden_size = hidden_size,
                                          dropout = dropout)
+        self.CRFLayer = CRF(NUM_STATES, batch_first = True)
         
 
-    # TODO: May change "sum" to "concat" while handling Bi-LSTM outputs
-    def forward(self, char_paragraph: torch.Tensor, entity_mask: torch.IntTensor, 
-                verb_mask: torch.IntTensor, loc_mask: torch.IntTensor):
+    def forward(self, char_paragraph: torch.Tensor, entity_mask: torch.IntTensor, verb_mask: torch.IntTensor,
+                loc_mask: torch.IntTensor, gold_loc_seq: torch.IntTensor, gold_state_seq: torch.IntTensor, is_train: bool):
+        """
+        Args:
+            gold_loc_seq: size (batch, max_sents)
+            gold_state_seq: size (batch, max_sents)
+        """
 
         max_tokens = char_paragraph.size(1)
         embeddings = self.EmbeddingLayer(char_paragraph, verb_mask)  # (batch, max_tokens, embed_size)
-        token_rep, _ = self.TokenEncoder(embeddings)  # (batch, max_tokens, 2*embed_size)
+        token_rep, _ = self.TokenEncoder(embeddings)  # (batch, max_tokens, 2*hidden_size)
         token_rep = self.Dropout(token_rep)
-        token_rep = torch.sum(token_rep.view(self.batch_size, -1, 2, self.embed_size), dim = -2)  # sum forward and backward
-        assert token_rep.size() == (self.batch_size, max_tokens, self.embed_size)
-        
-        self.StateTracker(encoder_out = token_rep, entity_mask = entity_mask, verb_mask = verb_mask)
+        assert token_rep.size() == (self.batch_size, max_tokens, 2 * self.hidden_size)
+
+        # size (batch, max_sents, NUM_STATES)
+        tag_logits = self.StateTracker(encoder_out = token_rep, entity_mask = entity_mask, verb_mask = verb_mask)
+        tag_mask = torch.ones_like(gold_state_seq)
+        tag_mask = tag_mask.masked_fill(gold_state_seq == 0, value = 0)  # mask the padded part so they won't count in loss
+        log_likelihood = self.CRFLayer(emissions = tag_logits, tags = gold_state_seq, mask = tag_mask, reduction = 'mean')
+
+        loss = -log_likelihood  # State classification loss is negative log likelihood
+        return loss
 
     
 class NCETEmbedding(nn.Module):
@@ -119,30 +132,32 @@ class StateTracker(nn.Module):
     """
     State tracking decoder: sentence-level Bi-LSTM + linear + CRF
     """
-    def __init__(self, batch_size: int, embed_size: int, hidden_size: int, dropout: float):
+    def __init__(self, batch_size: int, hidden_size: int, dropout: float):
 
         super(StateTracker, self).__init__()
         self.batch_size = batch_size
-        self.embed_size = embed_size
-        self.Decoder = nn.LSTM(input_size = 2 * embed_size, hidden_size = hidden_size,
+        self.hidden_size = hidden_size
+        self.Decoder = nn.LSTM(input_size = 4 * hidden_size, hidden_size = hidden_size,
                                     num_layers = 1, batch_first = True, bidirectional = True)
         self.Dropout = nn.Dropout(p = dropout)
-        self.Hidden2Tag = Linear(d_in = 4 * embed_size, d_out = NUM_STATES, dropout = dropout)
+        self.Hidden2Tag = Linear(d_in = 2 * hidden_size, d_out = NUM_STATES, dropout = 0)
 
 
     def forward(self, encoder_out, entity_mask, verb_mask):
         """
         Args:
-            encoder_out: output of the encoder, size (batch, max_tokens, embed_size)
+            encoder_out: output of the encoder, size (batch, max_tokens, 2 * hidden_size)
             entity_mask: size (batch, max_sents, max_tokens)
             verb_mask: size (batch, max_sents, max_tokens)
         """
         max_sents = entity_mask.size(-2)
-        decoder_in = self.get_masked_input(encoder_out, entity_mask, verb_mask)  # (batch, max_sents, 2 * embed_size)
-        decoder_out, _ = self.Decoder(decoder_in)  # (batch, max_sents, 4 * embed_size), forward & backward concatenated
+        decoder_in = self.get_masked_input(encoder_out, entity_mask, verb_mask)  # (batch, max_sents, 4 * hidden_size)
+        decoder_out, _ = self.Decoder(decoder_in)  # (batch, max_sents, 2 * hidden_size), forward & backward concatenated
         decoder_out = self.Dropout(decoder_out)
         tag_logits = self.Hidden2Tag(decoder_out)  # (batch, max_sents, num_tags)
         assert tag_logits.size() == (self.batch_size, max_sents, NUM_STATES)
+
+        return tag_logits
     
 
     def get_masked_input(self, encoder_out, entity_mask, verb_mask):
@@ -155,14 +170,14 @@ class StateTracker(nn.Module):
         assert entity_mask.size(-1) == encoder_out.size(-2)
 
         max_sents = entity_mask.size(-2)
-        entity_rep = self.get_masked_mean(source = encoder_out, mask = entity_mask)  # (batch, max_sents, embed_size)
-        verb_rep = self.get_masked_mean(source = encoder_out, mask = verb_mask)  # (batch, max_sents, embed_size)
-        concat_rep = torch.cat([entity_rep, verb_rep], dim = -1)  # (batch, max_sents, 2 * embed_size)
+        entity_rep = self.get_masked_mean(source = encoder_out, mask = entity_mask)  # (batch, max_sents, 2 * hidden_size)
+        verb_rep = self.get_masked_mean(source = encoder_out, mask = verb_mask)  # (batch, max_sents, 2 * hidden_size)
+        concat_rep = torch.cat([entity_rep, verb_rep], dim = -1)  # (batch, max_sents, 4 * hidden_size)
 
-        assert concat_rep.size() == (self.batch_size, max_sents, 2 * self.embed_size)
+        assert concat_rep.size() == (self.batch_size, max_sents, 4 * self.hidden_size)
         entity_existence = find_allzero_rows(vector = entity_mask).unsqueeze(dim = -1)  # (batch, max_sents, 1)
         masked_rep = concat_rep.masked_fill(mask = entity_existence, value = 0)
-        assert masked_rep.size() == (self.batch_size, max_sents, 2 * self.embed_size)
+        assert masked_rep.size() == (self.batch_size, max_sents, 4 * self.hidden_size)
 
         return masked_rep
 
@@ -170,10 +185,10 @@ class StateTracker(nn.Module):
     def get_masked_mean(self, source, mask):
         """
         Args:
-            source - input tensors, size(batch, tokens, embed_size)
+            source - input tensors, size(batch, tokens, 2 * hidden_size)
             mask - binary masked vectors, size(batch, sents, tokens)
         Return:
-            the average of unmasked input tensors, size (batch, sents, embed_size)
+            the average of unmasked input tensors, size (batch, sents, 2 * hidden_size)
         """
         max_sents = mask.size(-2)
 
@@ -187,5 +202,5 @@ class StateTracker(nn.Module):
         is_nan = torch.isnan(masked_mean)
         masked_mean = masked_mean.masked_fill(is_nan, value = 0)
 
-        assert masked_mean.size() == (self.batch_size, max_sents, self.embed_size)
+        assert masked_mean.size() == (self.batch_size, max_sents, 2 * self.hidden_size)
         return masked_mean

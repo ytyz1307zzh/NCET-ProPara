@@ -64,6 +64,8 @@ def train():
         entity_mask = batch['entity_mask']
         verb_mask = batch['verb_mask']
         loc_mask = batch['loc_mask']
+        gold_loc_seq = batch['gold_loc_seq']
+        gold_state_seq = batch['gold_state_seq']
 
         if not opt.no_cuda:
             char_paragraph.cuda()
@@ -71,7 +73,8 @@ def train():
             verb_mask.cuda()
             loc_mask.cuda()
 
-        model(char_paragraph, entity_mask, verb_mask, loc_mask)
+        model(char_paragraph = char_paragraph, entity_mask = entity_mask, verb_mask = verb_mask, loc_mask = loc_mask,
+              gold_loc_seq = gold_loc_seq, gold_state_seq = gold_state_seq, is_train = True)
 
         # summary(model, char_paragraph, entity_mask, verb_mask, loc_mask)
         # with SummaryWriter() as writer:
