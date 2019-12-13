@@ -16,7 +16,7 @@ from Constants import *
 
 class ProparaDataset(torch.utils.data.Dataset):
 
-    def __init__(self, data_path: str):
+    def __init__(self, data_path: str, is_test: bool):
         super(ProparaDataset, self).__init__()
 
         print('[INFO] Starting load...')
@@ -26,6 +26,7 @@ class ProparaDataset(torch.utils.data.Dataset):
         self.dataset = json.load(open(data_path, 'r', encoding='utf-8'))
         self.state2idx = state2idx
         self.idx2state = idx2state
+        self.is_test = is_test
 
         print(f'[INFO] {len(self.dataset)} instances of data loaded. Time Elapse: {time.time() - start_time}')
 
@@ -66,7 +67,13 @@ class ProparaDataset(torch.utils.data.Dataset):
         loc2idx['-'] = NIL_LOC
         loc2idx['?'] = UNK_LOC
         # note that the loc_cand_list in exactly "idx2loc" (excluding '?' and '-')
-        gold_loc_seq = torch.IntTensor([loc2idx[loc] for loc in instance['gold_loc_seq']])[1:]  # won't predict initial location (step 0)
+
+        # for train and dev sets, all gold locations should have been included in candidate set
+        if not self.test:
+            gold_loc_seq = torch.IntTensor([loc2idx[loc] for loc in instance['gold_loc_seq'][1:]])  # won't predict initial location (step 0)
+        # for test set, the gold location may not in the candidate set
+        else:
+            gold_loc_seq = torch.IntTensor([loc2idx[loc] if loc in loc_cand_list else UNK_LOC for loc in instance['gold_loc_seq'][1:]])
 
         assert gold_loc_seq.size() == gold_state_seq.size()
         sentence_list = instance['sentence_list']

@@ -61,17 +61,17 @@ def save_model(path: str, model):
 
 def train():
 
-    train_set = ProparaDataset(os.path.join(opt.data_dir, 'train.json'))
+    train_set = ProparaDataset(os.path.join(opt.data_dir, 'train.json'), is_test = False)
     if opt.debug:
         print('*'*20 + '[INFO] Debug mode enabled. Switch training set to debug.json' + '*'*20)
-        train_set = ProparaDataset(os.path.join(opt.data_dir, 'debug.json'))
+        train_set = ProparaDataset(os.path.join(opt.data_dir, 'debug.json'), is_test = False)
 
     train_batch = DataLoader(dataset = train_set, batch_size = opt.batch_size, shuffle = True, collate_fn = Collate())
-    dev_set = ProparaDataset(os.path.join(opt.data_dir, 'dev.json'))
+    dev_set = ProparaDataset(os.path.join(opt.data_dir, 'dev.json'), is_test = False)
 
     if opt.debug:
         print('*'*20 + '[INFO] Debug mode enabled. Switch dev set to debug.json' + '*'*20)
-        dev_set = ProparaDataset(os.path.join(opt.data_dir, 'debug.json'))
+        dev_set = ProparaDataset(os.path.join(opt.data_dir, 'debug.json'), is_test = False)
 
     model = NCETModel(batch_size = opt.batch_size, embed_size = opt.embed_size, hidden_size = opt.hidden_size,
                         dropout = opt.dropout, elmo_dir = opt.elmo_dir)
