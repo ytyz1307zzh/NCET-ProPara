@@ -85,3 +85,7 @@ def unpad(source: List[int], pad_value: int) -> List[int]:
     """
     return [x for x in source if x != pad_value]
 
+
+def mean(source: List) -> float:
+    return sum(source) / len(source)
+

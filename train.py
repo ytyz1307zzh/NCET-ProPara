@@ -45,37 +45,73 @@ opt = parser.parse_args()
 
 def train():
 
-    debug_set = ProparaDataset('./data/debug.json')
-    debug_batch = DataLoader(dataset = debug_set, batch_size = opt.batch_size, shuffle = False, collate_fn = Collate())
+    train_set = ProparaDataset('./data/debug.json')
+    train_batch = DataLoader(dataset = train_set, batch_size = opt.batch_size, shuffle = False, collate_fn = Collate())
+    # TODO: add dev_set
 
     model = NCETModel(batch_size = opt.batch_size, embed_size = opt.embed_size, hidden_size = opt.hidden_size,
                         dropout = opt.dropout, elmo_dir = opt.elmo_dir)
     if not opt.no_cuda:
         model.cuda()
 
-    for batch in debug_batch:
-        with open('logs/debug.log', 'w', encoding='utf-8') as debug_file:
-            torch.set_printoptions(threshold=np.inf)
-            print(batch, file = debug_file)
+    optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=opt.lr)
+    best_accuracy = 0
+    impatience = 0
+
+    for epoch_i in range(opt.epoch):
         model.train()
+        train_instances = len(train_set)
+        report_loss, report_accuracy, start_time = [], [], time.time()
+        batch_cnt = 0
+        if train_instances % opt.batch_size == 0:
+            total_batches = train_instances // opt.batch_size
+        else:
+            total_batches = train_instances // opt.batch_size + 1
+        report_freq = train_instances // opt.report  # frequency of reporting results (in batches)
 
-        paragraphs = batch['paragraph']
-        char_paragraph = batch_to_ids(paragraphs)
-        entity_mask = batch['entity_mask']
-        verb_mask = batch['verb_mask']
-        loc_mask = batch['loc_mask']
-        gold_loc_seq = batch['gold_loc_seq']
-        gold_state_seq = batch['gold_state_seq']
+        for batch in train_batch:
+            # with open('logs/debug.log', 'w', encoding='utf-8') as debug_file:
+            #     torch.set_printoptions(threshold=np.inf)
+            #     print(batch, file = debug_file)
+            model.zero_grad()
 
-        if not opt.no_cuda:
-            char_paragraph.cuda()
-            entity_mask.cuda()
-            verb_mask.cuda()
-            loc_mask.cuda()
+            paragraphs = batch['paragraph']
+            char_paragraph = batch_to_ids(paragraphs)
+            entity_mask = batch['entity_mask']
+            verb_mask = batch['verb_mask']
+            loc_mask = batch['loc_mask']
+            gold_loc_seq = batch['gold_loc_seq']
+            gold_state_seq = batch['gold_state_seq']
 
-        loss = model(char_paragraph = char_paragraph, entity_mask = entity_mask, verb_mask = verb_mask, loc_mask = loc_mask,
-                        gold_loc_seq = gold_loc_seq, gold_state_seq = gold_state_seq, is_train = True)
-        print('loss: ', loss)
+            if not opt.no_cuda:
+                char_paragraph.cuda()
+                entity_mask.cuda()
+                verb_mask.cuda()
+                loc_mask.cuda()
+
+            train_loss, train_accuracy = model(char_paragraph = char_paragraph, entity_mask = entity_mask, verb_mask = verb_mask,
+                                               loc_mask = loc_mask, gold_loc_seq = gold_loc_seq, gold_state_seq = gold_state_seq,
+                                               is_train = True)
+
+            train_loss.backward()
+            optimizer.step()
+            report_loss.append(train_loss.item())
+            report_accuracy.append(train_accuracy)
+            batch_cnt += 1
+
+            # time to report results
+            if batch_cnt % report_freq == 0 or batch_cnt == total_batches:
+
+                print(f'{batch_cnt}/{total_batches}, Epoch {epoch_i+1}: training loss: {mean(report_loss):.3f}, \
+                      training state prediction accuracy: {mean(report_accuracy)*100:.2f}%, time elapse: {time.time()-start_time:.2f}')
+
+                # TODO: evaluate the model using dev set
+
+                # TODO: save model while creating new best score
+
+                report_loss, report_accuracy, start_time = [], [], time.time()
+
+
 
         # summary(model, char_paragraph, entity_mask, verb_mask, loc_mask)
         # with SummaryWriter() as writer:
