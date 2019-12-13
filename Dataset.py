@@ -92,6 +92,9 @@ class ProparaDataset(torch.utils.data.Dataset):
         return sample
 
 
+# For paragraphs, we pad them to the max number of tokens in a batch
+# For sentences, we pad them to the max number of sentences in a batch
+# For location candidates, we pad them to the max number of location candidates in a batch
 class Collate:
     """
     A variant of callate_fn that pads according to the longest sequence in
