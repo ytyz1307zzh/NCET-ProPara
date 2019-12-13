@@ -38,7 +38,7 @@ class NCETModel(nn.Module):
         
 
     def forward(self, char_paragraph: torch.Tensor, entity_mask: torch.IntTensor, verb_mask: torch.IntTensor,
-                loc_mask: torch.IntTensor, gold_loc_seq: torch.IntTensor, gold_state_seq: torch.IntTensor, is_train: bool):
+                loc_mask: torch.IntTensor, gold_loc_seq: torch.IntTensor, gold_state_seq: torch.IntTensor):
         """
         Args:
             gold_loc_seq: size (batch, max_sents)

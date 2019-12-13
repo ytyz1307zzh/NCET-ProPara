@@ -33,7 +33,7 @@ parser.add_argument('-impatience', type=int, default=20, help='number of evaluat
 parser.add_argument('-lr', type=float, default=1e-3, help="learning rate")
 parser.add_argument('-dropout', type=float, default=0.1, help="droppout rate")
 parser.add_argument('-mode', type=str, default='train', help="train or test")
-parser.add_argument('-ckpt_dir', type=str, default='ckpt', help="checkpoint directory")
+parser.add_argument('-ckpt_dir', type=str, required=True, help="checkpoint directory")
 parser.add_argument('-restore', type=str, default='', help="restoring model path")
 parser.add_argument('-report', type=int, default=2, help="report frequence per epoch")
 parser.add_argument('-elmo_dir', type=str, default='elmo', help="directory that contains options and weight files for allennlp Elmo")
@@ -43,11 +43,16 @@ parser.add_argument('-no_cuda', action='store_true', default=False, help="if tru
 opt = parser.parse_args()
 
 
+# TODO: Implement this save_model function
+def save_model(path: str, model):
+    pass
+
+
 def train():
 
     train_set = ProparaDataset('./data/debug.json')
-    train_batch = DataLoader(dataset = train_set, batch_size = opt.batch_size, shuffle = False, collate_fn = Collate())
-    # TODO: add dev_set
+    train_batch = DataLoader(dataset = train_set, batch_size = opt.batch_size, shuffle = True, collate_fn = Collate())
+    dev_set = ProparaDataset('./data/debug.json')
 
     model = NCETModel(batch_size = opt.batch_size, embed_size = opt.embed_size, hidden_size = opt.hidden_size,
                         dropout = opt.dropout, elmo_dir = opt.elmo_dir)
@@ -55,10 +60,11 @@ def train():
         model.cuda()
 
     optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=opt.lr)
-    best_accuracy = 0
+    best_score = 0
     impatience = 0
 
     for epoch_i in range(opt.epoch):
+        
         model.train()
         train_instances = len(train_set)
         report_loss, report_accuracy, start_time = [], [], time.time()
@@ -90,8 +96,7 @@ def train():
                 loc_mask.cuda()
 
             train_loss, train_accuracy = model(char_paragraph = char_paragraph, entity_mask = entity_mask, verb_mask = verb_mask,
-                                               loc_mask = loc_mask, gold_loc_seq = gold_loc_seq, gold_state_seq = gold_state_seq,
-                                               is_train = True)
+                                               loc_mask = loc_mask, gold_loc_seq = gold_loc_seq, gold_state_seq = gold_state_seq)
 
             train_loss.backward()
             optimizer.step()
@@ -102,12 +107,25 @@ def train():
             # time to report results
             if batch_cnt % report_freq == 0 or batch_cnt == total_batches:
 
-                print(f'{batch_cnt}/{total_batches}, Epoch {epoch_i+1}: training loss: {mean(report_loss):.3f}, \
-                      training state prediction accuracy: {mean(report_accuracy)*100:.2f}%, time elapse: {time.time()-start_time:.2f}')
+                print(f'{batch_cnt}/{total_batches}, Epoch {epoch_i+1}: training loss: {mean(report_loss):.3f}, '
+                      f'training state prediction accuracy: {mean(report_accuracy)*100:.3f}%, time elapse: {time.time()-start_time:.2f}')
 
-                # TODO: evaluate the model using dev set
+                model.eval()
+                eval_score = eval(dev_set, model)
+                model.train()
 
-                # TODO: save model while creating new best score
+                if eval_score > best_score:  # new best score
+                    best_score = eval_score
+                    impatience = 0
+                    print('New best score!')
+                    save_model(os.path.join(opt.ckpt_dir, f'best_checkpoint_{best_score:.3f}.pt'), model)
+                else:
+                    impatience += 1
+                    print(f'Impatience: {impatience}, best score: {best_score:.3f}.')
+                    save_model(os.path.join(opt.ckpt_dir, f'impatience_{eval_score:.3f}.pt'), model)
+                    if impatience >= opt.impatience:
+                        print('Early Stopping!')
+                        quit()
 
                 report_loss, report_accuracy, start_time = [], [], time.time()
 
@@ -116,6 +134,39 @@ def train():
         # summary(model, char_paragraph, entity_mask, verb_mask, loc_mask)
         # with SummaryWriter() as writer:
         #     writer.add_graph(model, (char_paragraph, entity_mask, verb_mask, loc_mask))
+
+
+def eval(dev_set, model):
+    start_time = time.time()
+    dev_batch = DataLoader(dataset = dev_set, batch_size = opt.batch_size, shuffle = False, collate_fn = Collate())
+
+    report_loss, report_accuracy = [], []
+    with torch.no_grad():
+        for batch in dev_batch:
+            paragraphs = batch['paragraph']
+            char_paragraph = batch_to_ids(paragraphs)
+            entity_mask = batch['entity_mask']
+            verb_mask = batch['verb_mask']
+            loc_mask = batch['loc_mask']
+            gold_loc_seq = batch['gold_loc_seq']
+            gold_state_seq = batch['gold_state_seq']
+
+            if not opt.no_cuda:
+                char_paragraph.cuda()
+                entity_mask.cuda()
+                verb_mask.cuda()
+                loc_mask.cuda()
+
+            eval_loss, eval_accuracy = model(char_paragraph=char_paragraph, entity_mask=entity_mask, verb_mask=verb_mask,
+                                            loc_mask=loc_mask, gold_loc_seq=gold_loc_seq, gold_state_seq=gold_state_seq)
+            report_loss.append(eval_loss.item())
+            report_accuracy.append(eval_accuracy)
+
+    print(f'Evaluation: eval loss: {mean(report_loss):.3f}, '
+          f'eval state prediction accuracy: {mean(report_accuracy)*100:.3f}%, time elapse: {time.time() - start_time:.2f}')
+
+    return eval_accuracy
+
 
 
 if __name__ == "__main__":

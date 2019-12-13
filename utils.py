@@ -73,8 +73,6 @@ def compute_tag_accuracy(pred: List[List[int]], gold: List[List[int]], pad_value
         assert len(pred[i]) == len(unpad_gold[i])
         total_pred += len(pred[i])
         correct_pred += np.sum(np.equal(pred[i], unpad_gold[i]))
-        print(total_pred)
-        print(correct_pred)
 
     return correct_pred / total_pred
 
