@@ -53,9 +53,8 @@ class NCETModel(nn.Module):
 
         # size (batch, max_sents, NUM_STATES)
         tag_logits = self.StateTracker(encoder_out = token_rep, entity_mask = entity_mask, verb_mask = verb_mask)
-        tag_mask = torch.ones_like(gold_state_seq)
-        tag_mask = tag_mask.masked_fill(gold_state_seq == 0, value = 0)  # mask the padded part so they won't count in loss
-        log_likelihood = self.CRFLayer(emissions = tag_logits, tags = gold_state_seq, mask = tag_mask, reduction = 'mean')
+        tag_mask = (gold_state_seq != 0) # mask the padded part so they won't count in loss
+        log_likelihood = self.CRFLayer(emissions = tag_logits, tags = gold_state_seq.long(), mask = tag_mask, reduction = 'mean')
 
         loss = -log_likelihood  # State classification loss is negative log likelihood
         return loss

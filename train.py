@@ -73,8 +73,9 @@ def train():
             verb_mask.cuda()
             loc_mask.cuda()
 
-        model(char_paragraph = char_paragraph, entity_mask = entity_mask, verb_mask = verb_mask, loc_mask = loc_mask,
-              gold_loc_seq = gold_loc_seq, gold_state_seq = gold_state_seq, is_train = True)
+        loss = model(char_paragraph = char_paragraph, entity_mask = entity_mask, verb_mask = verb_mask, loc_mask = loc_mask,
+                        gold_loc_seq = gold_loc_seq, gold_state_seq = gold_state_seq, is_train = True)
+        print('loss: ', loss)
 
         # summary(model, char_paragraph, entity_mask, verb_mask, loc_mask)
         # with SummaryWriter() as writer:
