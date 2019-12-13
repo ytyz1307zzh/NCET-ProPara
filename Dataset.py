@@ -69,7 +69,7 @@ class ProparaDataset(torch.utils.data.Dataset):
         # note that the loc_cand_list in exactly "idx2loc" (excluding '?' and '-')
 
         # for train and dev sets, all gold locations should have been included in candidate set
-        if not self.test:
+        if not self.is_test:
             gold_loc_seq = torch.IntTensor([loc2idx[loc] for loc in instance['gold_loc_seq'][1:]])  # won't predict initial location (step 0)
         # for test set, the gold location may not in the candidate set
         else:
