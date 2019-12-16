@@ -103,8 +103,8 @@ def train():
 
         model.train()
         train_instances = len(train_set)
-        report_loss, report_accuracy, start_time = [], [], time.time()
-        batch_cnt = 0
+        report_loss, report_correct, report_pred, start_time = 0, 0, 0, time.time()
+        batch_cnt, n_samples = 0, 0
         if train_instances % opt.batch_size == 0:
             total_batches = train_instances // opt.batch_size
         else:
@@ -133,20 +133,24 @@ def train():
                 gold_loc_seq = gold_loc_seq.cuda()
                 gold_state_seq = gold_state_seq.cuda()
 
-            train_loss, train_accuracy = model(char_paragraph = char_paragraph, entity_mask = entity_mask, verb_mask = verb_mask,
-                                               loc_mask = loc_mask, gold_loc_seq = gold_loc_seq, gold_state_seq = gold_state_seq)
+            train_result = model(char_paragraph = char_paragraph, entity_mask = entity_mask, verb_mask = verb_mask,
+                                 loc_mask = loc_mask, gold_loc_seq = gold_loc_seq, gold_state_seq = gold_state_seq)
+
+            train_loss, train_correct_pred, train_total_pred = train_result
 
             train_loss.backward()
             optimizer.step()
-            report_loss.append(train_loss.item())
-            report_accuracy.append(train_accuracy)
+            report_loss += train_loss.item()
+            report_correct += train_correct_pred
+            report_pred += train_total_pred
             batch_cnt += 1
+            n_samples += len(paragraphs)
 
             # time to report results
             if batch_cnt in report_batch:
 
-                output(f'{batch_cnt}/{total_batches}, Epoch {epoch_i+1}: training loss: {mean(report_loss):.3f}, '
-                      f'training state prediction accuracy: {mean(report_accuracy)*100:.3f}%, time elapse: {time.time()-start_time:.2f}')
+                output(f'{batch_cnt}/{total_batches}, Epoch {epoch_i+1}: training loss: {(report_loss / n_samples):.3f}, '
+                      f'training state prediction accuracy: {(report_correct / report_pred)*100:.3f}%, time elapse: {time.time()-start_time:.2f}')
 
                 model.eval()
                 eval_score = eval(dev_set, model)
@@ -165,10 +169,9 @@ def train():
                         output('Early Stopping!')
                         quit()
 
-                report_loss, report_accuracy, start_time = [], [], time.time()
+                report_loss, report_correct, report_pred, n_samples, start_time = 0, 0, 0, 0, time.time()
 
         epoch_i += 1
-
 
 
         # summary(model, char_paragraph, entity_mask, verb_mask, loc_mask)
@@ -180,7 +183,7 @@ def eval(dev_set, model):
     start_time = time.time()
     dev_batch = DataLoader(dataset = dev_set, batch_size = opt.batch_size, shuffle = False, collate_fn = Collate())
 
-    report_loss, report_accuracy = [], []
+    report_loss, report_correct, report_pred, n_samples = 0, 0, 0, len(dev_set)
     with torch.no_grad():
         for batch in dev_batch:
             paragraphs = batch['paragraph']
@@ -199,15 +202,18 @@ def eval(dev_set, model):
                 gold_loc_seq = gold_loc_seq.cuda()
                 gold_state_seq = gold_state_seq.cuda()
 
-            eval_loss, eval_accuracy = model(char_paragraph=char_paragraph, entity_mask=entity_mask, verb_mask=verb_mask,
+            eval_result = model(char_paragraph=char_paragraph, entity_mask=entity_mask, verb_mask=verb_mask,
                                             loc_mask=loc_mask, gold_loc_seq=gold_loc_seq, gold_state_seq=gold_state_seq)
-            report_loss.append(eval_loss.item())
-            report_accuracy.append(eval_accuracy)
 
-    output(f'Evaluation: eval loss: {mean(report_loss):.3f}, '
-          f'eval state prediction accuracy: {mean(report_accuracy)*100:.3f}%, time elapse: {time.time()-start_time:.2f}')
+            eval_loss, eval_correct_pred, eval_total_pred = eval_result
+            report_loss += eval_loss.item()
+            report_correct += eval_correct_pred
+            report_pred += eval_total_pred
 
-    return eval_accuracy
+    output(f'Evaluation: eval loss: {(report_loss / n_samples):.3f}, '
+          f'eval state prediction accuracy: {(report_correct / report_pred)*100:.3f}%, time elapse: {time.time()-start_time:.2f}')
+
+    return (report_correct / report_pred) * 100
 
 
 

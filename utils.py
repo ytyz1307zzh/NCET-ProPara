@@ -59,7 +59,7 @@ def find_allzero_rows(vector: torch.IntTensor) -> torch.BoolTensor:
     return column_sum == 0
 
 
-def compute_tag_accuracy(pred: List[List[int]], gold: List[List[int]], pad_value: int) -> float:
+def compute_tag_accuracy(pred: List[List[int]], gold: List[List[int]], pad_value: int) -> (int, int):
     """
     Given the predicted tags and gold tags, compute the prediction accuracy.
     Note that we first need to deal with the padded parts of the gold tags.
@@ -74,7 +74,7 @@ def compute_tag_accuracy(pred: List[List[int]], gold: List[List[int]], pad_value
         total_pred += len(pred[i])
         correct_pred += np.sum(np.equal(pred[i], unpad_gold[i]))
 
-    return correct_pred / total_pred
+    return correct_pred, total_pred
 
 
 def get_report_time(total_batches: int, report_times: int) -> List[int]:
