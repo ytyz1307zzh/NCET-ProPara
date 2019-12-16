@@ -37,7 +37,9 @@ parser.add_argument('-ckpt_dir', type=str, required=True, help="checkpoint direc
 parser.add_argument('-restore', type=str, default='', help="restoring model path")
 parser.add_argument('-report', type=int, default=2, help="report frequence per epoch, should be at least 1")
 parser.add_argument('-elmo_dir', type=str, default='elmo', help="directory that contains options and weight files for allennlp Elmo")
-parser.add_argument('-data_dir', type=str, default='data', help="directory to the train/dev/test data")
+parser.add_argument('-train_set', type=str, default="data/train.json", help="path to training set")
+parser.add_argument('-dev_set', type=str, default="data/dev.json", help="path to dev set")
+parser.add_argument('-test_set', type=str, default="data/test.json", help="path to test set")
 parser.add_argument('-debug', action='store_true', default=False, help="enable debug mode, change data files to debug data")
 parser.add_argument('-no_cuda', action='store_true', default=False, help="if true, will only use cpu")
 parser.add_argument('-log', type=str, default=None, help="the log file to store training details")
@@ -70,17 +72,17 @@ def save_model(path: str, model):
 
 def train():
 
-    train_set = ProparaDataset(os.path.join(opt.data_dir, 'train.json'), is_test = False)
+    train_set = ProparaDataset(opt.train_set, is_test = False)
     if opt.debug:
         print('*'*20 + '[INFO] Debug mode enabled. Switch training set to debug.json' + '*'*20)
-        train_set = ProparaDataset(os.path.join(opt.data_dir, 'debug.json'), is_test = False)
+        train_set = ProparaDataset('data/debug.json', is_test = False)
 
     train_batch = DataLoader(dataset = train_set, batch_size = opt.batch_size, shuffle = True, collate_fn = Collate())
-    dev_set = ProparaDataset(os.path.join(opt.data_dir, 'dev.json'), is_test = False)
+    dev_set = ProparaDataset(opt.dev_set, is_test = False)
 
     if opt.debug:
         print('*'*20 + '[INFO] Debug mode enabled. Switch dev set to debug.json' + '*'*20)
-        dev_set = ProparaDataset(os.path.join(opt.data_dir, 'debug.json'), is_test = False)
+        dev_set = ProparaDataset('data/debug.json', is_test = False)
 
     model = NCETModel(embed_size = opt.embed_size, hidden_size = opt.hidden_size,
                         dropout = opt.dropout, elmo_dir = opt.elmo_dir)
