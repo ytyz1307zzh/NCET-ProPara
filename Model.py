@@ -89,7 +89,8 @@ class NCETEmbedding(nn.Module):
         max_tokens = char_paragraph.size(1)
 
         elmo_embeddings = self.get_elmo(char_paragraph, batch_size = batch_size, max_tokens = max_tokens)
-        elmo_embeddings = self.embed_project(elmo_embeddings)
+        if self.embed_size != 1025:
+            elmo_embeddings = self.embed_project(elmo_embeddings)
         verb_indicator = self.get_verb_indicator(verb_mask, batch_size = batch_size, max_tokens = max_tokens)
         embeddings = torch.cat([elmo_embeddings, verb_indicator], dim = -1)
 
