@@ -20,14 +20,14 @@ from torchcrf import CRF
 
 class NCETModel(nn.Module):
 
-    def __init__(self, embed_size: int, hidden_size: int, dropout: float, elmo_dir: str):
+    def __init__(self, embed_size: int, hidden_size: int, dropout: float, elmo_dir: str, elmo_dropout: float):
 
         super(NCETModel, self).__init__()
         self.hidden_size = hidden_size
         self.embed_size = embed_size
 
-        self.EmbeddingLayer = NCETEmbedding(embed_size = embed_size,
-                                            elmo_dir = elmo_dir, dropout = dropout)
+        self.EmbeddingLayer = NCETEmbedding(embed_size = embed_size, elmo_dir = elmo_dir,
+                                            dropout = dropout, elmo_dropout = elmo_dropout)
         self.TokenEncoder = nn.LSTM(input_size = embed_size, hidden_size = hidden_size,
                                     num_layers = 1, batch_first = True, bidirectional = True)
         self.Dropout = nn.Dropout(p = dropout)
@@ -66,14 +66,14 @@ class NCETModel(nn.Module):
     
 class NCETEmbedding(nn.Module):
 
-    def __init__(self, embed_size: int, elmo_dir: str, dropout: float):
+    def __init__(self, embed_size: int, elmo_dir: str, dropout: float, elmo_dropout: float):
 
         super(NCETEmbedding, self).__init__()
         self.embed_size = embed_size
         self.options_file = os.path.join(elmo_dir, 'elmo_2x4096_512_2048cnn_2xhighway_options.json')
         self.weight_file = os.path.join(elmo_dir, 'elmo_2x4096_512_2048cnn_2xhighway_weights.hdf5')
         self.elmo = Elmo(self.options_file, self.weight_file, num_output_representations=1, requires_grad=False,
-                            do_layer_norm=False, dropout=0)
+                            do_layer_norm=False, dropout=elmo_dropout)
         self.embed_project = Linear(1024, self.embed_size - 1, dropout = dropout)  # 1024 is the default size of Elmo, leave 1 dim for verb indicator
 
 

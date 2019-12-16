@@ -22,6 +22,7 @@ from utils import *
 from Dataset import *
 from Model import *
 print(f'[INFO] Import modules time: {time.time() - import_start_time}')
+torch.set_printoptions(threshold=np.inf)
 
 
 parser = argparse.ArgumentParser()
@@ -30,8 +31,9 @@ parser.add_argument('-embed_size', type=int, default=128, help="embedding size (
 parser.add_argument('-hidden_size', type=int, default=128, help="hidden size of lstm")
 parser.add_argument('-epoch', type=int, default=100, help="number of epochs, use -1 to rely on early stopping only")
 parser.add_argument('-impatience', type=int, default=20, help='number of evaluation rounds for early stopping')
-parser.add_argument('-lr', type=float, default=1e-3, help="learning rate")
-parser.add_argument('-dropout', type=float, default=0.1, help="droppout rate")
+parser.add_argument('-lr', type=float, default=3e-4, help="learning rate")
+parser.add_argument('-dropout', type=float, default=0.1, help="dropout rate")
+parser.add_argument('-elmo_dropout', type=float, default=0.5, help="dropout rate of elmo embedding")
 parser.add_argument('-mode', type=str, default='train', help="train or test")
 parser.add_argument('-ckpt_dir', type=str, required=True, help="checkpoint directory")
 parser.add_argument('-restore', type=str, default='', help="restoring model path")
@@ -45,24 +47,24 @@ parser.add_argument('-no_cuda', action='store_true', default=False, help="if tru
 parser.add_argument('-log', type=str, default=None, help="the log file to store training details")
 opt = parser.parse_args()
 
-print('Received arguments:')
-print(opt)
-print('-' * 50)
-
-assert opt.report >= 1
-
 if opt.log:
     log_file = open(opt.log, 'w', encoding='utf-8')
 
-torch.manual_seed(1234)
-torch.cuda.manual_seed(1234)
 
-
-def output(text: str):
-    assert type(text) == str
+def output(text):
     print(text)
     if opt.log:
         print(text, file = log_file)
+
+
+output('Received arguments:')
+output(opt)
+output('-' * 50)
+
+assert opt.report >= 1
+
+torch.manual_seed(1234)
+torch.cuda.manual_seed(1234)
 
 
 # TODO: Implement this save_model function
@@ -85,7 +87,7 @@ def train():
         dev_set = ProparaDataset('data/debug.json', is_test = False)
 
     model = NCETModel(embed_size = opt.embed_size, hidden_size = opt.hidden_size,
-                        dropout = opt.dropout, elmo_dir = opt.elmo_dir)
+                        dropout = opt.dropout, elmo_dir = opt.elmo_dir, elmo_dropout = opt.elmo_dropout)
     if not opt.no_cuda:
         model.cuda()
 
@@ -176,7 +178,7 @@ def train():
 
         # summary(model, char_paragraph, entity_mask, verb_mask, loc_mask)
         # with SummaryWriter() as writer:
-        #     writer.add_graph(model, (char_paragraph, entity_mask, verb_mask, loc_mask))
+        #     writer.add_graph(model, (char_paragraph, entity_mask, verb_mask, loc_mask, gold_loc_mask, gold_state_mask))
 
 
 def eval(dev_set, model):
