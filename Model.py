@@ -31,9 +31,13 @@ class NCETModel(nn.Module):
         self.TokenEncoder = nn.LSTM(input_size = embed_size, hidden_size = hidden_size,
                                     num_layers = 1, batch_first = True, bidirectional = True)
         self.Dropout = nn.Dropout(p = dropout)
-        self.StateTracker = StateTracker(hidden_size = hidden_size,
-                                         dropout = dropout)
+
+        # state tracking modules
+        self.StateTracker = StateTracker(hidden_size = hidden_size, dropout = dropout)
         self.CRFLayer = CRF(NUM_STATES, batch_first = True)
+
+        # location prediction modules
+        self.LocationPredictor = LocationPredictor(hidden_size = hidden_size, dropout = dropout)
         
 
     def forward(self, char_paragraph: torch.Tensor, entity_mask: torch.IntTensor, verb_mask: torch.IntTensor,
@@ -55,6 +59,8 @@ class NCETModel(nn.Module):
         tag_logits = self.StateTracker(encoder_out = token_rep, entity_mask = entity_mask, verb_mask = verb_mask)
         tag_mask = (gold_state_seq != PAD_STATE) # mask the padded part so they won't count in loss
         log_likelihood = self.CRFLayer(emissions = tag_logits, tags = gold_state_seq.long(), mask = tag_mask, reduction = 'sum')
+
+        loc_logits = self.LocationPredictor(encoder_out = token_rep, entity_mask = entity_mask, loc_mask = loc_mask)
 
         loss = -log_likelihood  # State classification loss is negative log likelihood
         pred_sequence = self.CRFLayer.decode(emissions = tag_logits, mask = tag_mask)
@@ -227,4 +233,91 @@ class LocationPredictor(nn.Module):
 
 
     def forward(self, encoder_out, entity_mask, loc_mask):
-        pass
+        """
+        Args:
+            encoder_out: output of the encoder, size (batch, max_tokens, 2 * hidden_size)
+            entity_mask: size (batch, max_sents, max_tokens)
+            loc_mask: size (batch, max_cands, max_sents, max_tokens)
+        """
+        batch_size = encoder_out.size(0)
+        max_cands = loc_mask.size(-3)
+        max_sents = loc_mask.size(-2)
+
+        decoder_in = self.get_masked_input(encoder_out, entity_mask, loc_mask, batch_size = batch_size)
+
+
+    def get_masked_input(self, encoder_out, entity_mask, loc_mask, batch_size: int):
+        """
+        Concat the mention positions of the entity and each location candidate
+        """
+        assert entity_mask.size(-1) == loc_mask.size(-1) == encoder_out.size(-2)
+        assert entity_mask.size(-2) == loc_mask.size(-2)
+
+        max_cands = loc_mask.size(-3)
+        max_sents = loc_mask.size(-2)
+
+        # (batch, max_sents, 2 * hidden_size)
+        entity_rep = self.get_masked_mean(source = encoder_out, mask = entity_mask, batch_size = batch_size)
+        # (batch, max_cands, max_sents, 2 * hidden_size)
+        loc_rep = self.get_masked_loc_mean(source = encoder_out, mask = loc_mask, batch_size = batch_size)
+        entity_rep = entity_rep.unsqueeze(dim = 1).expand_as(loc_rep)
+        assert entity_rep.size() == loc_rep.size() == (batch_size, max_cands, max_sents, 2 * self.hidden_size)
+
+        concat_rep = torch.cat([entity_rep, loc_rep], dim = -1)
+        assert concat_rep.size() == (batch_size, max_cands, max_sents, 4 * self.hidden_size)
+
+        return concat_rep
+
+
+    def get_masked_loc_mean(self, source, mask, batch_size: int):
+        """
+        Args:
+            source - input tensors, size(batch, tokens, 2 * hidden_size)
+            mask - binary masked vectors, size(batch, cands, sents, tokens)
+        Return:
+            the average of unmasked input tensors, size (batch, cands, sents, 2 * hidden_size)
+        """
+        max_sents = mask.size(-2)
+        max_cands = mask.size(-3)
+
+        bool_mask = (mask.unsqueeze(dim = -1) == 0)  # turn binary masks to boolean values
+        source = source.unsqueeze(dim = 1).unsqueeze(dim = 1)  # expand source to (batch, 1, 1, tokens, 2*hidden)
+        masked_source = source.masked_fill(bool_mask, value = 0)  # (batch, cands, sents, tokens, 2*hidden)
+        masked_source = torch.sum(masked_source, dim = -2)  # (batch, cands, sents, 2*hidden)
+        assert masked_source.size() == (batch_size, max_cands, max_sents, 2 * self.hidden_size)
+
+        num_unmasked_tokens = torch.sum(mask, dim = -1, keepdim = True)  # (batch, cands, sents, 1)
+        masked_mean = torch.div(input = masked_source, other = num_unmasked_tokens)  # (batch, cands, sents, 2*hidden)
+
+        # division op may cause nan while encoutering 0, so replace nan with 0
+        is_nan = torch.isnan(masked_mean)
+        masked_mean = masked_mean.masked_fill(is_nan, value = 0)
+
+        assert masked_mean.size() == (batch_size, max_cands, max_sents, 2 * self.hidden_size)
+        return masked_mean
+
+
+    def get_masked_mean(self, source, mask, batch_size: int):
+        """
+        Args:
+            source - input tensors, size(batch, tokens, 2 * hidden_size)
+            mask - binary masked vectors, size(batch, sents, tokens)
+        Return:
+            the average of unmasked input tensors, size (batch, sents, 2 * hidden_size)
+        """
+        max_sents = mask.size(-2)
+
+        bool_mask = (mask.unsqueeze(dim = -1) == 0)  # turn binary masks to boolean values
+        masked_source = source.unsqueeze(dim = 1).masked_fill(bool_mask, value = 0)  # for masked tokens, turn its value to 0
+        masked_source = torch.sum(masked_source, dim = -2)  # sum the unmasked token representations
+        assert masked_source.size() == (batch_size, max_sents, 2 * self.hidden_size)
+
+        num_unmasked_tokens = torch.sum(mask, dim = -1, keepdim = True)  # compute the denominator of average op (number of unmasked tokens)
+        masked_mean = torch.div(input = masked_source, other = num_unmasked_tokens)  # average the unmasked vectors
+
+        # division op may cause nan while encoutering 0, so replace nan with 0
+        is_nan = torch.isnan(masked_mean)
+        masked_mean = masked_mean.masked_fill(is_nan, value = 0)
+
+        assert masked_mean.size() == (batch_size, max_sents, 2 * self.hidden_size)
+        return masked_mean

@@ -26,17 +26,21 @@ torch.set_printoptions(threshold=np.inf)
 
 
 parser = argparse.ArgumentParser()
+
+# model parameters
 parser.add_argument('-batch_size', type=int, default=64)
 parser.add_argument('-embed_size', type=int, default=128, help="embedding size (including the verb indicator)")
 parser.add_argument('-hidden_size', type=int, default=128, help="hidden size of lstm")
-parser.add_argument('-epoch', type=int, default=100, help="number of epochs, use -1 to rely on early stopping only")
-parser.add_argument('-impatience', type=int, default=20, help='number of evaluation rounds for early stopping')
 parser.add_argument('-lr', type=float, default=3e-4, help="learning rate")
 parser.add_argument('-dropout', type=float, default=0.1, help="dropout rate")
 parser.add_argument('-elmo_dropout', type=float, default=0.5, help="dropout rate of elmo embedding")
+
+# training parameters
 parser.add_argument('-mode', type=str, default='train', help="train or test")
 parser.add_argument('-ckpt_dir', type=str, required=True, help="checkpoint directory")
 parser.add_argument('-restore', type=str, default='', help="restoring model path")
+parser.add_argument('-epoch', type=int, default=100, help="number of epochs, use -1 to rely on early stopping only")
+parser.add_argument('-impatience', type=int, default=20, help='number of evaluation rounds for early stopping')
 parser.add_argument('-report', type=int, default=2, help="report frequence per epoch, should be at least 1")
 parser.add_argument('-elmo_dir', type=str, default='elmo', help="directory that contains options and weight files for allennlp Elmo")
 parser.add_argument('-train_set', type=str, default="data/train.json", help="path to training set")
@@ -75,11 +79,13 @@ def save_model(path: str, model):
 def train():
 
     train_set = ProparaDataset(opt.train_set, is_test = False)
+    shuffle_train = True
     if opt.debug:
         print('*'*20 + '[INFO] Debug mode enabled. Switch training set to debug.json' + '*'*20)
         train_set = ProparaDataset('data/debug.json', is_test = False)
+        shuffle_train = False
 
-    train_batch = DataLoader(dataset = train_set, batch_size = opt.batch_size, shuffle = True, collate_fn = Collate())
+    train_batch = DataLoader(dataset = train_set, batch_size = opt.batch_size, shuffle = shuffle_train, collate_fn = Collate())
     dev_set = ProparaDataset(opt.dev_set, is_test = False)
 
     if opt.debug:
