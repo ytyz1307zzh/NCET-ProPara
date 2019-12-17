@@ -125,20 +125,6 @@ class NCETEmbedding(nn.Module):
         return verb_indicator
 
 
-class Linear(nn.Module):
-    ''' 
-    Simple Linear layer with xavier init 
-    '''
-    def __init__(self, d_in: int, d_out: int, dropout: float, bias: bool = True):
-        super(Linear, self).__init__()
-        self.linear = nn.Linear(d_in, d_out, bias=bias)
-        self.dropout = nn.Dropout(p = dropout)
-        nn.init.xavier_normal_(self.linear.weight)
-
-    def forward(self, x):
-        return self.dropout(self.linear(x))
-
-
 class StateTracker(nn.Module):
     """
     State tracking decoder: sentence-level Bi-LSTM + linear + CRF
@@ -207,6 +193,8 @@ class StateTracker(nn.Module):
         bool_mask = (mask.unsqueeze(dim = -1) == 0)  # turn binary masks to boolean values
         masked_source = source.unsqueeze(dim = 1).masked_fill(bool_mask, value = 0)
         masked_source = torch.sum(masked_source, dim = -2)  # sum the unmasked vectors
+        assert masked_source.size() == (batch_size, max_sents, 2 * self.hidden_size)
+
         num_unmasked_tokens = torch.sum(mask, dim = -1, keepdim = True)  # compute the denominator of average op
         masked_mean = torch.div(input = masked_source, other = num_unmasked_tokens)  # average the unmasked vectors
 
@@ -244,6 +232,13 @@ class LocationPredictor(nn.Module):
         max_sents = loc_mask.size(-2)
 
         decoder_in = self.get_masked_input(encoder_out, entity_mask, loc_mask, batch_size = batch_size)
+        decoder_in = decoder_in.view(batch_size * max_cands, max_sents, 4 * self.hidden_size)
+        decoder_out, _ = self.Decoder(decoder_in)  # (batch, max_sents, 2 * hidden_size), forward & backward concatenated
+        assert decoder_out.size() == (batch_size * max_cands, max_sents, 2 * self.hidden_size)
+        decoder_out = decoder_out.view(batch_size, max_cands, max_sents, 2 * self.hidden_size)
+        decoder_out = self.Dropout(decoder_out)
+        loc_logits = self.Hidden2Score(decoder_out).squeeze(dim = -1)
+
 
 
     def get_masked_input(self, encoder_out, entity_mask, loc_mask, batch_size: int):
@@ -321,3 +316,17 @@ class LocationPredictor(nn.Module):
 
         assert masked_mean.size() == (batch_size, max_sents, 2 * self.hidden_size)
         return masked_mean
+
+
+class Linear(nn.Module):
+    """
+    Simple Linear layer with xavier init
+    """
+    def __init__(self, d_in: int, d_out: int, dropout: float, bias: bool = True):
+        super(Linear, self).__init__()
+        self.linear = nn.Linear(d_in, d_out, bias=bias)
+        self.dropout = nn.Dropout(p = dropout)
+        nn.init.xavier_normal_(self.linear.weight)
+
+    def forward(self, x):
+        return self.dropout(self.linear(x))
