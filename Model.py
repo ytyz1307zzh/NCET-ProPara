@@ -102,7 +102,7 @@ class NCETModel(nn.Module):
         max_cands = loc_logits.size(-1)
 
         # first, we create a mask tensor that masked all positions above the num_cands limit
-        range_tensor = torch.arange(start = 1, end = max_cands + 1)
+        range_tensor = torch.arange(start = 1, end = max_cands + 1).cuda()
         range_tensor = range_tensor.unsqueeze(dim = 0).expand(batch_size, max_cands)
         bool_range = torch.gt(range_tensor, num_cands.unsqueeze(dim = -1))  # find the off-limit positions
         assert bool_range.size() == (batch_size, max_cands)
