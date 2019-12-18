@@ -84,6 +84,7 @@ class NCETModel(nn.Module):
                                      target = masked_gold_loc_seq.view(batch_size * max_sents).long())
         correct_loc_pred, total_loc_pred = compute_loc_accuracy(logits = masked_loc_logits, gold = masked_gold_loc_seq,
                                                                 pad_value = PAD_LOC)
+        assert total_loc_pred > 0
 
         return state_loss, loc_loss, correct_state_pred, total_state_pred, correct_loc_pred, total_loc_pred
 

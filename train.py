@@ -50,10 +50,10 @@ parser.add_argument('-dev_set', type=str, default="data/dev.json", help="path to
 parser.add_argument('-test_set', type=str, default="data/test.json", help="path to test set")
 parser.add_argument('-debug', action='store_true', default=False, help="enable debug mode, change data files to debug data")
 parser.add_argument('-no_cuda', action='store_true', default=False, help="if true, will only use cpu")
-parser.add_argument('-log_dir', type=str, default='logs', help="the log directory to store training logs")
+parser.add_argument('-log_dir', type=str, default=None, help="the log directory to store training logs")
 opt = parser.parse_args()
 
-if opt.log:
+if opt.log_dir:
     current_time = dt.datetime.now().strftime("%m-%d.%H-%M")
     log_path = os.path.join(opt.log_dir, current_time + '.log')
     log_file = open(log_path, 'w', encoding='utf-8')
@@ -61,7 +61,7 @@ if opt.log:
 
 def output(text):
     print(text)
-    if opt.log:
+    if opt.log_dir:
         print(text, file = log_file)
 
 
