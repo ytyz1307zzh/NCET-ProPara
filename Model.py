@@ -38,7 +38,7 @@ class NCETModel(nn.Module):
 
         # location prediction modules
         self.LocationPredictor = LocationPredictor(hidden_size = hidden_size, dropout = dropout)
-        self.CrossEntropy = nn.CrossEntropyLoss(ignore_index = PAD_LOC, reduction = 'sum')
+        self.CrossEntropy = nn.CrossEntropyLoss(ignore_index = PAD_LOC, reduction = 'mean')
         
 
     def forward(self, char_paragraph: torch.Tensor, entity_mask: torch.IntTensor, verb_mask: torch.IntTensor,
@@ -66,12 +66,12 @@ class NCETModel(nn.Module):
         # size (batch, max_sents, NUM_STATES)
         tag_logits = self.StateTracker(encoder_out = token_rep, entity_mask = entity_mask, verb_mask = verb_mask)
         tag_mask = (gold_state_seq != PAD_STATE) # mask the padded part so they won't count in loss
-        log_likelihood = self.CRFLayer(emissions = tag_logits, tags = gold_state_seq.long(), mask = tag_mask, reduction = 'sum')
+        log_likelihood = self.CRFLayer(emissions = tag_logits, tags = gold_state_seq.long(), mask = tag_mask, reduction = 'token_mean')
 
         state_loss = -log_likelihood  # State classification loss is negative log likelihood
         pred_sequence = self.CRFLayer.decode(emissions=tag_logits, mask=tag_mask)
         assert len(pred_sequence) == batch_size
-        correct_state_pred, total_state_pred = compute_tag_accuracy(pred=pred_sequence, gold=gold_state_seq.tolist(),
+        correct_state_pred, total_state_pred = compute_state_accuracy(pred=pred_sequence, gold=gold_state_seq.tolist(),
                                                         pad_value=PAD_STATE)
 
         # location prediction
@@ -82,8 +82,10 @@ class NCETModel(nn.Module):
         masked_gold_loc_seq = self.mask_undefined_loc(gold_loc_seq = gold_loc_seq, mask_value = PAD_LOC)  # (batch, max_sents)
         loc_loss = self.CrossEntropy(input = masked_loc_logits.view(batch_size * max_sents, max_cands),
                                      target = masked_gold_loc_seq.view(batch_size * max_sents).long())
+        correct_loc_pred, total_loc_pred = compute_loc_accuracy(logits = masked_loc_logits, gold = masked_gold_loc_seq,
+                                                                pad_value = PAD_LOC)
 
-        return loss, correct_state_pred, total_state_pred
+        return state_loss, loc_loss, correct_state_pred, total_state_pred, correct_loc_pred, total_loc_pred
 
 
     def mask_loc_logits(self, loc_logits, num_cands: torch.IntTensor):

@@ -59,7 +59,7 @@ def find_allzero_rows(vector: torch.IntTensor) -> torch.BoolTensor:
     return column_sum == 0
 
 
-def compute_tag_accuracy(pred: List[List[int]], gold: List[List[int]], pad_value: int) -> (int, int):
+def compute_state_accuracy(pred: List[List[int]], gold: List[List[int]], pad_value: int) -> (int, int):
     """
     Given the predicted tags and gold tags, compute the prediction accuracy.
     Note that we first need to deal with the padded parts of the gold tags.
@@ -75,6 +75,23 @@ def compute_tag_accuracy(pred: List[List[int]], gold: List[List[int]], pad_value
         correct_pred += np.sum(np.equal(pred[i], unpad_gold[i]))
 
     return correct_pred, total_pred
+
+
+def compute_loc_accuracy(logits: torch.FloatTensor, gold: torch.IntTensor, pad_value: int) -> (int, int):
+    """
+    Given the generated location logits and the gold location sequence, compute the location prediction accuracy.
+    Args:
+        logits - size (batch, max_sents, max_cands)
+        gold - size (batch, max_sents)
+        pad_value - elements with this value will not count in accuracy
+    """
+    pred = torch.argmax(logits, dim = -1)
+    assert pred.size() == gold.size()
+
+    total_pred = torch.sum(gold != pad_value)  # total number of valid elements
+    correct_pred = torch.sum(pred == gold)  # the model cannot predict PAD, NIL or UNK, so all padded positions should be false
+
+    return correct_pred.item(), total_pred.item()
 
 
 def get_report_time(total_batches: int, report_times: int) -> List[int]:
