@@ -301,6 +301,10 @@ def evaluate(dev_set, model):
     return total_accuracy * 100
 
 
+def test(test_set, model):
+    test_batch = DataLoader(dataset = test_set, batch_size = opt.batch_size, shuffle = False, collate_fn = Collate())
+
+
 
 if __name__ == "__main__":
 
@@ -312,4 +316,18 @@ if __name__ == "__main__":
             print("[ERROR] Entered test mode but no restore file is specified.")
             raise RuntimeError("Did not specify -restore option")
 
+        test_set = ProparaDataset(opt.test_set, is_test=True)
 
+        if opt.debug:
+            print('*' * 20 + '[INFO] Debug mode enabled. Switch test set to debug.json' + '*' * 20)
+            test_set = ProparaDataset('data/debug.json', is_test=True)
+
+        model = NCETModel(opt = opt, is_test = True)
+        model_state_dict = torch.load(opt.restore)
+        model.load_state_dict(model_state_dict)
+        model.eval()
+
+        if not opt.no_cuda:
+            model.cuda()
+
+        test(test_set, model)
