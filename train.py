@@ -188,7 +188,8 @@ def train():
                        f'Location Loss: {loc_loss:.3f}\n'
                        f'Total Accuracy: {total_accuracy*100:.3f}%, '
                        f'State Prediction Accuracy: {state_accuracy*100:.3f}%, '
-                       f'Location Accuracy: {loc_accuracy*100:.3f}% \nTime Elapse: {time.time()-start_time:.2f}')
+                       f'Location Accuracy: {loc_accuracy*100:.3f}% \n'
+                       f'Time Elapse: {time.time()-start_time:.2f}')
                 output('-' * 50)
 
                 model.eval()
@@ -273,12 +274,13 @@ def evaluate(dev_set, model):
     state_accuracy = report_state_correct / report_state_pred
     loc_accuracy = report_loc_correct / report_loc_pred
 
-    output(f'Evaluation:\n'
-           f'Loss: {total_loss:.3f}, State Loss: {state_loss:.3f}, '
+    output(f'\tEvaluation:\n'
+           f'\tLoss: {total_loss:.3f}, State Loss: {state_loss:.3f}, '
            f'Location Loss: {loc_loss:.3f}\n'
-           f'Total Accuracy: {total_accuracy * 100:.3f}%, '
+           f'\tTotal Accuracy: {total_accuracy * 100:.3f}%, '
            f'State Prediction Accuracy: {state_accuracy * 100:.3f}%, '
-           f'Location Accuracy: {loc_accuracy * 100:.3f}% \nTime Elapse: {time.time() - start_time:.2f}')
+           f'Location Accuracy: {loc_accuracy * 100:.3f}% \n'
+           f'\tTime Elapse: {time.time() - start_time:.2f}')
     output('*' * 50)
 
     return total_accuracy * 100
