@@ -74,7 +74,7 @@ def compute_state_accuracy(pred: List[List[int]], gold: List[List[int]], pad_val
         total_pred += len(pred[i])
         correct_pred += np.sum(np.equal(pred[i], unpad_gold[i]))
 
-    return correct_pred, total_pred
+    return correct_pred.item(), total_pred
 
 
 def compute_loc_accuracy(logits: torch.FloatTensor, gold: torch.IntTensor, pad_value: int) -> (int, int):

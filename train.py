@@ -34,6 +34,7 @@ parser.add_argument('-hidden_size', type=int, default=128, help="hidden size of 
 parser.add_argument('-lr', type=float, default=3e-4, help="learning rate")
 parser.add_argument('-dropout', type=float, default=0.1, help="dropout rate")
 parser.add_argument('-elmo_dropout', type=float, default=0.5, help="dropout rate of elmo embedding")
+parser.add_argument('-loc_loss', type=float, default=1.0, help="hyper-parameter to weight location loss and state_loss")
 
 # training parameters
 parser.add_argument('-mode', type=str, default='train', help="train or test")
@@ -111,8 +112,13 @@ def train():
 
         model.train()
         train_instances = len(train_set)
-        report_loss, report_correct, report_pred, start_time = 0, 0, 0, time.time()
-        batch_cnt, n_samples = 0, 0
+
+        start_time = time.time()
+        report_state_loss, report_loc_loss = 0, 0
+        report_state_correct, report_state_pred = 0, 0
+        report_loc_correct, report_loc_pred = 0, 0
+        batch_cnt = 0
+
         if train_instances % opt.batch_size == 0:
             total_batches = train_instances // opt.batch_size
         else:
@@ -148,24 +154,42 @@ def train():
                                  loc_mask = loc_mask, gold_loc_seq = gold_loc_seq, gold_state_seq = gold_state_seq,
                                  num_cands = num_cands)
 
-            train_loss, train_correct_pred, train_total_pred = train_result
+            train_state_loss, train_loc_loss, train_state_correct, train_state_pred,\
+                train_loc_correct, train_loc_pred = train_result
 
+            train_loss = train_state_loss + opt.loc_loss * train_loc_loss
             train_loss.backward()
             optimizer.step()
-            report_loss += train_loss.item()
-            report_correct += train_correct_pred
-            report_pred += train_total_pred
+
+            report_state_loss += train_state_loss.item() * train_state_pred
+            report_loc_loss += train_loc_loss.item() * train_loc_pred
+            report_state_correct += train_state_correct
+            report_state_pred += train_state_pred
+            report_loc_correct += train_loc_correct
+            report_loc_pred += train_loc_pred
             batch_cnt += 1
-            n_samples += len(paragraphs)
 
             # time to report results
             if batch_cnt in report_batch:
 
-                output(f'{batch_cnt}/{total_batches}, Epoch {epoch_i+1}: training loss: {(report_loss / n_samples):.3f}, '
-                      f'training state prediction accuracy: {(report_correct / report_pred)*100:.3f}%, time elapse: {time.time()-start_time:.2f}')
+                state_loss = report_state_loss / report_state_pred  # average over all elements
+                loc_loss = report_loc_loss / report_loc_pred
+                total_loss = state_loss + opt.loc_loss * loc_loss
+                state_accuracy = report_state_correct / report_state_pred
+                loc_accuracy = report_loc_correct / report_loc_pred
+                total_accuracy = (report_state_correct + report_loc_correct) / (report_state_pred + report_loc_pred)
+
+                output('*' * 50)
+                output(f'{batch_cnt}/{total_batches}, Epoch {epoch_i+1}:\n'
+                       f'Loss: {total_loss:.3f}, State Loss: {state_loss:.3f}, '
+                       f'Location Loss: {loc_loss:.3f}\n'
+                       f'Total Accuracy: {total_accuracy*100:.3f}%, '
+                       f'State Prediction Accuracy: {state_accuracy*100:.3f}%, '
+                       f'Location Accuracy: {loc_accuracy*100:.3f}% \nTime Elapse: {time.time()-start_time:.2f}')
+                output('-' * 50)
 
                 model.eval()
-                eval_score = eval(dev_set, model)
+                eval_score = evaluate(dev_set, model)
                 model.train()
 
                 if eval_score > best_score:  # new best score
@@ -181,7 +205,10 @@ def train():
                         output('Early Stopping!')
                         quit()
 
-                report_loss, report_correct, report_pred, n_samples, start_time = 0, 0, 0, 0, time.time()
+                report_state_loss, report_loc_loss = 0, 0
+                report_state_correct, report_state_pred = 0, 0
+                report_loc_correct, report_loc_pred = 0, 0
+                start_time = time.time()
 
         epoch_i += 1
 
@@ -191,13 +218,17 @@ def train():
         #     writer.add_graph(model, (char_paragraph, entity_mask, verb_mask, loc_mask, gold_loc_mask, gold_state_mask))
 
 
-def eval(dev_set, model):
-    start_time = time.time()
+def evaluate(dev_set, model):
     dev_batch = DataLoader(dataset = dev_set, batch_size = opt.batch_size, shuffle = False, collate_fn = Collate())
 
-    report_loss, report_correct, report_pred, n_samples = 0, 0, 0, len(dev_set)
+    start_time = time.time()
+    report_state_loss, report_loc_loss = 0, 0
+    report_state_correct, report_state_pred = 0, 0
+    report_loc_correct, report_loc_pred = 0, 0
+
     with torch.no_grad():
         for batch in dev_batch:
+
             paragraphs = batch['paragraph']
             char_paragraph = batch_to_ids(paragraphs)
             entity_mask = batch['entity_mask']
@@ -217,19 +248,37 @@ def eval(dev_set, model):
                 gold_state_seq = gold_state_seq.cuda()
                 num_cands = num_cands.cuda()
 
-            eval_result = model(char_paragraph=char_paragraph, entity_mask=entity_mask, verb_mask=verb_mask,
-                                loc_mask=loc_mask, gold_loc_seq=gold_loc_seq, gold_state_seq=gold_state_seq,
+            eval_result = model(char_paragraph = char_paragraph, entity_mask = entity_mask, verb_mask = verb_mask,
+                                loc_mask = loc_mask, gold_loc_seq = gold_loc_seq, gold_state_seq = gold_state_seq,
                                 num_cands = num_cands)
 
-            eval_loss, eval_correct_pred, eval_total_pred = eval_result
-            report_loss += eval_loss.item()
-            report_correct += eval_correct_pred
-            report_pred += eval_total_pred
+            eval_state_loss, eval_loc_loss, eval_state_correct, eval_state_pred, \
+                eval_loc_correct, eval_loc_pred = eval_result
+            eval_loss = eval_state_loss + opt.loc_loss * eval_loc_loss
 
-    output(f'Evaluation: eval loss: {(report_loss / n_samples):.3f}, '
-          f'eval state prediction accuracy: {(report_correct / report_pred)*100:.3f}%, time elapse: {time.time()-start_time:.2f}')
+            report_state_loss += eval_state_loss.item() * eval_state_pred
+            report_loc_loss += eval_loc_loss.item() * eval_loc_pred
+            report_state_correct += eval_state_correct
+            report_state_pred += eval_state_pred
+            report_loc_correct += eval_loc_correct
+            report_loc_pred += eval_loc_pred
 
-    return (report_correct / report_pred) * 100
+    state_loss = report_state_loss / report_state_pred  # average over all elements
+    loc_loss = report_loc_loss / report_loc_pred
+    total_loss = state_loss + opt.loc_loss * loc_loss
+    total_accuracy = (report_state_correct + report_loc_correct) / (report_state_pred + report_loc_pred)
+    state_accuracy = report_state_correct / report_state_pred
+    loc_accuracy = report_loc_correct / report_loc_pred
+
+    output(f'Evaluation:\n'
+           f'Loss: {total_loss:.3f}, State Loss: {state_loss:.3f}, '
+           f'Location Loss: {loc_loss:.3f}\n'
+           f'Total Accuracy: {total_accuracy * 100:.3f}%, '
+           f'State Prediction Accuracy: {state_accuracy * 100:.3f}%, '
+           f'Location Accuracy: {loc_accuracy * 100:.3f}% \nTime Elapse: {time.time() - start_time:.2f}')
+    output('*' * 50)
+
+    return total_accuracy * 100
 
 
 
