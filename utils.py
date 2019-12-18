@@ -94,6 +94,26 @@ def compute_loc_accuracy(logits: torch.FloatTensor, gold: torch.IntTensor, pad_v
     return correct_pred.item(), total_pred.item()
 
 
+def get_pred_loc(loc_logits: torch.Tensor, gold_loc_seq: torch.IntTensor) -> List[List[int]]:
+    """
+    Get the predicted location sequence from raw logits.
+    Note that loc_logits should be MASKED while gold_loc_seq should NOT.
+    Args:
+        loc_logits - raw logits, with padding elements set to -inf (masked). (batch, max_sents, max_cands)
+        gold_loc_seq - gold location sequence without masking. (batch, max_sents)
+    """
+    assert gold_loc_seq.size() == (loc_logits.size(0), loc_logits.size(1))
+    argmax_loc = torch.argmax(loc_logits, dim = -1)
+    assert argmax_loc.size() == gold_loc_seq.size()
+    argmax_loc = argmax_loc.masked_fill(mask = (gold_loc_seq == PAD_LOC), value = PAD_LOC).tolist()
+
+    pred_loc = []
+    for inst in argmax_loc:
+        pred_loc.append([x for x in inst if x != PAD_LOC])
+
+    return pred_loc
+
+
 def get_report_time(total_batches: int, report_times: int) -> List[int]:
     """
     Given the total number of batches in an epoch and the report times per epoch,

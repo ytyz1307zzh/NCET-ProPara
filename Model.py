@@ -16,29 +16,33 @@ from Constants import *
 from utils import *
 from allennlp.modules.elmo import Elmo
 from torchcrf import CRF
+import argparse
 
 
 class NCETModel(nn.Module):
 
-    def __init__(self, embed_size: int, hidden_size: int, dropout: float, elmo_dir: str, elmo_dropout: float):
+    def __init__(self, opt: argparse.Namespace, is_test: bool):
 
         super(NCETModel, self).__init__()
-        self.hidden_size = hidden_size
-        self.embed_size = embed_size
+        self.opt = opt
+        self.hidden_size = opt.hidden_size
+        self.embed_size = opt.embed_size
 
-        self.EmbeddingLayer = NCETEmbedding(embed_size = embed_size, elmo_dir = elmo_dir,
-                                            dropout = dropout, elmo_dropout = elmo_dropout)
-        self.TokenEncoder = nn.LSTM(input_size = embed_size, hidden_size = hidden_size,
+        self.EmbeddingLayer = NCETEmbedding(embed_size = opt.embed_size, elmo_dir = opt.elmo_dir,
+                                            dropout = opt.dropout, elmo_dropout = opt.elmo_dropout)
+        self.TokenEncoder = nn.LSTM(input_size = opt.embed_size, hidden_size = opt.hidden_size,
                                     num_layers = 1, batch_first = True, bidirectional = True)
-        self.Dropout = nn.Dropout(p = dropout)
+        self.Dropout = nn.Dropout(p = opt.dropout)
 
         # state tracking modules
-        self.StateTracker = StateTracker(hidden_size = hidden_size, dropout = dropout)
+        self.StateTracker = StateTracker(hidden_size = opt.hidden_size, dropout = opt.dropout)
         self.CRFLayer = CRF(NUM_STATES, batch_first = True)
 
         # location prediction modules
-        self.LocationPredictor = LocationPredictor(hidden_size = hidden_size, dropout = dropout)
+        self.LocationPredictor = LocationPredictor(hidden_size = opt.hidden_size, dropout = opt.dropout)
         self.CrossEntropy = nn.CrossEntropyLoss(ignore_index = PAD_LOC, reduction = 'mean')
+
+        self.is_test = is_test
         
 
     def forward(self, char_paragraph: torch.Tensor, entity_mask: torch.IntTensor, verb_mask: torch.IntTensor,
@@ -69,9 +73,9 @@ class NCETModel(nn.Module):
         log_likelihood = self.CRFLayer(emissions = tag_logits, tags = gold_state_seq.long(), mask = tag_mask, reduction = 'token_mean')
 
         state_loss = -log_likelihood  # State classification loss is negative log likelihood
-        pred_sequence = self.CRFLayer.decode(emissions=tag_logits, mask=tag_mask)
-        assert len(pred_sequence) == batch_size
-        correct_state_pred, total_state_pred = compute_state_accuracy(pred=pred_sequence, gold=gold_state_seq.tolist(),
+        pred_state_seq = self.CRFLayer.decode(emissions=tag_logits, mask=tag_mask)
+        assert len(pred_state_seq) == batch_size
+        correct_state_pred, total_state_pred = compute_state_accuracy(pred=pred_state_seq, gold=gold_state_seq.tolist(),
                                                         pad_value=PAD_STATE)
 
         # location prediction
@@ -85,6 +89,10 @@ class NCETModel(nn.Module):
         correct_loc_pred, total_loc_pred = compute_loc_accuracy(logits = masked_loc_logits, gold = masked_gold_loc_seq,
                                                                 pad_value = PAD_LOC)
         assert total_loc_pred > 0
+
+        if self.is_test:  # inference
+            pred_loc_seq = get_pred_loc(loc_logits = masked_loc_logits, gold_loc_seq = gold_loc_seq)
+            return pred_state_seq, pred_loc_seq
 
         return state_loss, loc_loss, correct_state_pred, total_state_pred, correct_loc_pred, total_loc_pred
 
@@ -102,7 +110,9 @@ class NCETModel(nn.Module):
         max_cands = loc_logits.size(-1)
 
         # first, we create a mask tensor that masked all positions above the num_cands limit
-        range_tensor = torch.arange(start = 1, end = max_cands + 1).cuda()
+        range_tensor = torch.arange(start = 1, end = max_cands + 1)
+        if not self.opt.no_cuda:
+            range_tensor = range_tensor.cuda()
         range_tensor = range_tensor.unsqueeze(dim = 0).expand(batch_size, max_cands)
         bool_range = torch.gt(range_tensor, num_cands.unsqueeze(dim = -1))  # find the off-limit positions
         assert bool_range.size() == (batch_size, max_cands)

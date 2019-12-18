@@ -32,7 +32,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-batch_size', type=int, default=64)
 parser.add_argument('-embed_size', type=int, default=128, help="embedding size (including the verb indicator)")
 parser.add_argument('-hidden_size', type=int, default=128, help="hidden size of lstm")
-parser.add_argument('-lr', type=float, default=3e-4, help="learning rate")
+parser.add_argument('-lr', type=float, default=1e-3, help="learning rate")
 parser.add_argument('-dropout', type=float, default=0.1, help="dropout rate")
 parser.add_argument('-elmo_dropout', type=float, default=0.5, help="dropout rate of elmo embedding")
 parser.add_argument('-loc_loss', type=float, default=1.0, help="hyper-parameter to weight location loss and state_loss")
@@ -40,9 +40,9 @@ parser.add_argument('-loc_loss', type=float, default=1.0, help="hyper-parameter 
 # training parameters
 parser.add_argument('-mode', type=str, default='train', help="train or test")
 parser.add_argument('-no_save_ckpt', action='store_true', default=False, help="if specified, then no checkpoint file will be saved")
-parser.add_argument('-ckpt_dir', type=str, required=True, help="checkpoint directory")
+parser.add_argument('-ckpt_dir', type=str, default=None, help="checkpoint directory")
 parser.add_argument('-save_mode', type=str, choices=['best', 'all'], default='best', help="save all checkpoints or only save best checkpoint?")
-parser.add_argument('-restore', type=str, default='', help="restoring model path")
+parser.add_argument('-restore', type=str, default=None, help="restoring model path")
 parser.add_argument('-epoch', type=int, default=100, help="number of epochs, use -1 to rely on early stopping only")
 parser.add_argument('-impatience', type=int, default=20, help='number of evaluation rounds for early stopping, use -1 to disable early stopping')
 parser.add_argument('-report', type=int, default=2, help="report frequence per epoch, should be at least 1")
@@ -80,6 +80,14 @@ torch.cuda.manual_seed(1234)
 def save_model(path: str, model: nn.Module):
     if opt.no_save_ckpt:
         return
+
+    if not opt.ckpt_dir:
+        print("[ERROR] Intended to store checkpoint but no checkpoint directory is specified.")
+        raise RuntimeError("Did not specify -ckpt_dir option")
+
+    if not os.path.exists(opt.ckpt_dir):
+        os.mkdir(opt.ckpt_dir)
+
     model_state_dict = model.state_dict()
     torch.save(model_state_dict, path)
 
@@ -100,8 +108,7 @@ def train():
         print('*'*20 + '[INFO] Debug mode enabled. Switch dev set to debug.json' + '*'*20)
         dev_set = ProparaDataset('data/debug.json', is_test = False)
 
-    model = NCETModel(embed_size = opt.embed_size, hidden_size = opt.hidden_size,
-                        dropout = opt.dropout, elmo_dir = opt.elmo_dir, elmo_dropout = opt.elmo_dropout)
+    model = NCETModel(opt = opt, is_test = False)
     if not opt.no_cuda:
         model.cuda()
 
@@ -298,8 +305,11 @@ def evaluate(dev_set, model):
 if __name__ == "__main__":
 
     if opt.mode == 'train':
-        if not os.path.exists(opt.ckpt_dir):
-            os.mkdir(opt.ckpt_dir)
         train()
+
+    elif opt.mode == 'test':
+        if not opt.restore:
+            print("[ERROR] Entered test mode but no restore file is specified.")
+            raise RuntimeError("Did not specify -restore option")
 
 
