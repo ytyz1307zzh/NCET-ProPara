@@ -41,7 +41,7 @@ parser.add_argument('-mode', type=str, default='train', help="train or test")
 parser.add_argument('-ckpt_dir', type=str, required=True, help="checkpoint directory")
 parser.add_argument('-restore', type=str, default='', help="restoring model path")
 parser.add_argument('-epoch', type=int, default=100, help="number of epochs, use -1 to rely on early stopping only")
-parser.add_argument('-impatience', type=int, default=20, help='number of evaluation rounds for early stopping')
+parser.add_argument('-impatience', type=int, default=20, help='number of evaluation rounds for early stopping, use -1 to disable early stopping')
 parser.add_argument('-report', type=int, default=2, help="report frequence per epoch, should be at least 1")
 parser.add_argument('-elmo_dir', type=str, default='elmo', help="directory that contains options and weight files for allennlp Elmo")
 parser.add_argument('-train_set', type=str, default="data/train.json", help="path to training set")
@@ -106,6 +106,9 @@ def train():
     if opt.epoch == -1:
         opt.epoch = np.inf
 
+    if opt.impatience == -1:
+        opt.impatience = np.inf
+
     print('Start training...')
 
     while epoch_i < opt.epoch:
@@ -126,9 +129,9 @@ def train():
         report_batch = get_report_time(total_batches = total_batches, report_times = opt.report)  # when to report results
 
         for batch in train_batch:
-            with open('logs/debug.log', 'w', encoding='utf-8') as debug_file:
-                torch.set_printoptions(threshold=np.inf)
-                print(batch, file = debug_file)
+            # with open('logs/debug.log', 'w', encoding='utf-8') as debug_file:
+            #     torch.set_printoptions(threshold=np.inf)
+            #     print(batch, file = debug_file)
             model.zero_grad()
 
             paragraphs = batch['paragraph']
