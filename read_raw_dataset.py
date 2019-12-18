@@ -75,7 +75,7 @@ def lemmatize(paragraph: str) -> (List[str], str):
 # TODO: Maybe we shouldn't perform lemmatization to location candidates for the test set
 #       in order to generate raw spans in the paragraph while filling the grids.
 #       (candidate masks are still computed after masking both the candidate and the paragraph)
-def find_loc_candidate(paragraph: flair.data.Sentence) -> List[str]:
+def find_loc_candidate(paragraph: flair.data.Sentence) -> Set[str]:
     """
     paragraph: the paragraph after tokenization and lower-case transformation
     return: the location candidates found in this paragraph
@@ -387,12 +387,17 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
 
                 if gold_location != '-' and gold_location != '?':
                     total_loc_set.add(gold_location)
+                    if test:  # for test set, multiple location appearances are counted into recall
+                        total_loc_cnt += 1
+
 
                 # whether the gold location is in the candidates (training only)
                 if gold_location not in loc_cand_set \
                     and gold_location != '-' and gold_location != '?':
                     if not test:
                         loc_cand_set.add(gold_location)
+                    else:  # for test set, multiple location appearances are counted into recall
+                        total_err_cnt += 1
                     total_err_set.add(gold_location)
                     print(f'[INFO] Paragraph {para_id}: gold location "{gold_location}" not included in candidate set.',
                          file=log_file)
@@ -452,8 +457,9 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
             row_index = begin_row_index
             data_instances.append(instance)
 
-        total_loc_cnt += len(total_loc_set)
-        total_err_cnt += len(total_err_set)
+        if not test:
+            total_loc_cnt += len(total_loc_set)
+            total_err_cnt += len(total_err_set)
         # print(total_loc_set)
         # print(total_err_set)
 
@@ -538,7 +544,8 @@ if __name__ == '__main__':
     json.dump(train_instances, open(os.path.join(opt.store_dir, 'train.json'), 'w', encoding='utf-8'),
                 ensure_ascii=False, indent=4)
 
-    
+    print('[INFO] For train and dev sets, multiple appearances of same location is counted for only once in recall.')
+    print('[INFO] For test set, multiple appearances of same location is counted for multiple times in recall.')
     print('[INFO] JSON files saved successfully.')
 
     log_file.close()

@@ -39,7 +39,9 @@ parser.add_argument('-loc_loss', type=float, default=1.0, help="hyper-parameter 
 
 # training parameters
 parser.add_argument('-mode', type=str, default='train', help="train or test")
+parser.add_argument('-no_save_ckpt', action='store_true', default=False, help="if specified, then no checkpoint file will be saved")
 parser.add_argument('-ckpt_dir', type=str, required=True, help="checkpoint directory")
+parser.add_argument('-save_mode', type=str, choices=['best', 'all'], default='best', help="save all checkpoints or only save best checkpoint?")
 parser.add_argument('-restore', type=str, default='', help="restoring model path")
 parser.add_argument('-epoch', type=int, default=100, help="number of epochs, use -1 to rely on early stopping only")
 parser.add_argument('-impatience', type=int, default=20, help='number of evaluation rounds for early stopping, use -1 to disable early stopping')
@@ -75,9 +77,11 @@ torch.manual_seed(1234)
 torch.cuda.manual_seed(1234)
 
 
-# TODO: Implement this save_model function
-def save_model(path: str, model):
-    pass
+def save_model(path: str, model: nn.Module):
+    if opt.no_save_ckpt:
+        return
+    model_state_dict = model.state_dict()
+    torch.save(model_state_dict, path)
 
 
 def train():
@@ -207,7 +211,8 @@ def train():
                 else:
                     impatience += 1
                     output(f'Impatience: {impatience}, best score: {best_score:.3f}.')
-                    save_model(os.path.join(opt.ckpt_dir, f'checkpoint_{eval_score:.3f}.pt'), model)
+                    if opt.save_mode == 'all':
+                        save_model(os.path.join(opt.ckpt_dir, f'checkpoint_{eval_score:.3f}.pt'), model)
                     if impatience >= opt.impatience:
                         output('Early Stopping!')
                         quit()
@@ -293,5 +298,8 @@ def evaluate(dev_set, model):
 if __name__ == "__main__":
 
     if opt.mode == 'train':
+        if not os.path.exists(opt.ckpt_dir):
+            os.mkdir(opt.ckpt_dir)
         train()
+
 
