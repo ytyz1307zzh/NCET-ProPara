@@ -120,9 +120,9 @@ def train():
         report_batch = get_report_time(total_batches = total_batches, report_times = opt.report)  # when to report results
 
         for batch in train_batch:
-            # with open('logs/debug.log', 'w', encoding='utf-8') as debug_file:
-            #     torch.set_printoptions(threshold=np.inf)
-            #     print(batch, file = debug_file)
+            with open('logs/debug.log', 'w', encoding='utf-8') as debug_file:
+                torch.set_printoptions(threshold=np.inf)
+                print(batch, file = debug_file)
             model.zero_grad()
 
             paragraphs = batch['paragraph']
@@ -132,6 +132,8 @@ def train():
             loc_mask = batch['loc_mask']
             gold_loc_seq = batch['gold_loc_seq']
             gold_state_seq = batch['gold_state_seq']
+            metadata = batch['metadata']
+            num_cands = torch.IntTensor([meta['total_loc_cands'] for meta in metadata])
 
             if not opt.no_cuda:
                 char_paragraph = char_paragraph.cuda()
@@ -140,9 +142,11 @@ def train():
                 loc_mask = loc_mask.cuda()
                 gold_loc_seq = gold_loc_seq.cuda()
                 gold_state_seq = gold_state_seq.cuda()
+                num_cands = num_cands.cuda()
 
             train_result = model(char_paragraph = char_paragraph, entity_mask = entity_mask, verb_mask = verb_mask,
-                                 loc_mask = loc_mask, gold_loc_seq = gold_loc_seq, gold_state_seq = gold_state_seq)
+                                 loc_mask = loc_mask, gold_loc_seq = gold_loc_seq, gold_state_seq = gold_state_seq,
+                                 num_cands = num_cands)
 
             train_loss, train_correct_pred, train_total_pred = train_result
 
@@ -201,6 +205,8 @@ def eval(dev_set, model):
             loc_mask = batch['loc_mask']
             gold_loc_seq = batch['gold_loc_seq']
             gold_state_seq = batch['gold_state_seq']
+            metadata = batch['metadata']
+            num_cands = torch.IntTensor([meta['total_loc_cands'] for meta in metadata])
 
             if not opt.no_cuda:
                 char_paragraph = char_paragraph.cuda()
@@ -209,9 +215,11 @@ def eval(dev_set, model):
                 loc_mask = loc_mask.cuda()
                 gold_loc_seq = gold_loc_seq.cuda()
                 gold_state_seq = gold_state_seq.cuda()
+                num_cands = num_cands.cuda()
 
             eval_result = model(char_paragraph=char_paragraph, entity_mask=entity_mask, verb_mask=verb_mask,
-                                            loc_mask=loc_mask, gold_loc_seq=gold_loc_seq, gold_state_seq=gold_state_seq)
+                                loc_mask=loc_mask, gold_loc_seq=gold_loc_seq, gold_state_seq=gold_state_seq,
+                                num_cands = num_cands)
 
             eval_loss, eval_correct_pred, eval_total_pred = eval_result
             report_loss += eval_loss.item()

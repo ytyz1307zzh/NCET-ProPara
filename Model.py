@@ -38,36 +38,90 @@ class NCETModel(nn.Module):
 
         # location prediction modules
         self.LocationPredictor = LocationPredictor(hidden_size = hidden_size, dropout = dropout)
+        self.CrossEntropy = nn.CrossEntropyLoss(ignore_index = PAD_LOC, reduction = 'sum')
         
 
     def forward(self, char_paragraph: torch.Tensor, entity_mask: torch.IntTensor, verb_mask: torch.IntTensor,
-                loc_mask: torch.IntTensor, gold_loc_seq: torch.IntTensor, gold_state_seq: torch.IntTensor):
+                loc_mask: torch.IntTensor, gold_loc_seq: torch.IntTensor, gold_state_seq: torch.IntTensor,
+                num_cands: torch.IntTensor):
         """
         Args:
             gold_loc_seq: size (batch, max_sents)
             gold_state_seq: size (batch, max_sents)
+            num_cands: size(batch,)
         """
+        assert entity_mask.size(-2) == verb_mask.size(-2) == loc_mask.size(-2) == gold_state_seq.size(-1) == gold_loc_seq.size(-1)
+        assert entity_mask.size(-1) == verb_mask.size(-1) == loc_mask.size(-1) == char_paragraph.size(-2)
         batch_size = char_paragraph.size(0)
         max_tokens = char_paragraph.size(1)
+        max_sents = gold_state_seq.size(-1)
+        max_cands = loc_mask.size(-3)
 
         embeddings = self.EmbeddingLayer(char_paragraph, verb_mask)  # (batch, max_tokens, embed_size)
         token_rep, _ = self.TokenEncoder(embeddings)  # (batch, max_tokens, 2*hidden_size)
         token_rep = self.Dropout(token_rep)
         assert token_rep.size() == (batch_size, max_tokens, 2 * self.hidden_size)
 
+        # state cheng prediction
         # size (batch, max_sents, NUM_STATES)
         tag_logits = self.StateTracker(encoder_out = token_rep, entity_mask = entity_mask, verb_mask = verb_mask)
         tag_mask = (gold_state_seq != PAD_STATE) # mask the padded part so they won't count in loss
         log_likelihood = self.CRFLayer(emissions = tag_logits, tags = gold_state_seq.long(), mask = tag_mask, reduction = 'sum')
 
-        loc_logits = self.LocationPredictor(encoder_out = token_rep, entity_mask = entity_mask, loc_mask = loc_mask)
-
-        loss = -log_likelihood  # State classification loss is negative log likelihood
-        pred_sequence = self.CRFLayer.decode(emissions = tag_logits, mask = tag_mask)
+        state_loss = -log_likelihood  # State classification loss is negative log likelihood
+        pred_sequence = self.CRFLayer.decode(emissions=tag_logits, mask=tag_mask)
         assert len(pred_sequence) == batch_size
-        correct_pred, total_pred = compute_tag_accuracy(pred = pred_sequence, gold = gold_state_seq.tolist(), pad_value = PAD_STATE)
+        correct_state_pred, total_state_pred = compute_tag_accuracy(pred=pred_sequence, gold=gold_state_seq.tolist(),
+                                                        pad_value=PAD_STATE)
 
-        return loss, correct_pred, total_pred
+        # location prediction
+        # size (batch, max_cands, max_sents)
+        loc_logits = self.LocationPredictor(encoder_out = token_rep, entity_mask = entity_mask, loc_mask = loc_mask)
+        loc_logits = loc_logits.transpose(-1, -2)  # size (batch, max_sents, max_cands)
+        masked_loc_logits = self.mask_loc_logits(loc_logits = loc_logits, num_cands = num_cands)  # (batch, max_sents, max_cands)
+        masked_gold_loc_seq = self.mask_undefined_loc(gold_loc_seq = gold_loc_seq, mask_value = PAD_LOC)  # (batch, max_sents)
+        loc_loss = self.CrossEntropy(input = masked_loc_logits.view(batch_size * max_sents, max_cands),
+                                     target = masked_gold_loc_seq.view(batch_size * max_sents).long())
+
+        return loss, correct_state_pred, total_state_pred
+
+
+    def mask_loc_logits(self, loc_logits, num_cands: torch.IntTensor):
+        """
+        Mask the padded candidates with an -inf score, so they will have a likelihood = 0 after softmax
+        Args:
+            loc_logits - output scores for each candidate in each sentence, size (batch, max_sents, max_cands)
+            num_cands - total number of candidates in each instance of the given batch, size (batch,)
+        """
+        assert torch.max(num_cands) == loc_logits.size(-1)
+        assert loc_logits.size(0) == num_cands.size(0)
+        batch_size = loc_logits.size(0)
+        max_cands = loc_logits.size(-1)
+
+        # first, we create a mask tensor that masked all positions above the num_cands limit
+        range_tensor = torch.arange(start = 1, end = max_cands + 1)
+        range_tensor = range_tensor.unsqueeze(dim = 0).expand(batch_size, max_cands)
+        bool_range = torch.gt(range_tensor, num_cands.unsqueeze(dim = -1))  # find the off-limit positions
+        assert bool_range.size() == (batch_size, max_cands)
+
+        bool_range = bool_range.unsqueeze(dim = -2).expand_as(loc_logits)  # use this bool tensor to mask loc_logits
+        masked_loc_logits = loc_logits.masked_fill(bool_range, value = float('-inf'))  # mask padded positions to -inf
+        assert masked_loc_logits.size() == loc_logits.size()
+
+        return masked_loc_logits
+
+
+    def mask_undefined_loc(self, gold_loc_seq, mask_value: int):
+        """
+        Mask all undefined locations (NIL, UNK, PAD) in order not to count them in loss.
+        Since these three special labels are all negetive, any position with a negative target label will be masked to mask_value.
+        Args:
+            gold_loc_seq - sequence of gold locations, size (batch, max_sents)
+            mask_value - Should be the same label with ignore_index argument in cross-entropy.
+        """
+        negative_labels = torch.lt(gold_loc_seq, 0)
+        masked_gold_loc_seq = gold_loc_seq.masked_fill(mask = negative_labels, value = mask_value)
+        return masked_gold_loc_seq
 
     
 class NCETEmbedding(nn.Module):
@@ -235,11 +289,12 @@ class LocationPredictor(nn.Module):
         decoder_in = decoder_in.view(batch_size * max_cands, max_sents, 4 * self.hidden_size)
         decoder_out, _ = self.Decoder(decoder_in)  # (batch, max_sents, 2 * hidden_size), forward & backward concatenated
         assert decoder_out.size() == (batch_size * max_cands, max_sents, 2 * self.hidden_size)
+
         decoder_out = decoder_out.view(batch_size, max_cands, max_sents, 2 * self.hidden_size)
         decoder_out = self.Dropout(decoder_out)
-        loc_logits = self.Hidden2Score(decoder_out).squeeze(dim = -1)
+        loc_logits = self.Hidden2Score(decoder_out).squeeze(dim = -1)  # (batch, max_cands, max_sents)
 
-
+        return loc_logits
 
     def get_masked_input(self, encoder_out, entity_mask, loc_mask, batch_size: int):
         """
