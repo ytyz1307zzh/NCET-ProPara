@@ -9,6 +9,7 @@ print('[INFO] Starting import...')
 import_start_time = time.time()
 import torch
 import json
+from tqdm import tqdm
 import os
 import numpy as np
 from typing import List, Dict
@@ -40,9 +41,9 @@ parser.add_argument('-loc_loss', type=float, default=1.0, help="hyper-parameter 
 
 # training parameters
 parser.add_argument('-mode', type=str, default='train', help="train or test")
-parser.add_argument('-no_save_ckpt', action='store_true', default=False, help="if specified, then no checkpoint file will be saved")
 parser.add_argument('-ckpt_dir', type=str, default=None, help="checkpoint directory")
-parser.add_argument('-save_mode', type=str, choices=['best', 'all'], default='best', help="save all checkpoints or only save best checkpoint?")
+parser.add_argument('-save_mode', type=str, choices=['best', 'all', 'none'], default='best',
+                    help="best (default): save checkpoints when reaching new best score; all: save all checkpoints; none: don't save")
 parser.add_argument('-restore', type=str, default=None, help="restoring model path")
 parser.add_argument('-epoch', type=int, default=100, help="number of epochs, use -1 to rely on early stopping only")
 parser.add_argument('-impatience', type=int, default=20, help='number of evaluation rounds for early stopping, use -1 to disable early stopping')
@@ -51,6 +52,8 @@ parser.add_argument('-elmo_dir', type=str, default='elmo', help="directory that 
 parser.add_argument('-train_set', type=str, default="data/train.json", help="path to training set")
 parser.add_argument('-dev_set', type=str, default="data/dev.json", help="path to dev set")
 parser.add_argument('-test_set', type=str, default="data/test.json", help="path to test set")
+parser.add_argument('-dummy_test', type=str, default="data/dummy-predictions.tsv", help="path to dummy prediction file")
+parser.add_argument('-output', type=str, default=None, help="path to store prediction outputs")
 parser.add_argument('-debug', action='store_true', default=False, help="enable debug mode, change data files to debug data")
 parser.add_argument('-no_cuda', action='store_true', default=False, help="if true, will only use cpu")
 parser.add_argument('-log_dir', type=str, default=None, help="the log directory to store training logs")
@@ -79,7 +82,7 @@ torch.cuda.manual_seed(1234)
 
 
 def save_model(path: str, model: nn.Module):
-    if opt.no_save_ckpt:
+    if opt.save_mode == 'none':
         return
 
     if not opt.ckpt_dir:
@@ -304,12 +307,13 @@ def evaluate(dev_set, model):
 
 def test(test_set, model):
 
+    print('[INFO] Start testing...')
     test_batch = DataLoader(dataset = test_set, batch_size = opt.batch_size, shuffle = False, collate_fn = Collate())
     start_time = time.time()
-    output = []
+    output = {}
 
     with torch.no_grad():
-        for batch in test_batch:
+        for batch in tqdm(test_batch):
 
             paragraphs = batch['paragraph']
             char_paragraph = batch_to_ids(paragraphs)
@@ -338,9 +342,13 @@ def test(test_set, model):
 
             batch_size = len(paragraphs)
             for i in range(batch_size):
-                get_output(metadata = metadata[i], pred_state_seq = pred_state_seq[i], pred_loc_seq = pred_loc_seq[i])
+                pred_instance = get_output(metadata = metadata[i], pred_state_seq = pred_state_seq[i], pred_loc_seq = pred_loc_seq[i])
+                para_id = pred_instance['id']
+                entity_name = pred_instance['entity']
+                output[str(para_id) + '-' + entity_name] = pred_instance
 
-
+    write_output(output = output, dummy_filepath = opt.dummy_test, output_filepath = opt.output)
+    print(f'[INFO] Test finished. Time elapse: {time.time() - start_time}')
 
 
 if __name__ == "__main__":
@@ -352,6 +360,10 @@ if __name__ == "__main__":
         if not opt.restore:
             print("[ERROR] Entered test mode but no restore file is specified.")
             raise RuntimeError("Did not specify -restore option")
+
+        if not opt.output:
+            print("[ERROR] Entered test mode but no output file is specified.")
+            raise RuntimeError("Did not specify -output option")
 
         test_set = ProparaDataset(opt.test_set, is_test=True)
 

@@ -9,6 +9,42 @@ from typing import Dict, List
 from Constants import *
 
 
+def write_output(output: Dict[Dict], dummy_filepath: str, output_filepath: str):
+    """
+    Reads the headers of prediction file from dummy_filepath and fill in the blanks with prediction.
+    Prediction will be stored according to output_filepath.
+    """
+    dummy_file = open(dummy_filepath, 'r', encoding='utf-8')
+    output_file = open(output_filepath, 'w', encoding='utf-8')
+
+    while True:
+
+        dummy_line = dummy_file.readline()
+        if not dummy_line:  # encouter EOF
+            break
+
+        fields = dummy_line.strip().split('\t')  # para_id, sent_id, entity, state (initially, NONE)
+        assert len(fields) == 4 and fields[-1] == 'NONE'
+
+        para_id = int(fields[0])
+        sent_id = int(fields[1])
+        entity_name = fields[2]
+        pred_instance = output[str(para_id) + '-' + entity_name]
+
+        total_sents = pred_instance['total_sents']
+        assert sent_id <= total_sents
+        assert para_id == pred_instance['id'] and entity_name == pred_instance['entity']
+
+        prediction = pred_instance['prediction'][sent_id - 1]  # sent_id begins from 1
+        state, loc_before, loc_after = prediction
+        fields[-1] = state
+        fields.append(loc_before)
+        fields.append(loc_after)
+        assert len(fields) == 6
+
+        output_file.write('\t'.join(fields))
+
+
 def get_output(metadata: Dict, pred_state_seq: List[int], pred_loc_seq: List[int]) -> Dict:
     """
     Get the predicted output from generated sequences by the model.
