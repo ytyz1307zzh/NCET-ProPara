@@ -19,6 +19,7 @@ from tensorboardX import SummaryWriter
 from torch.utils.data import DataLoader
 from allennlp.modules.elmo import batch_to_ids
 from utils import *
+from predict import *
 from Dataset import *
 from Model import *
 import datetime as dt
@@ -302,7 +303,43 @@ def evaluate(dev_set, model):
 
 
 def test(test_set, model):
+
     test_batch = DataLoader(dataset = test_set, batch_size = opt.batch_size, shuffle = False, collate_fn = Collate())
+    start_time = time.time()
+    output = []
+
+    with torch.no_grad():
+        for batch in test_batch:
+
+            paragraphs = batch['paragraph']
+            char_paragraph = batch_to_ids(paragraphs)
+            entity_mask = batch['entity_mask']
+            verb_mask = batch['verb_mask']
+            loc_mask = batch['loc_mask']
+            gold_loc_seq = batch['gold_loc_seq']
+            gold_state_seq = batch['gold_state_seq']
+            metadata = batch['metadata']
+            num_cands = torch.IntTensor([meta['total_loc_cands'] for meta in metadata])
+
+            if not opt.no_cuda:
+                char_paragraph = char_paragraph.cuda()
+                entity_mask = entity_mask.cuda()
+                verb_mask = verb_mask.cuda()
+                loc_mask = loc_mask.cuda()
+                gold_loc_seq = gold_loc_seq.cuda()
+                gold_state_seq = gold_state_seq.cuda()
+                num_cands = num_cands.cuda()
+
+            test_result = model(char_paragraph=char_paragraph, entity_mask=entity_mask, verb_mask=verb_mask,
+                                loc_mask=loc_mask, gold_loc_seq=gold_loc_seq, gold_state_seq=gold_state_seq,
+                                num_cands=num_cands)
+
+            pred_state_seq, pred_loc_seq = test_result
+
+            batch_size = len(paragraphs)
+            for i in range(batch_size):
+                output.extend(get_output(metadata = metadata[i], pred_state_seq = pred_state_seq, pred_loc_seq = pred_loc_seq))
+
 
 
 
