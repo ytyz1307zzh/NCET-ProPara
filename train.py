@@ -365,6 +365,13 @@ if __name__ == "__main__":
             print("[ERROR] Entered test mode but no output file is specified.")
             raise RuntimeError("Did not specify -output option")
 
+        if not opt.output.endswith('.tsv'):
+            print("[WARNING] The output will be in TSV format, while the specified output file does not have .tsv suffix.")
+
+        if opt.debug:
+            print('*' * 20 + '[INFO] Debug mode enabled. Switch dummy file to data/dummy-debug.json' + '*' * 20)
+            opt.dummy_test = 'data/dummy-debug.tsv'
+
         test_set = ProparaDataset(opt.test_set, is_test=True)
 
         if opt.debug:

@@ -9,7 +9,7 @@ from typing import Dict, List
 from Constants import *
 
 
-def write_output(output: Dict[Dict], dummy_filepath: str, output_filepath: str):
+def write_output(output: Dict[str, Dict], dummy_filepath: str, output_filepath: str):
     """
     Reads the headers of prediction file from dummy_filepath and fill in the blanks with prediction.
     Prediction will be stored according to output_filepath.
@@ -42,7 +42,9 @@ def write_output(output: Dict[Dict], dummy_filepath: str, output_filepath: str):
         fields.append(loc_after)
         assert len(fields) == 6
 
-        output_file.write('\t'.join(fields))
+        output_file.write('\t'.join(fields) + '\n')
+
+    output_file.close()
 
 
 def get_output(metadata: Dict, pred_state_seq: List[int], pred_loc_seq: List[int]) -> Dict:
