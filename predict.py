@@ -13,7 +13,7 @@ def get_output(metadata: Dict, pred_state_seq: List[int], pred_loc_seq: List[int
     """
     Get the predicted output from generated sequences by the model.
     """
-    para_id = metadata['id']
+    para_id = metadata['para_id']
     entity_name = metadata['entity']
     loc_cand_list = metadata['loc_cand_list']
     total_sents = metadata['total_sents']
@@ -40,9 +40,11 @@ def format_final_prediction(pred_state_seq: List[str], pred_loc_seq: List[str]) 
     assert len(pred_state_seq) + 1 == len(pred_loc_seq)
     num_sents = len(pred_state_seq)
     prediction = []
+    tag2state = {'O_C': 'NONE', 'O_D': 'NONE', 'C': 'CREATE', 'E': 'NONE', 'M': 'MOVE', 'D': 'DESTROY'}
 
     for i in range(num_sents):
-        prediction.append( (pred_state_seq[i], pred_loc_seq[i], pred_loc_seq[i+1]) )
+        state_tag = pred_state_seq[i]
+        prediction.append( (tag2state[state_tag], pred_loc_seq[i], pred_loc_seq[i+1]) )
 
     return prediction
 
@@ -94,3 +96,9 @@ def predict_loc0(state1: str) -> str:
         loc0 = '-'
 
     return loc0
+
+# metadata = {'para_id': 249, 'entity': 'rocks ; smaller pieces', 'total_sents': 7, 'total_loc_cands': 4,
+#             'loc_cand_list': ['pressure', 'pressure air', 'air', 'river', 'flower', 'water']}
+# pred_state_seq = [4, 2, 2, 3, 5, 1, 1]
+# pred_loc_seq = [0, 1, 2, 2, 4, 5, 3]
+# print(get_output(metadata, pred_state_seq, pred_loc_seq))
