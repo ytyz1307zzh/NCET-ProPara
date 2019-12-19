@@ -338,7 +338,7 @@ def test(test_set, model):
 
             batch_size = len(paragraphs)
             for i in range(batch_size):
-                output.extend(get_output(metadata = metadata[i], pred_state_seq = pred_state_seq, pred_loc_seq = pred_loc_seq))
+                get_output(metadata = metadata[i], pred_state_seq = pred_state_seq[i], pred_loc_seq = pred_loc_seq[i])
 
 
 
