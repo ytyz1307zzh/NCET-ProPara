@@ -34,7 +34,7 @@ def write_output(output: Dict[str, Dict], dummy_filepath: str, output_filepath: 
 
         total_sents = pred_instance['total_sents']
         assert sent_id <= total_sents
-        assert para_id == pred_instance['id'] and entity_name == detokenize(pred_instance['entity'])
+        assert para_id == pred_instance['id'] and entity_name == pred_instance['entity']
 
         prediction = pred_instance['prediction'][sent_id - 1]  # sent_id begins from 1
         state, loc_before, loc_after = prediction

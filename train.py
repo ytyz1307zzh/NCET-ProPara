@@ -344,7 +344,7 @@ def test(test_set, model):
             for i in range(batch_size):
                 pred_instance = get_output(metadata = metadata[i], pred_state_seq = pred_state_seq[i], pred_loc_seq = pred_loc_seq[i])
                 para_id = pred_instance['id']
-                entity_name = detokenize(pred_instance['entity'])
+                entity_name = pred_instance['entity']
                 output[str(para_id) + '-' + entity_name] = pred_instance
 
     write_output(output = output, dummy_filepath = opt.dummy_test, output_filepath = opt.output)

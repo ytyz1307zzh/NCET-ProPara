@@ -128,11 +128,6 @@ def get_report_time(total_batches: int, report_times: int) -> List[int]:
     return report_batch
 
 
-def detokenize(text: str) -> str:
-    text = re.sub(' ;', ';', text)
-    return text
-
-
 def unpad(source: List[int], pad_value: int) -> List[int]:
     """
     Remove padded elements from a list
