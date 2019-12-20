@@ -40,7 +40,7 @@ parser.add_argument('-elmo_dropout', type=float, default=0.5, help="dropout rate
 parser.add_argument('-loc_loss', type=float, default=1.0, help="hyper-parameter to weight location loss and state_loss")
 
 # training parameters
-parser.add_argument('-mode', type=str, default='train', help="train or test")
+parser.add_argument('-mode', type=str, choices=['train', 'test'], default='train', help="train or test")
 parser.add_argument('-ckpt_dir', type=str, default=None, help="checkpoint directory")
 parser.add_argument('-save_mode', type=str, choices=['best', 'all', 'none'], default='best',
                     help="best (default): save checkpoints when reaching new best score; all: save all checkpoints; none: don't save")

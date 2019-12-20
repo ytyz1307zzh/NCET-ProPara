@@ -10,6 +10,7 @@ import torch
 from typing import List
 import numpy as np
 from Constants import *
+import re
 
 max_num_candidates = 0
 max_num_tokens = 0
@@ -125,6 +126,11 @@ def get_report_time(total_batches: int, report_times: int) -> List[int]:
     report_batch = [i * report_span for i in range(1, report_times)]
     report_batch.append(total_batches)
     return report_batch
+
+
+def detokenize(text: str) -> str:
+    text = re.sub(' ;', ';', text)
+    return text
 
 
 def unpad(source: List[int], pad_value: int) -> List[int]:
