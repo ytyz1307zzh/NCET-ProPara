@@ -108,7 +108,7 @@ def hard_constraint(state: str, loc_before: str, loc_after: str) -> (str, str, s
 
 
 # TODO: if state1 == 'E', then state0 should be '?' or state0 should be the same with state1?
-# TODO: if state == 'M' but predicted location is the same with before, should I predict '?' or ignore?
+# TODO: if state == 'M' but predicted location is the same with before, should I predict '?' or ignore or change 'M' to 'E'?
 def predict_consistent_loc(pred_state_seq: List[str], pred_loc_seq: List[str]) -> List[str]:
     """
     1. Only keep the location predictions at state "C" or "M"

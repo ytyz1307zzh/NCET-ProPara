@@ -218,7 +218,10 @@ def train():
                     best_score = eval_score
                     impatience = 0
                     output('New best score!')
-                    save_model(os.path.join(opt.ckpt_dir, f'best_checkpoint_{best_score:.3f}.pt'), model)
+                    if opt.save_mode == 'all':
+                        save_model(os.path.join(opt.ckpt_dir, f'best_checkpoint_{best_score:.3f}.pt'), model)
+                    elif opt.save_mode == 'best':
+                        save_model(os.path.join(opt.ckpt_dir, f'best_checkpoint.pt'), model)
                 else:
                     impatience += 1
                     output(f'Impatience: {impatience}, best score: {best_score:.3f}.')
@@ -348,7 +351,7 @@ def test(test_set, model):
                 output[str(para_id) + '-' + entity_name] = pred_instance
 
     write_output(output = output, dummy_filepath = opt.dummy_test, output_filepath = opt.output)
-    print(f'[INFO] Test finished. Time elapse: {time.time() - start_time}')
+    print(f'[INFO] Test finished. Time elapse: {time.time() - start_time}s')
 
 
 if __name__ == "__main__":
@@ -378,10 +381,13 @@ if __name__ == "__main__":
             print('*' * 20 + '[INFO] Debug mode enabled. Switch test set to debug.json' + '*' * 20)
             test_set = ProparaDataset('data/debug.json', is_test=True)
 
+        print('[INFO] Start loading trained model...')
+        restore_start_time = time.time()
         model = NCETModel(opt = opt, is_test = True)
         model_state_dict = torch.load(opt.restore)
         model.load_state_dict(model_state_dict)
         model.eval()
+        print(f'[INFO] Loaded model from {opt.restore}, time elapse: {time.time() - restore_start_time}s')
 
         if not opt.no_cuda:
             model.cuda()
