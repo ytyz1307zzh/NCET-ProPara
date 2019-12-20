@@ -82,10 +82,29 @@ def format_final_prediction(pred_state_seq: List[str], pred_loc_seq: List[str]) 
     tag2state = {'O_C': 'NONE', 'O_D': 'NONE', 'C': 'CREATE', 'E': 'NONE', 'M': 'MOVE', 'D': 'DESTROY'}
 
     for i in range(num_sents):
-        state_tag = pred_state_seq[i]
-        prediction.append( (tag2state[state_tag], pred_loc_seq[i], pred_loc_seq[i+1]) )
+        state_tag = tag2state[pred_state_seq[i]]
+        prediction.append( hard_constraint(state_tag, pred_loc_seq[i], pred_loc_seq[i+1]) )
 
     return prediction
+
+
+def hard_constraint(state: str, loc_before: str, loc_after: str) -> (str, str, str):
+    """
+    Some commonsense hard constraints on the predictions.
+    P.S. These constraints are only defined for evaluation, not for state sequence prediction.
+    1. For state NONE, loc_after must be the same with loc_before
+    2. For state MOVE and DESTROY, loc_before must not be '-'.
+    3. For state CREATE, loc_before should be '-'.
+    """
+    if state == 'NONE':
+        loc_after = loc_before
+    if state == 'MOVE' and loc_before == '-':
+        state = 'CREATE'
+    if state == 'DESTROY' and loc_before == '-':
+        state = 'NONE'
+    if state == 'CREATE' and loc_before == loc_after:
+        state = 'NONE'
+    return state, loc_before, loc_after
 
 
 # TODO: if state1 == 'E', then state0 should be '?' or state0 should be the same with state1?
