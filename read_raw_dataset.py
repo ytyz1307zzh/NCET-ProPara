@@ -294,7 +294,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
 
     csv_data = pd.read_csv(filename, header = None, names = column_names)
     row_index = 0
-    para_index = 1
+    para_index = 0
 
     # variables for computing the accuracy of location prediction
     total_loc_cnt = 0
@@ -529,20 +529,20 @@ if __name__ == '__main__':
 
     log_file = open(f'{opt.log_dir}/info.log', 'w', encoding='utf-8')
     # save the instances to JSON files
-    # print('Dev Set......')
-    # dev_instances = read_annotation(opt.state_file, dev_para, log_file, test = False)
-    # json.dump(dev_instances, open(os.path.join(opt.store_dir, 'dev.json'), 'w', encoding='utf-8'),
-    #             ensure_ascii=False, indent=4)
+    print('Dev Set......')
+    dev_instances = read_annotation(opt.state_file, dev_para, log_file, test = False)
+    json.dump(dev_instances, open(os.path.join(opt.store_dir, 'dev.json'), 'w', encoding='utf-8'),
+                ensure_ascii=False, indent=4)
                 
     print('Testing Set......')
     test_instances = read_annotation(opt.state_file, test_para, log_file, test = True)
     json.dump(test_instances, open(os.path.join(opt.store_dir, 'test.json'), 'w', encoding='utf-8'),
                 ensure_ascii=False, indent=4)
 
-    # print('Training Set......')
-    # train_instances = read_annotation(opt.state_file, train_para, log_file, test = False)
-    # json.dump(train_instances, open(os.path.join(opt.store_dir, 'train.json'), 'w', encoding='utf-8'),
-    #             ensure_ascii=False, indent=4)
+    print('Training Set......')
+    train_instances = read_annotation(opt.state_file, train_para, log_file, test = False)
+    json.dump(train_instances, open(os.path.join(opt.store_dir, 'train.json'), 'w', encoding='utf-8'),
+                ensure_ascii=False, indent=4)
 
     print('[INFO] For train and dev sets, multiple appearances of same location is counted for only once in recall.')
     print('[INFO] For test set, multiple appearances of same location is counted for multiple times in recall.')

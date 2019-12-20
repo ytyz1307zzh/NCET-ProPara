@@ -29,7 +29,7 @@ def write_output(output: Dict[str, Dict], dummy_filepath: str, output_filepath: 
 
         para_id = int(fields[0])
         sent_id = int(fields[1])
-        entity_name = fields[2]
+        entity_name = denoise(para_id = para_id, entity = fields[2])
         pred_instance = output[str(para_id) + '-' + entity_name]
 
         total_sents = pred_instance['total_sents']
