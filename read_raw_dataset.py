@@ -336,7 +336,6 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
             entity_name = row[f'ent{i}']
             if pd.isna(entity_name):
                 break
-            entity_name, _ = tokenize(entity_name)
             entity_list.append(entity_name)
         
         total_entities = len(entity_list)
@@ -410,6 +409,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
             loc_cand_list = list(loc_cand_set)
             total_loc_candidates = len(loc_cand_list)
             # record the entities and locations that does not match any span in the paragraph
+            entity_name, _ = tokenize(entity_name)
             log_existence(paragraph, para_id, entity_name, gold_loc_seq, log_file)
             
             words_read = 0  # how many words have been read
@@ -529,20 +529,20 @@ if __name__ == '__main__':
 
     log_file = open(f'{opt.log_dir}/info.log', 'w', encoding='utf-8')
     # save the instances to JSON files
-    print('Dev Set......')
-    dev_instances = read_annotation(opt.state_file, dev_para, log_file, test = False)
-    json.dump(dev_instances, open(os.path.join(opt.store_dir, 'dev.json'), 'w', encoding='utf-8'),
-                ensure_ascii=False, indent=4)
+    # print('Dev Set......')
+    # dev_instances = read_annotation(opt.state_file, dev_para, log_file, test = False)
+    # json.dump(dev_instances, open(os.path.join(opt.store_dir, 'dev.json'), 'w', encoding='utf-8'),
+    #             ensure_ascii=False, indent=4)
                 
     print('Testing Set......')
     test_instances = read_annotation(opt.state_file, test_para, log_file, test = True)
     json.dump(test_instances, open(os.path.join(opt.store_dir, 'test.json'), 'w', encoding='utf-8'),
                 ensure_ascii=False, indent=4)
 
-    print('Training Set......')
-    train_instances = read_annotation(opt.state_file, train_para, log_file, test = False)
-    json.dump(train_instances, open(os.path.join(opt.store_dir, 'train.json'), 'w', encoding='utf-8'),
-                ensure_ascii=False, indent=4)
+    # print('Training Set......')
+    # train_instances = read_annotation(opt.state_file, train_para, log_file, test = False)
+    # json.dump(train_instances, open(os.path.join(opt.store_dir, 'train.json'), 'w', encoding='utf-8'),
+    #             ensure_ascii=False, indent=4)
 
     print('[INFO] For train and dev sets, multiple appearances of same location is counted for only once in recall.')
     print('[INFO] For test set, multiple appearances of same location is counted for multiple times in recall.')

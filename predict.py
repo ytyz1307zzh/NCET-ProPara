@@ -29,12 +29,12 @@ def write_output(output: Dict[str, Dict], dummy_filepath: str, output_filepath: 
 
         para_id = int(fields[0])
         sent_id = int(fields[1])
-        entity_name = detokenize(fields[2])
+        entity_name = fields[2]
         pred_instance = output[str(para_id) + '-' + entity_name]
 
         total_sents = pred_instance['total_sents']
         assert sent_id <= total_sents
-        assert para_id == pred_instance['id'] and entity_name == pred_instance['entity']
+        assert para_id == pred_instance['id'] and entity_name == detokenize(pred_instance['entity'])
 
         prediction = pred_instance['prediction'][sent_id - 1]  # sent_id begins from 1
         state, loc_before, loc_after = prediction
