@@ -128,25 +128,6 @@ def get_report_time(total_batches: int, report_times: int) -> List[int]:
     return report_batch
 
 
-def denoise(para_id: int, entity: str) -> str:
-    if para_id == 503 and entity == 'wheel':
-        return 'wheels'
-    if para_id == 582 and entity == 'wind':
-        return 'winds'
-    if para_id == 583 and entity == 'warm, humd low-presure air':
-        return 'warm, humid low-pressure air'
-    if para_id == 653 and entity == 'flower':
-        return 'flowers'
-    if para_id == 659 and entity == 'plant':
-        return 'plants'
-    if para_id == 1146 and entity == 'red giant star':
-        return 'red giant'
-    if para_id == 1189 and entity == 'chunks of rock':
-        return 'chunks of rocks'
-
-    return entity
-
-
 def unpad(source: List[int], pad_value: int) -> List[int]:
     """
     Remove padded elements from a list
