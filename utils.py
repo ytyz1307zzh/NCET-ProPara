@@ -17,7 +17,11 @@ max_num_tokens = 0
 max_num_sents = 0
 
 def count_maximum():
-
+    """
+    Count the max number of location candidates / tokens / sentences in the dataset.
+    This is just an auxiliary function and is not actually used in the model,
+    because all instances are padded to the longest sequence in the certain batch, rather than the whole dataset.
+    """
     def load_data(json_file):
         global max_num_candidates
         global max_num_tokens
