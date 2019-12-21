@@ -386,8 +386,6 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
 
                 if gold_location != '-' and gold_location != '?':
                     total_loc_set.add(gold_location)
-                    if test:  # for test set, multiple location appearances are counted into recall
-                        total_loc_cnt += 1
 
 
                 # whether the gold location is in the candidates (training only)
@@ -395,8 +393,6 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
                     and gold_location != '-' and gold_location != '?':
                     if not test:
                         loc_cand_set.add(gold_location)
-                    else:  # for test set, multiple location appearances are counted into recall
-                        total_err_cnt += 1
                     total_err_set.add(gold_location)
                     print(f'[INFO] Paragraph {para_id}: gold location "{gold_location}" not included in candidate set.',
                          file=log_file)
@@ -457,9 +453,8 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
             row_index = begin_row_index
             data_instances.append(instance)
 
-        if not test:
-            total_loc_cnt += len(total_loc_set)
-            total_err_cnt += len(total_err_set)
+        total_loc_cnt += len(total_loc_set)
+        total_err_cnt += len(total_err_set)
         # print(total_loc_set)
         # print(total_err_set)
 
