@@ -113,7 +113,7 @@ def find_loc_candidate(paragraph: flair.data.Sentence) -> Set[str]:
     return set(loc_list)
 
 
-def find_mention(paragraph: List[str], phrase: str, norm: bool = False) -> List:
+def find_mention(paragraph: List[str], phrase: str, norm: bool) -> List:
     """
     Judge whether a phrase is a span of the paragraph (or sentence) and return the span
     norm: whether the sentence should be normalized first
@@ -122,9 +122,10 @@ def find_mention(paragraph: List[str], phrase: str, norm: bool = False) -> List:
     phrase_len = len(phrase)
     span_list = []
 
-    # perform lemmatization on paragraph
+    # perform lemmatization on both the paragraph and the phrase
     if norm:
         paragraph, _ = lemmatize(' '.join(paragraph))
+        phrase, _ = lemmatize(' '.join(phrase))
     
     for i in range(0, len(paragraph) - phrase_len):
         sub_para = paragraph[i: i+phrase_len]
@@ -140,7 +141,7 @@ def log_existence(paragraph: str, para_id: int, entity: str, loc_seq: List[str],
     entity_list = re.split('; |;', entity)
     paragraph = paragraph.strip().split()
     for ent in entity_list:
-        if not find_mention(paragraph, ent):
+        if not find_mention(paragraph, ent, norm = True):
             print(f'[WARNING] Paragraph {para_id}: entity "{ent}" is not a span in paragraph.', file=log_file)
     
     for loc in loc_seq:
@@ -159,7 +160,7 @@ def get_entity_mask(sentence: str, entity: str, pad_bef_len: int, pad_aft_len: i
     entity_list = re.split('; |;', entity)
     span_list = []
     for ent_name in entity_list:
-        span_list.extend(find_mention(sentence, ent_name))
+        span_list.extend(find_mention(sentence, ent_name, norm = True))
     
     entity_mask = [1 if i in span_list else 0 for i in range(sent_len)]
     padding_before = [0 for _ in range(pad_bef_len)]
@@ -447,7 +448,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
             instance['gold_loc_seq'] = gold_loc_seq
             instance['gold_state_seq'] = compute_state_change_seq(gold_loc_seq)
             # print(instance)
-            assert paragraph == ' '.join(sentence_concat)
+            assert paragraph == ' '.join(sentence_concat), f'at paragraph #{para_id}'
 
             # pointer backward, construct instance for next entity
             row_index = begin_row_index
