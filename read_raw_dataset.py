@@ -267,6 +267,24 @@ def read_paragraph(filename: str) -> Dict[int, Dict]:
     return paragraph_result
 
 
+def read_paragraph_from_sentences(csv_data: pd.DataFrame, begin_row_index: int, total_sents: int) -> str:
+    """
+    Read the paragraph from State_change_annotations.csv.
+    This is because the paragraph in this file and the original Paragraphs.csv may be different and will cause problems.
+    """
+    row_index = begin_row_index + 3  # row index of the first sentence
+    sent_list = []
+
+    for i in range(total_sents):  # read each sentence
+        row = csv_data.iloc[row_index]
+        assert row['sent_id'] == f'event{i + 1}'
+        sentence = row['sentence']
+        sent_list.append(sentence)
+        row_index += 2
+
+    return ' '.join(sent_list)
+
+
 def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
                     log_file, test: bool) -> List[Dict]:
     """
@@ -281,7 +299,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
     7. extract the nearest verb to the entity, compute verb mask
     8. for each location candidate, compute location mask
     9. read entity's state at current timestep
-    10. for the training set, if gold location is not extracted in step 3, 
+    10. for the train/dev sets, if gold location is not extracted in step 3,
         add it to the candidate set (except for '-' and '?'). Back to step 6
     11. reading ends, compute the number of sentences
     12. get the number of location candidates
@@ -323,7 +341,9 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
         end_row_index = row_index + total_lines - 1  # last line
 
         # tokenize, lower cased
-        paragraph, total_tokens = tokenize(paragraph_result[para_id]['paragraph'])
+        raw_paragraph = read_paragraph_from_sentences(csv_data = csv_data, begin_row_index = begin_row_index, total_sents = total_sents)
+        print(raw_paragraph)
+        paragraph, total_tokens = tokenize(raw_paragraph)
         prompt, _ = tokenize(paragraph_result[para_id]['prompt'])
 
         # find location candidates
@@ -441,6 +461,7 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
                 sentence_list[j] = sent_dict
                 words_read += num_tokens_in_sent
 
+            assert words_read == total_tokens  # length of each sentence should sum up to length of the paragraph
             assert len(gold_loc_seq) == len(sentence_list) + 1
             instance['sentence_list'] = sentence_list
             instance['loc_cand_list'] = loc_cand_list
