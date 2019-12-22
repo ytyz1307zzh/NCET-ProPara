@@ -104,6 +104,8 @@ def hard_constraint(state: str, loc_before: str, loc_after: str) -> (str, str, s
         state = 'NONE'
     if state == 'CREATE' and loc_before == loc_after:
         state = 'NONE'
+    if state == 'CREATE' and loc_before != '-' and loc_after != '-' and loc_before != loc_after:
+        state = 'MOVE'
     return state, loc_before, loc_after
 
 
