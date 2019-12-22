@@ -51,6 +51,39 @@ def count_maximum():
     print(f'max number of sentences: {max_num_sents}')
 
 
+def count_average():
+    """
+    Count the average number of location candidates / tokens / sentences in the dataset.
+    This is just an auxiliary function for statistics and is not actually used in the model.
+    """
+    def load_data(json_file):
+        data = json.load(open(json_file, 'r', encoding='utf-8'))
+        num_instances = len(data)
+        print('number of instances: ', num_instances)
+        total_candidates = 0
+        total_tokens = 0
+        total_sents = 0
+
+        for instance in data:
+            num_candidates = instance['total_loc_candidates']
+            num_tokens = instance['total_tokens']
+            num_sents = instance['total_sents']
+            total_candidates += num_candidates
+            total_tokens += num_tokens
+            total_sents += num_sents
+
+        print(f'Average number of location candidates: {total_candidates / num_instances}')
+        print(f'Average number of tokens: {total_tokens / num_instances}')
+        print(f'Average number of sentences: {total_sents / num_instances}')
+
+    print('train')
+    load_data('./data/train.json')
+    print('dev')
+    load_data('./data/dev.json')
+    print('test')
+    load_data('./data/test.json')
+
+
 def find_allzero_rows(vector: torch.IntTensor) -> torch.BoolTensor:
     """
     Find all-zero rows of a given tensor, which is of size (batch, max_sents, max_tokens).

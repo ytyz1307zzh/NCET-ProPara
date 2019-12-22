@@ -127,7 +127,7 @@ def find_mention(paragraph: List[str], phrase: str, norm: bool) -> List:
     if norm:
         paragraph, _ = lemmatize(' '.join(paragraph))
         phrase, _ = lemmatize(' '.join(phrase))
-    
+
     for i in range(0, len(paragraph) - phrase_len):
         sub_para = paragraph[i: i+phrase_len]
         if sub_para == phrase:
@@ -142,7 +142,7 @@ def log_existence(paragraph: str, para_id: int, entity: str, loc_seq: List[str],
     entity_list = re.split('; |;', entity)
     paragraph = paragraph.strip().split()
     for ent in entity_list:
-        if not find_mention(paragraph, ent, norm = True):
+        if not find_mention(paragraph, ent, norm = False) and not find_mention(paragraph, ent, norm = True):
             print(f'[WARNING] Paragraph {para_id}: entity "{ent}" is not a span in paragraph.', file=log_file)
     
     for loc in loc_seq:
@@ -161,7 +161,7 @@ def get_entity_mask(sentence: str, entity: str, pad_bef_len: int, pad_aft_len: i
     entity_list = re.split('; |;', entity)
     span_list = []
     for ent_name in entity_list:
-        span_list.extend(find_mention(sentence, ent_name, norm = True))
+        span_list.extend(find_mention(sentence, ent_name, norm = False) or find_mention(sentence, ent_name, norm = True))
     
     entity_mask = [1 if i in span_list else 0 for i in range(sent_len)]
     padding_before = [0 for _ in range(pad_bef_len)]
@@ -561,8 +561,6 @@ if __name__ == '__main__':
     json.dump(train_instances, open(os.path.join(opt.store_dir, 'train.json'), 'w', encoding='utf-8'),
                 ensure_ascii=False, indent=4)
 
-    print('[INFO] For train and dev sets, multiple appearances of same location is counted for only once in recall.')
-    print('[INFO] For test set, multiple appearances of same location is counted for multiple times in recall.')
     print('[INFO] JSON files saved successfully.')
 
     log_file.close()
