@@ -56,6 +56,7 @@ def tokenize(paragraph: str) -> (str, int):
     """
     Change the paragraph to lower case and tokenize it!
     """
+    paragraph = re.sub(' +', ' ', paragraph)  # remove redundant spaces in some sentences.
     para_doc = nlp(paragraph.lower())  # create a SpaCy Doc instance for paragraph
     tokens_list = [token.text for token in para_doc]
     return ' '.join(tokens_list), len(tokens_list)
@@ -342,7 +343,6 @@ def read_annotation(filename: str, paragraph_result: Dict[int, Dict],
 
         # tokenize, lower cased
         raw_paragraph = read_paragraph_from_sentences(csv_data = csv_data, begin_row_index = begin_row_index, total_sents = total_sents)
-        print(raw_paragraph)
         paragraph, total_tokens = tokenize(raw_paragraph)
         prompt, _ = tokenize(paragraph_result[para_id]['prompt'])
 
