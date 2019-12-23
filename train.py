@@ -23,7 +23,7 @@ from predict import *
 from Dataset import *
 from Model import *
 import datetime as dt
-print(f'[INFO] Import modules time: {time.time() - import_start_time}')
+print(f'[INFO] Import modules time: {time.time() - import_start_time}s')
 torch.set_printoptions(threshold=np.inf)
 
 
@@ -206,7 +206,7 @@ def train():
                        f'Total Accuracy: {total_accuracy*100:.3f}%, '
                        f'State Prediction Accuracy: {state_accuracy*100:.3f}%, '
                        f'Location Accuracy: {loc_accuracy*100:.3f}% \n'
-                       f'Time Elapse: {time.time()-start_time:.2f}')
+                       f'Time Elapse: {time.time()-start_time:.2f}s')
                 output('-' * 50)
 
                 model.eval()
@@ -300,7 +300,7 @@ def evaluate(dev_set, model):
            f'\tTotal Accuracy: {total_accuracy * 100:.3f}%, '
            f'State Prediction Accuracy: {state_accuracy * 100:.3f}%, '
            f'Location Accuracy: {loc_accuracy * 100:.3f}% \n'
-           f'\tTime Elapse: {time.time() - start_time:.2f}')
+           f'\tTime Elapse: {time.time() - start_time:.2f}s')
     output('*' * 50)
 
     return total_accuracy * 100
@@ -365,7 +365,7 @@ def test(test_set, model):
            f'\tTotal Accuracy: {total_accuracy * 100:.3f}%, '
            f'State Prediction Accuracy: {state_accuracy * 100:.3f}%, '
            f'Location Accuracy: {loc_accuracy * 100:.3f}% \n'
-           f'\tTime Elapse: {time.time() - start_time:.2f}')
+           f'\tTime Elapse: {time.time() - start_time:.2f}s')
 
     write_output(output = output_result, dummy_filepath = opt.dummy_test, output_filepath = opt.output)
     print(f'[INFO] Test finished. Time elapse: {time.time() - start_time}s')

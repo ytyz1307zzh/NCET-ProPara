@@ -28,7 +28,7 @@ class ProparaDataset(torch.utils.data.Dataset):
         self.idx2state = idx2state
         self.is_test = is_test
 
-        print(f'[INFO] {len(self.dataset)} instances of data loaded. Time Elapse: {time.time() - start_time}')
+        print(f'[INFO] {len(self.dataset)} instances of data loaded. Time Elapse: {time.time() - start_time}s')
 
     
     def __len__(self):
