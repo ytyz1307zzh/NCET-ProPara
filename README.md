@@ -8,7 +8,7 @@ NCET is currently holding the state-of-the-art result on the ProPara dataset (by
 
 NCET uses the [ProPara dataset](http://data.allenai.org/propara/) proposed by AI2. This dataset is about a reading comprehension task on procedural text, *i.e.*, a paragraph of text that describing a natural process (*e.g.*, photosynthesis, evaporation, etc.). The model are required to read the paragraph and the given entities, then predict the state changes (CREATE, MOVE, DESTROY or NONE) as well as the locations of these entities.
 
-<img src="C:\Users\t-zhihz\AppData\Roaming\Typora\typora-user-images\image-20191223140902073.png" alt="image-20191223140902073" style="zoom:75%;" />
+<img src="image/propara.png" alt="image-20191223140902073" style="zoom:75%;" />
 
 AI2 released the dataset [here](https://docs.google.com/spreadsheets/d/1x5Ct8EmQs2hVKOYX7b2nS0AOoQi4iM7H9d9isXRDwgM/edit#gid=832930347) in the form of Google Spreadsheet. We need three files to run the NCET model, *i.e.*, the Paragraphs file for the raw text, the Train/Dev/Test file for the dataset split, and the State_change_annotations file for the annotated entities and locations. I also provide a copy in CSV format in `data/` directory which is identical to the official release.
 
@@ -18,7 +18,7 @@ AI2 released the dataset [here](https://docs.google.com/spreadsheets/d/1x5Ct8EmQ
 
 NCET uses a structural framework to perform two sub-tasks of ProPara. For one thing, NCET tracks the state changes of a given entity and predicts its state change sequence. For another, NCET extracts location candidates from the raw text using heuristic rules and predict the most plausible location for each entity and each timestep. 
 
-<img src="C:\Users\t-zhihz\AppData\Roaming\Typora\typora-user-images\image-20191223141457584.png" alt="image-20191223141457584" style="zoom:90%;" />
+<img src="image/NCET.png" alt="image-20191223141457584" style="zoom:90%;" />
 
 The base of NCET is a Bi-LSTM with Elmo embeddings to generate context-aware representations for each token. Then, a state tracker and a location predictor are used to perform state tracking and location prediction, respectively. Their inputs are based on the *mention positions* of the given entity, concatenated by the associated verb (for state tracking) or the location candidate (for location prediction). Two sub-tasks are jointly trained and perform inference in a pipeline fashion at test time. For further descriptions, please refer to the original paper.
 
@@ -26,9 +26,9 @@ The base of NCET is a Bi-LSTM with Elmo embeddings to generate context-aware rep
 
 ## Re-implementation
 
-Since the original paper did not provide all details of the NCET model, there may be differences between my implementation with their intention. To reduce noise from raw data, I perform lemmatization on all entities and location candidates while finding their mention positions in the paragraph. Besides, the way I extract the location candidates and verbs may differ from their paper, please refer to the README in `data/` and `read_raw_dataset.py` for details.
+Since the original paper did not provide all details of the NCET model, there may be differences between my implementation with their intention. To reduce noise from raw data, I perform lemmatization on all entities and location candidates while finding their mention positions in the paragraph. Besides, the way I extract the location candidates and verbs may differ from their paper, please refer to the `data/README.md` and `read_raw_dataset.py` for details.
 
-For joint training, I add the loss of two sub-tasks with a hyper-parameter to weight the two losses. For training period, all timesteps with a valid location are used for optimization. In test time, I only predict those timesteps when the predicted state is CREATE or MOVE. Then, commonsense rules are used to expand the predicted locations to all timesteps. I also use hard constraints to automatically refine the conflicts between state prediction and location prediction, in order to fit the predictions into the evaluation script. Best checkpoint on the dev set is used to evaluate on test set.
+For joint training, I add the loss of two sub-tasks with a hyper-parameter to weight the two losses. For training period, all timesteps with a valid location are used for optimization. In test time, I only predict those timesteps when the predicted state is CREATE or MOVE. Then, commonsense rules are used to expand the predicted locations to all timesteps. I also use hard constraints to automatically refine the conflicts between state prediction and location prediction, in order to fit the predictions into the evaluation script. Best checkpoint on the dev set is used to evaluate on test set. It is worth noting that the evaluation metric on dev set is the total accuracy of location prediction and state prediction.
 
 ## Requirements
 
@@ -86,11 +86,10 @@ pytorch-crf 0.7.2
    -report			The frequency of evaluating on dev set and save checkpoints (per epoch). Default: 2.
    -log_dir		Path to log file. If specified, training and evaluation details will be stored to an additional log. Default: None.
    -loc_loss		The hyper-parameter to weight the state tracking loss and location prediction loss.
+   -no_cuda		Only use CPU if specified.
    ```
 
-   It is worth noting that the evaluation metric on dev set is the total accuracy of location prediction and state prediction.
-
-   It takes me about 10~15 minutes to train a new model on a single Tesla P40.
+   Time for training a new model may vary according to your GPU performance as well as your training schema (*i.e.*, training epochs and early stopping rounds). It takes me about 10~15 minutes to train a new model on a single Tesla P40.
 
 5. Predict on test set using a trained model:
 
@@ -116,5 +115,4 @@ pytorch-crf 0.7.2
 
 Using the default hyper-parameters, the re-implemented NCET will reach a total F1 score of 65.0, while the reported score in the original paper was 62.5.
 
-![image-20191223153457050](C:\Users\t-zhihz\AppData\Roaming\Typora\typora-user-images\image-20191223153457050.png)
-
+<img src="image/result.png" alt="image-20191223140902073"/>

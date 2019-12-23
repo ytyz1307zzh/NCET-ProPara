@@ -1,0 +1,5136 @@
+Diagnostics of evaluation of predictions in prediction.tsv against answers in data/answers.tsv
+
+{
+    "prediction_summary": {
+        "process_id": 37,
+        "inputs": {
+            "participants": [
+                "plant OR animal"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "bones",
+                "fossils",
+                "mineral"
+            ]
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "soft tissues",
+                "location_before": "unk",
+                "location_after": "bone",
+                "step_number": 3
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 37,
+        "inputs": {
+            "participants": [
+                "bones",
+                "soft tissues"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "fossils"
+            ]
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "bones",
+                "location_before": "unk",
+                "location_after": "rock",
+                "step_number": 4
+            },
+            {
+                "participants": "mineral",
+                "location_before": "unk",
+                "location_after": "rock",
+                "step_number": 5
+            },
+            {
+                "participants": "plant OR animal",
+                "location_before": "watery environment",
+                "location_after": "mud and silt",
+                "step_number": 2
+            },
+            {
+                "participants": "plant OR animal",
+                "location_before": "mud and silt",
+                "location_after": "rock",
+                "step_number": 4
+            }
+        ]
+    },
+    "score": {
+        "process_id": 37,
+        "inputs": {
+            "precision": 0.0,
+            "recall": 0.0
+        },
+        "outputs": {
+            "precision": 0.3333333333333333,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "moves": {
+            "precision": 0.0,
+            "recall": 0.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 38,
+        "inputs": {
+            "participants": [
+                "animal OR body"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "fossil",
+                "soil"
+            ]
+        },
+        "conversions": null,
+        "moves": null
+    },
+    "answer_summary": {
+        "process_id": 38,
+        "inputs": {
+            "participants": [
+                "animal OR body",
+                "soil"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "fossil",
+                "rock"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "soil",
+                "participants_created": "rock",
+                "location": "around the body",
+                "step_number": 5
+            },
+            {
+                "participants_destroyed": "animal OR body",
+                "participants_created": "fossil",
+                "location": "rock AND sandy or wet place",
+                "step_number": 6
+            }
+        ],
+        "moves": [
+            {
+                "participants": "animal OR body",
+                "location_before": "unk",
+                "location_after": "sandy or wet place",
+                "step_number": 2
+            },
+            {
+                "participants": "soil",
+                "location_before": "unk",
+                "location_after": "around the body",
+                "step_number": 4
+            }
+        ]
+    },
+    "score": {
+        "process_id": 38,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.5
+        },
+        "outputs": {
+            "precision": 0.5,
+            "recall": 0.5
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 1.0,
+            "recall": 0.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 67,
+        "inputs": {
+            "participants": [
+                "plants OR dead plants"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "coal"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "peat",
+                "participants_created": "coal",
+                "location": "swamp AND peat",
+                "step_number": 9
+            }
+        ],
+        "moves": null
+    },
+    "answer_summary": {
+        "process_id": 67,
+        "inputs": {
+            "participants": [
+                "plants OR dead plants"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "coal"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "plants OR dead plants",
+                "participants_created": "peat",
+                "location": "bottom of the swamp",
+                "step_number": 5
+            },
+            {
+                "participants_destroyed": "peat",
+                "participants_created": "coal",
+                "location": "bottom of the swamp",
+                "step_number": 9
+            }
+        ],
+        "moves": [
+            {
+                "participants": "plants OR dead plants",
+                "location_before": "unk",
+                "location_after": "swamp",
+                "step_number": 2
+            },
+            {
+                "participants": "plants OR dead plants",
+                "location_before": "swamp",
+                "location_after": "bottom of the swamp",
+                "step_number": 3
+            }
+        ]
+    },
+    "score": {
+        "process_id": 67,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 0.6666666666666666,
+            "recall": 0.3333333333333333
+        },
+        "moves": {
+            "precision": 1.0,
+            "recall": 0.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 68,
+        "inputs": {
+            "participants": [
+                "plant and tree remains",
+                "plants OR trees"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "coal",
+                "heat",
+                "peat OR burial peat"
+            ]
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "water",
+                "location_before": "unk",
+                "location_after": "peat",
+                "step_number": 6
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 68,
+        "inputs": {
+            "participants": [
+                "plants OR trees",
+                "water"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "coal",
+                "heat",
+                "plant and tree remains"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "plants OR trees",
+                "participants_created": "plant and tree remains",
+                "location": "unk",
+                "step_number": 1
+            },
+            {
+                "participants_destroyed": "peat OR burial peat",
+                "participants_created": "coal AND heat",
+                "location": "swampy area AND burial peat",
+                "step_number": 7
+            }
+        ],
+        "moves": [
+            {
+                "participants": "peat OR burial peat",
+                "location_before": "steamy , swampy area",
+                "location_after": "sand , clay , and other mineral material",
+                "step_number": 5
+            },
+            {
+                "participants": "peat OR burial peat",
+                "location_before": "sand , clay , and other mineral material",
+                "location_after": "swampy area",
+                "step_number": 6
+            },
+            {
+                "participants": "plant and tree remains",
+                "location_before": "unk",
+                "location_after": "area",
+                "step_number": 2
+            },
+            {
+                "participants": "plant and tree remains",
+                "location_before": "area",
+                "location_after": "steamy , swampy area",
+                "step_number": 3
+            },
+            {
+                "participants": "plant and tree remains",
+                "location_before": "steamy , swampy area",
+                "location_after": "swampy area",
+                "step_number": 4
+            },
+            {
+                "participants": "plant and tree remains",
+                "location_before": "swampy area",
+                "location_after": "sand , clay , and other mineral material",
+                "step_number": 5
+            },
+            {
+                "participants": "plant and tree remains",
+                "location_before": "sand , clay , and other mineral material",
+                "location_after": "swampy area",
+                "step_number": 6
+            },
+            {
+                "participants": "water",
+                "location_before": "steamy , swampy area",
+                "location_after": "peat",
+                "step_number": 4
+            }
+        ]
+    },
+    "score": {
+        "process_id": 68,
+        "inputs": {
+            "precision": 0.5,
+            "recall": 0.5
+        },
+        "outputs": {
+            "precision": 0.6666666666666666,
+            "recall": 0.6666666666666666
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 0.0,
+            "recall": 0.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 69,
+        "inputs": {
+            "participants": [
+                "plants OR trees"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "coal",
+                "peat",
+                "pressure",
+                "sedimentary rocks"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "clay AND sand",
+                "participants_created": "sedimentary rocks",
+                "location": "peat",
+                "step_number": 5
+            }
+        ],
+        "moves": [
+            {
+                "participants": "sand",
+                "location_before": "peat",
+                "location_after": "peat",
+                "step_number": 4
+            },
+            {
+                "participants": "water",
+                "location_before": "unk",
+                "location_after": "peat",
+                "step_number": 6
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 69,
+        "inputs": {
+            "participants": [
+                "clay",
+                "plants OR trees",
+                "sand"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "coal",
+                "pressure",
+                "sedimentary rocks"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "plants OR trees",
+                "participants_created": "peat",
+                "location": "bottom of swamp",
+                "step_number": 3
+            },
+            {
+                "participants_destroyed": "clay AND sand",
+                "participants_created": "sedimentary rocks",
+                "location": "bottom of swamp",
+                "step_number": 5
+            },
+            {
+                "participants_destroyed": "peat",
+                "participants_created": "coal",
+                "location": "bottom of swamp",
+                "step_number": 7
+            }
+        ],
+        "moves": [
+            {
+                "participants": "plants OR trees",
+                "location_before": "unk",
+                "location_after": "bottom of swamp",
+                "step_number": 2
+            },
+            {
+                "participants": "water",
+                "location_before": "bottom of swamp",
+                "location_after": "peat",
+                "step_number": 3
+            },
+            {
+                "participants": "water",
+                "location_before": "peat",
+                "location_after": "unk",
+                "step_number": 6
+            }
+        ]
+    },
+    "score": {
+        "process_id": 69,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333
+        },
+        "outputs": {
+            "precision": 0.75,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 0.6666666666666666,
+            "recall": 0.2222222222222222
+        },
+        "moves": {
+            "precision": 0.16666666666666666,
+            "recall": 0.1111111111111111
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 70,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "streams"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "rain",
+                "participants_created": "streams",
+                "location": "house AND unk",
+                "step_number": 6
+            }
+        ],
+        "moves": [
+            {
+                "participants": "water",
+                "location_before": "unk",
+                "location_after": "ground",
+                "step_number": 3
+            },
+            {
+                "participants": "water",
+                "location_before": "ground",
+                "location_after": "street",
+                "step_number": 4
+            },
+            {
+                "participants": "water",
+                "location_before": "street",
+                "location_after": "house",
+                "step_number": 5
+            },
+            {
+                "participants": "water",
+                "location_before": "house",
+                "location_after": "stream",
+                "step_number": 7
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 70,
+        "inputs": {
+            "participants": [
+                "water"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "streams"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "rain",
+                "participants_created": "streams",
+                "location": "unk",
+                "step_number": 6
+            }
+        ],
+        "moves": [
+            {
+                "participants": "water",
+                "location_before": "unk",
+                "location_after": "rain",
+                "step_number": 1
+            },
+            {
+                "participants": "water",
+                "location_before": "rain",
+                "location_after": "river or lake",
+                "step_number": 2
+            },
+            {
+                "participants": "water",
+                "location_before": "river or lake",
+                "location_after": "ground",
+                "step_number": 3
+            },
+            {
+                "participants": "water",
+                "location_before": "ground",
+                "location_after": "street",
+                "step_number": 4
+            },
+            {
+                "participants": "water",
+                "location_before": "street",
+                "location_after": "house",
+                "step_number": 5
+            },
+            {
+                "participants": "water",
+                "location_before": "house",
+                "location_after": "ground",
+                "step_number": 6
+            },
+            {
+                "participants": "water",
+                "location_before": "ground",
+                "location_after": "stream",
+                "step_number": 7
+            }
+        ]
+    },
+    "score": {
+        "process_id": 70,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 0.8333333333333334,
+            "recall": 0.8333333333333334
+        },
+        "moves": {
+            "precision": 0.8333333333333333,
+            "recall": 0.47619047619047616
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 99,
+        "inputs": {
+            "participants": [
+                "rain",
+                "rain clouds"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "a very different ecosystem",
+                "desert"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "rain",
+                "participants_created": "desert",
+                "location": "sky AND mountain or rain",
+                "step_number": 7
+            }
+        ],
+        "moves": [
+            {
+                "participants": "clouds",
+                "location_before": "unk",
+                "location_after": "sky",
+                "step_number": 1
+            },
+            {
+                "participants": "clouds",
+                "location_before": "sky",
+                "location_after": "sky",
+                "step_number": 2
+            },
+            {
+                "participants": "rain",
+                "location_before": "unk",
+                "location_after": "sky",
+                "step_number": 1
+            },
+            {
+                "participants": "rain",
+                "location_before": "sky",
+                "location_after": "sky",
+                "step_number": 2
+            },
+            {
+                "participants": "rain clouds",
+                "location_before": "unk",
+                "location_after": "sky",
+                "step_number": 1
+            },
+            {
+                "participants": "rain clouds",
+                "location_before": "sky",
+                "location_after": "mountain or wind",
+                "step_number": 2
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 99,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "a very different ecosystem",
+                "desert",
+                "rain"
+            ]
+        },
+        "conversions": null,
+        "moves": null
+    },
+    "score": {
+        "process_id": 99,
+        "inputs": {
+            "precision": 0.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 0.6666666666666666
+        },
+        "conversions": {
+            "precision": 0.0,
+            "recall": 1.0
+        },
+        "moves": {
+            "precision": 0.0,
+            "recall": 1.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 152,
+        "inputs": {
+            "participants": [
+                "water vapor OR lifted vapor OR vapor"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "solid OR cloud droplets"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "water vapor OR lifted vapor OR vapor",
+                "participants_created": "solid OR cloud droplets",
+                "location": "dew AND atmosphere",
+                "step_number": 4
+            }
+        ],
+        "moves": [
+            {
+                "participants": "solid OR cloud droplets",
+                "location_before": "atmosphere",
+                "location_after": "sky",
+                "step_number": 6
+            },
+            {
+                "participants": "water vapor OR lifted vapor OR vapor",
+                "location_before": "unk",
+                "location_after": "dew",
+                "step_number": 3
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 152,
+        "inputs": {
+            "participants": [
+                "water vapor OR lifted vapor OR vapor"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "solid OR cloud droplets"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "water vapor OR lifted vapor OR vapor",
+                "participants_created": "solid OR cloud droplets",
+                "location": "atmosphere",
+                "step_number": 4
+            }
+        ],
+        "moves": null
+    },
+    "score": {
+        "process_id": 152,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 0.8333333333333334,
+            "recall": 0.8333333333333334
+        },
+        "moves": {
+            "precision": 0.0,
+            "recall": 1.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 249,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "new types of rocks OR new substance OR certain types of rocks"
+            ]
+        },
+        "conversions": null,
+        "moves": null
+    },
+    "answer_summary": {
+        "process_id": 249,
+        "inputs": {
+            "participants": [
+                "oxygen",
+                "rocks OR smaller pieces"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "new types of rocks OR new substance OR certain types of rocks"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "oxygen AND rocks OR smaller pieces",
+                "participants_created": "new types of rocks OR new substance OR certain types of rocks",
+                "location": "rock AND unk",
+                "step_number": 5
+            }
+        ],
+        "moves": [
+            {
+                "participants": "new types of rocks OR new substance OR certain types of rocks",
+                "location_before": "unk",
+                "location_after": "water",
+                "step_number": 8
+            },
+            {
+                "participants": "oxygen",
+                "location_before": "unk",
+                "location_after": "rock",
+                "step_number": 4
+            }
+        ]
+    },
+    "score": {
+        "process_id": 249,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 1.0,
+            "recall": 0.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 310,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": null
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "blood",
+                "location_before": "unk",
+                "location_after": "heart",
+                "step_number": 1
+            },
+            {
+                "participants": "blood",
+                "location_before": "heart",
+                "location_after": "lung",
+                "step_number": 2
+            },
+            {
+                "participants": "blood",
+                "location_before": "lung",
+                "location_after": "lung",
+                "step_number": 5
+            },
+            {
+                "participants": "blood",
+                "location_before": "lung",
+                "location_after": "body",
+                "step_number": 6
+            },
+            {
+                "participants": "carbon dioxide",
+                "location_before": "unk",
+                "location_after": "lung",
+                "step_number": 3
+            },
+            {
+                "participants": "oxygen",
+                "location_before": "unk",
+                "location_after": "blood",
+                "step_number": 4
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 310,
+        "inputs": {
+            "participants": [
+                "carbon dioxide"
+            ]
+        },
+        "outputs": {
+            "participants": null
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "blood",
+                "location_before": "unk",
+                "location_after": "heart",
+                "step_number": 1
+            },
+            {
+                "participants": "blood",
+                "location_before": "heart",
+                "location_after": "lung",
+                "step_number": 2
+            },
+            {
+                "participants": "blood",
+                "location_before": "lung",
+                "location_after": "heart",
+                "step_number": 5
+            },
+            {
+                "participants": "blood",
+                "location_before": "heart",
+                "location_after": "body",
+                "step_number": 6
+            },
+            {
+                "participants": "oxygen",
+                "location_before": "lung",
+                "location_after": "blood",
+                "step_number": 4
+            }
+        ]
+    },
+    "score": {
+        "process_id": 310,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "moves": {
+            "precision": 0.6666666666666666,
+            "recall": 0.7999999999999999
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 400,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "electricity"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "energy",
+                "participants_created": "electricity",
+                "location": "sun",
+                "step_number": 5
+            }
+        ],
+        "moves": null
+    },
+    "answer_summary": {
+        "process_id": 400,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "electricity"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "energy",
+                "participants_created": "electricity",
+                "location": "solar panel",
+                "step_number": 5
+            }
+        ],
+        "moves": null
+    },
+    "score": {
+        "process_id": 400,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 0.6666666666666666,
+            "recall": 0.6666666666666666
+        },
+        "moves": {
+            "precision": 1.0,
+            "recall": 1.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 401,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "alternating current",
+                "direct current"
+            ]
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "alternating current",
+                "location_before": "inverter",
+                "location_after": "house",
+                "step_number": 7
+            },
+            {
+                "participants": "sunlight",
+                "location_before": "unk",
+                "location_after": "solar panel",
+                "step_number": 3
+            },
+            {
+                "participants": "sunlight",
+                "location_before": "solar panel",
+                "location_after": "solar panel",
+                "step_number": 4
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 401,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "alternating current"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "sunlight",
+                "participants_created": "direct current",
+                "location": "solar panel AND bottom half of the solar panel",
+                "step_number": 5
+            },
+            {
+                "participants_destroyed": "direct current",
+                "participants_created": "alternating current",
+                "location": "solar `` inverter '' AND solar panel",
+                "step_number": 6
+            }
+        ],
+        "moves": [
+            {
+                "participants": "alternating current",
+                "location_before": "solar `` inverter ''",
+                "location_after": "house",
+                "step_number": 7
+            },
+            {
+                "participants": "sunlight",
+                "location_before": "solar panel",
+                "location_after": "top half of the solar panel",
+                "step_number": 3
+            },
+            {
+                "participants": "sunlight",
+                "location_before": "top half of the solar panel",
+                "location_after": "bottom half of the solar panel",
+                "step_number": 4
+            }
+        ]
+    },
+    "score": {
+        "process_id": 401,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 0.5,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 0.4444444444444444,
+            "recall": 0.4444444444444444
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 409,
+        "inputs": {
+            "participants": [
+                "image"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "electrical impulses"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "image",
+                "participants_created": "electrical impulses",
+                "location": "retina",
+                "step_number": 5
+            }
+        ],
+        "moves": [
+            {
+                "participants": "image",
+                "location_before": "unk",
+                "location_after": "retina",
+                "step_number": 4
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 409,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "electrical impulses"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "image",
+                "participants_created": "electrical impulses",
+                "location": "retina",
+                "step_number": 5
+            }
+        ],
+        "moves": [
+            {
+                "participants": "electrical impulses",
+                "location_before": "retina",
+                "location_after": "brain",
+                "step_number": 6
+            }
+        ]
+    },
+    "score": {
+        "process_id": 409,
+        "inputs": {
+            "precision": 0.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "moves": {
+            "precision": 0.0,
+            "recall": 0.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 410,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "electric signal"
+            ]
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "light",
+                "location_before": "unk",
+                "location_after": "cornea",
+                "step_number": 1
+            },
+            {
+                "participants": "light",
+                "location_before": "cornea",
+                "location_after": "iris",
+                "step_number": 2
+            },
+            {
+                "participants": "light",
+                "location_before": "iris",
+                "location_after": "iris",
+                "step_number": 3
+            },
+            {
+                "participants": "light",
+                "location_before": "iris",
+                "location_after": "retina",
+                "step_number": 4
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 410,
+        "inputs": {
+            "participants": [
+                "light"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "electric signal"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "light",
+                "participants_created": "electric signal",
+                "location": "retina",
+                "step_number": 4
+            }
+        ],
+        "moves": [
+            {
+                "participants": "electric signal",
+                "location_before": "retina",
+                "location_after": "brain",
+                "step_number": 5
+            },
+            {
+                "participants": "light",
+                "location_before": "unk",
+                "location_after": "cornea",
+                "step_number": 1
+            },
+            {
+                "participants": "light",
+                "location_before": "cornea",
+                "location_after": "iris",
+                "step_number": 2
+            },
+            {
+                "participants": "light",
+                "location_before": "iris",
+                "location_after": "retina",
+                "step_number": 3
+            }
+        ]
+    },
+    "score": {
+        "process_id": 410,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 0.6666666666666666,
+            "recall": 0.6666666666666666
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 411,
+        "inputs": {
+            "participants": [
+                "light"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "electrochemical signals"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "light",
+                "participants_created": "electrochemical signals",
+                "location": "rod AND retina",
+                "step_number": 2
+            }
+        ],
+        "moves": [
+            {
+                "participants": "light",
+                "location_before": "unk",
+                "location_after": "retina",
+                "step_number": 1
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 411,
+        "inputs": {
+            "participants": [
+                "light"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "electrochemical signals"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "light",
+                "participants_created": "electrochemical signals",
+                "location": "photoreceptor cell AND retina",
+                "step_number": 2
+            }
+        ],
+        "moves": [
+            {
+                "participants": "electrochemical signals",
+                "location_before": "retina",
+                "location_after": "cerebral cortex",
+                "step_number": 6
+            },
+            {
+                "participants": "electrochemical signals",
+                "location_before": "cerebral cortex",
+                "location_after": "superior colliculus",
+                "step_number": 7
+            },
+            {
+                "participants": "electrochemical signals",
+                "location_before": "superior colliculus",
+                "location_after": "brain",
+                "step_number": 8
+            },
+            {
+                "participants": "light",
+                "location_before": "retina",
+                "location_after": "photoreceptor cell",
+                "step_number": 1
+            }
+        ]
+    },
+    "score": {
+        "process_id": 411,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 0.7777777777777777,
+            "recall": 0.7777777777777777
+        },
+        "moves": {
+            "precision": 0.3333333333333333,
+            "recall": 0.08333333333333333
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 429,
+        "inputs": {
+            "participants": [
+                "nitrogen",
+                "plants"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "gas-based form"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "nitrogen",
+                "participants_created": "gas-based form",
+                "location": "soil AND plant",
+                "step_number": 9
+            }
+        ],
+        "moves": [
+            {
+                "participants": "fixed nitrogen OR usable nitrogen",
+                "location_before": "unk",
+                "location_after": "plant",
+                "step_number": 4
+            },
+            {
+                "participants": "nitrogen",
+                "location_before": "unk",
+                "location_after": "plant",
+                "step_number": 4
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 429,
+        "inputs": {
+            "participants": [
+                "nitrogen",
+                "plants"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "gas-based form"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "nitrogen",
+                "participants_created": "fixed nitrogen OR usable nitrogen",
+                "location": "soil AND atmosphere",
+                "step_number": 2
+            },
+            {
+                "participants_destroyed": "fixed nitrogen OR usable nitrogen AND plants AND waste",
+                "participants_created": "gas-based form",
+                "location": "soil AND unk",
+                "step_number": 9
+            }
+        ],
+        "moves": [
+            {
+                "participants": "fixed nitrogen OR usable nitrogen",
+                "location_before": "soil",
+                "location_after": "plant",
+                "step_number": 4
+            },
+            {
+                "participants": "fixed nitrogen OR usable nitrogen",
+                "location_before": "plant",
+                "location_after": "animal",
+                "step_number": 5
+            },
+            {
+                "participants": "fixed nitrogen OR usable nitrogen",
+                "location_before": "animal",
+                "location_after": "waste",
+                "step_number": 6
+            },
+            {
+                "participants": "fixed nitrogen OR usable nitrogen",
+                "location_before": "waste",
+                "location_after": "soil",
+                "step_number": 8
+            },
+            {
+                "participants": "gas-based form",
+                "location_before": "soil",
+                "location_after": "atmosphere",
+                "step_number": 10
+            },
+            {
+                "participants": "plants",
+                "location_before": "unk",
+                "location_after": "animal",
+                "step_number": 5
+            },
+            {
+                "participants": "plants",
+                "location_before": "animal",
+                "location_after": "unk",
+                "step_number": 6
+            }
+        ]
+    },
+    "score": {
+        "process_id": 429,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 0.4444444444444444,
+            "recall": 0.2222222222222222
+        },
+        "moves": {
+            "precision": 0.5,
+            "recall": 0.09523809523809523
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 460,
+        "inputs": {
+            "participants": [
+                "living things OR remains of living things"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "carbon-based mixture",
+                "power"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "energy",
+                "participants_created": "power",
+                "location": "fossil AND earth",
+                "step_number": 10
+            }
+        ],
+        "moves": [
+            {
+                "participants": "carbon-based mixture",
+                "location_before": "earth",
+                "location_after": "earth",
+                "step_number": 7
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 460,
+        "inputs": {
+            "participants": [
+                "carbon",
+                "living things OR remains of living things"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "power"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "carbon AND living things OR remains of living things",
+                "participants_created": "carbon-based mixture",
+                "location": "underground",
+                "step_number": 4
+            },
+            {
+                "participants_destroyed": "carbon-based mixture",
+                "participants_created": "energy AND fossil fuel",
+                "location": "underground AND surface AND fossil fuel",
+                "step_number": 7
+            },
+            {
+                "participants_destroyed": "energy",
+                "participants_created": "power",
+                "location": "unk",
+                "step_number": 10
+            }
+        ],
+        "moves": [
+            {
+                "participants": "carbon",
+                "location_before": "live thing",
+                "location_after": "underground",
+                "step_number": 3
+            },
+            {
+                "participants": "energy",
+                "location_before": "fossil fuel",
+                "location_after": "unk",
+                "step_number": 9
+            },
+            {
+                "participants": "living things OR remains of living things",
+                "location_before": "unk",
+                "location_after": "underground",
+                "step_number": 3
+            }
+        ]
+    },
+    "score": {
+        "process_id": 460,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.5
+        },
+        "outputs": {
+            "precision": 0.5,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 0.6666666666666666,
+            "recall": 0.2222222222222222
+        },
+        "moves": {
+            "precision": 0.0,
+            "recall": 0.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 463,
+        "inputs": {
+            "participants": [
+                "raindrops"
+            ]
+        },
+        "outputs": {
+            "participants": null
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "hailstone",
+                "location_before": "unk",
+                "location_after": "earth",
+                "step_number": 5
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 463,
+        "inputs": {
+            "participants": [
+                "raindrops"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "hailstone",
+                "ice particle"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "raindrops",
+                "participants_created": "ice particle",
+                "location": "updraft AND surface",
+                "step_number": 2
+            }
+        ],
+        "moves": [
+            {
+                "participants": "hailstone",
+                "location_before": "aloft",
+                "location_after": "earth",
+                "step_number": 5
+            },
+            {
+                "participants": "raindrops",
+                "location_before": "unk",
+                "location_after": "updraft",
+                "step_number": 1
+            }
+        ]
+    },
+    "score": {
+        "process_id": 463,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 0.6666666666666666,
+            "recall": 0.3333333333333333
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 465,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "hail"
+            ]
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "hail",
+                "location_before": "earth",
+                "location_after": "ground",
+                "step_number": 7
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 465,
+        "inputs": {
+            "participants": [
+                "water"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "hail"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "water",
+                "participants_created": "hail",
+                "location": "wind",
+                "step_number": 2
+            }
+        ],
+        "moves": [
+            {
+                "participants": "hail",
+                "location_before": "wind",
+                "location_after": "ground",
+                "step_number": 7
+            },
+            {
+                "participants": "water",
+                "location_before": "unk",
+                "location_after": "wind",
+                "step_number": 1
+            }
+        ]
+    },
+    "score": {
+        "process_id": 465,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 0.6666666666666666,
+            "recall": 0.3333333333333333
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 502,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "diesel",
+                "energy",
+                "petrol",
+                "piston motion",
+                "rotary motion"
+            ]
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "energy",
+                "location_before": "combustion",
+                "location_after": "piston",
+                "step_number": 2
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 502,
+        "inputs": {
+            "participants": [
+                "diesel",
+                "petrol"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "energy",
+                "rotary motion"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "diesel AND petrol",
+                "participants_created": "energy AND piston motion",
+                "location": "unk AND combustion chamber",
+                "step_number": 1
+            },
+            {
+                "participants_destroyed": "piston motion",
+                "participants_created": "rotary motion",
+                "location": "piston AND unk",
+                "step_number": 3
+            }
+        ],
+        "moves": [
+            {
+                "participants": "energy",
+                "location_before": "combustion chamber",
+                "location_after": "piston motion",
+                "step_number": 2
+            },
+            {
+                "participants": "energy",
+                "location_before": "piston motion",
+                "location_after": "rotary motion",
+                "step_number": 3
+            },
+            {
+                "participants": "piston motion",
+                "location_before": "unk",
+                "location_after": "piston",
+                "step_number": 2
+            }
+        ]
+    },
+    "score": {
+        "process_id": 502,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "outputs": {
+            "precision": 0.4,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 0.3333333333333333,
+            "recall": 0.2222222222222222
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 503,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "battery",
+                "gasoline OR gas",
+                "spark",
+                "wheel"
+            ]
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "gasoline OR gas",
+                "location_before": "car",
+                "location_after": "piston",
+                "step_number": 6
+            },
+            {
+                "participants": "wheel",
+                "location_before": "crankshaft",
+                "location_after": "body",
+                "step_number": 9
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 503,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "spark"
+            ]
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "gasoline OR gas",
+                "location_before": "unk",
+                "location_after": "car",
+                "step_number": 1
+            },
+            {
+                "participants": "spark",
+                "location_before": "car",
+                "location_after": "unk",
+                "step_number": 5
+            }
+        ]
+    },
+    "score": {
+        "process_id": 503,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 0.25,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "moves": {
+            "precision": 0.0,
+            "recall": 0.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 533,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "sapling",
+                "seedling",
+                "sprouts",
+                "tree"
+            ]
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "seed",
+                "location_before": "unk",
+                "location_after": "soil",
+                "step_number": 1
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 533,
+        "inputs": {
+            "participants": [
+                "seed"
+            ]
+        },
+        "outputs": {
+            "participants": null
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "seed",
+                "participants_created": "sprouts",
+                "location": "soil",
+                "step_number": 2
+            },
+            {
+                "participants_destroyed": "sprouts",
+                "participants_created": "seedling",
+                "location": "soil",
+                "step_number": 3
+            },
+            {
+                "participants_destroyed": "seedling",
+                "participants_created": "sapling",
+                "location": "soil",
+                "step_number": 4
+            },
+            {
+                "participants_destroyed": "sapling",
+                "participants_created": "tree",
+                "location": "soil",
+                "step_number": 5
+            }
+        ],
+        "moves": [
+            {
+                "participants": "seed",
+                "location_before": "tree",
+                "location_after": "soil",
+                "step_number": 1
+            }
+        ]
+    },
+    "score": {
+        "process_id": 533,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "outputs": {
+            "precision": 0.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 0.6666666666666666,
+            "recall": 0.6666666666666666
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 534,
+        "inputs": {
+            "participants": [
+                "seed"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "flowers",
+                "fruit",
+                "small tree OR tree"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "seed",
+                "participants_created": "small tree OR tree",
+                "location": "unk AND small tree",
+                "step_number": 2
+            }
+        ],
+        "moves": null
+    },
+    "answer_summary": {
+        "process_id": 534,
+        "inputs": {
+            "participants": [
+                "seed"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "flowers",
+                "fruit"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "seed",
+                "participants_created": "small tree OR tree",
+                "location": "unk",
+                "step_number": 2
+            }
+        ],
+        "moves": null
+    },
+    "score": {
+        "process_id": 534,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 0.6666666666666666,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 0.8333333333333334,
+            "recall": 0.8333333333333334
+        },
+        "moves": {
+            "precision": 1.0,
+            "recall": 1.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 582,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "circular patterns",
+                "tornado",
+                "updraft",
+                "wind"
+            ]
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "cool, dry air",
+                "location_before": "unk",
+                "location_after": "south",
+                "step_number": 2
+            },
+            {
+                "participants": "warm, moist air",
+                "location_before": "unk",
+                "location_after": "north",
+                "step_number": 1
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 582,
+        "inputs": {
+            "participants": [
+                "cool, dry air",
+                "tornado",
+                "warm, moist air"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "circular patterns",
+                "updraft",
+                "wind"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "cool, dry air AND warm, moist air",
+                "participants_created": "air masses OR masses",
+                "location": "north AND south AND unk",
+                "step_number": 3
+            },
+            {
+                "participants_destroyed": "air masses OR masses",
+                "participants_created": "wind",
+                "location": "unk",
+                "step_number": 5
+            }
+        ],
+        "moves": [
+            {
+                "participants": "circular patterns",
+                "location_before": "updraft",
+                "location_after": "unk",
+                "step_number": 8
+            },
+            {
+                "participants": "cool, dry air",
+                "location_before": "unk",
+                "location_after": "south",
+                "step_number": 2
+            },
+            {
+                "participants": "updraft",
+                "location_before": "unk",
+                "location_after": "tornado",
+                "step_number": 8
+            },
+            {
+                "participants": "warm, moist air",
+                "location_before": "south",
+                "location_after": "north",
+                "step_number": 1
+            }
+        ]
+    },
+    "score": {
+        "process_id": 582,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "outputs": {
+            "precision": 0.75,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 0.8333333333333333,
+            "recall": 0.41666666666666663
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 583,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "dry, cold high-pressure air",
+                "funnel OR tornado",
+                "rotation",
+                "updraft"
+            ]
+        },
+        "conversions": null,
+        "moves": null
+    },
+    "answer_summary": {
+        "process_id": 583,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "funnel OR tornado",
+                "rotation",
+                "updraft"
+            ]
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "dry, cold high-pressure air",
+                "location_before": "unk",
+                "location_after": "air",
+                "step_number": 3
+            },
+            {
+                "participants": "dry, cold high-pressure air",
+                "location_before": "air",
+                "location_after": "ground",
+                "step_number": 6
+            },
+            {
+                "participants": "funnel OR tornado",
+                "location_before": "unk",
+                "location_after": "ground",
+                "step_number": 6
+            },
+            {
+                "participants": "rotation",
+                "location_before": "unk",
+                "location_after": "funnel",
+                "step_number": 5
+            },
+            {
+                "participants": "rotation",
+                "location_before": "funnel",
+                "location_after": "ground",
+                "step_number": 6
+            },
+            {
+                "participants": "updraft",
+                "location_before": "unk",
+                "location_after": "air",
+                "step_number": 4
+            },
+            {
+                "participants": "updraft",
+                "location_before": "air",
+                "location_after": "ground",
+                "step_number": 6
+            },
+            {
+                "participants": "warm, humd low-presure air",
+                "location_before": "unk",
+                "location_after": "air",
+                "step_number": 2
+            },
+            {
+                "participants": "warm, humd low-presure air",
+                "location_before": "air",
+                "location_after": "ground",
+                "step_number": 6
+            }
+        ]
+    },
+    "score": {
+        "process_id": 583,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 0.75,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "moves": {
+            "precision": 1.0,
+            "recall": 0.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 600,
+        "inputs": {
+            "participants": [
+                "air",
+                "petrol OR fuel"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "energy"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "air AND petrol OR fuel",
+                "participants_created": "energy",
+                "location": "unk AND car",
+                "step_number": 1
+            }
+        ],
+        "moves": [
+            {
+                "participants": "energy",
+                "location_before": "car",
+                "location_after": "crankshaft",
+                "step_number": 4
+            },
+            {
+                "participants": "hot gas",
+                "location_before": "unk",
+                "location_after": "piston",
+                "step_number": 3
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 600,
+        "inputs": {
+            "participants": [
+                "air",
+                "petrol OR fuel"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "energy",
+                "hot gas"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "air AND petrol OR fuel",
+                "participants_created": "energy AND hot gas",
+                "location": "engine",
+                "step_number": 2
+            }
+        ],
+        "moves": [
+            {
+                "participants": "energy",
+                "location_before": "engine",
+                "location_after": "piston",
+                "step_number": 3
+            },
+            {
+                "participants": "energy",
+                "location_before": "piston",
+                "location_after": "crankshaft",
+                "step_number": 4
+            },
+            {
+                "participants": "energy",
+                "location_before": "crankshaft",
+                "location_after": "gear",
+                "step_number": 5
+            },
+            {
+                "participants": "energy",
+                "location_before": "gear",
+                "location_after": "wheel",
+                "step_number": 6
+            }
+        ]
+    },
+    "score": {
+        "process_id": 600,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 0.5
+        },
+        "conversions": {
+            "precision": 0.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 0.5,
+            "recall": 0.25
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 653,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "flower",
+                "fruit",
+                "seedling",
+                "tree"
+            ]
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "seed",
+                "location_before": "unk",
+                "location_after": "fruit",
+                "step_number": 6
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 653,
+        "inputs": {
+            "participants": [
+                "seed"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "fruit",
+                "seedling",
+                "tree"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "seed",
+                "participants_created": "seedling",
+                "location": "unk",
+                "step_number": 2
+            },
+            {
+                "participants_destroyed": "flower",
+                "participants_created": "fruit",
+                "location": "tree",
+                "step_number": 5
+            }
+        ],
+        "moves": null
+    },
+    "score": {
+        "process_id": 653,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "outputs": {
+            "precision": 0.75,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 0.0,
+            "recall": 1.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 654,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "material for new growth",
+                "root system",
+                "seedling"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "tree",
+                "participants_created": "material for new growth",
+                "location": "ground",
+                "step_number": 6
+            }
+        ],
+        "moves": null
+    },
+    "answer_summary": {
+        "process_id": 654,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "material for new growth",
+                "root system"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "tree",
+                "participants_created": "material for new growth",
+                "location": "ground",
+                "step_number": 6
+            }
+        ],
+        "moves": null
+    },
+    "score": {
+        "process_id": 654,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 0.6666666666666666,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "moves": {
+            "precision": 1.0,
+            "recall": 1.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 659,
+        "inputs": {
+            "participants": [
+                "plant"
+            ]
+        },
+        "outputs": {
+            "participants": null
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "extra nitrogen",
+                "location_before": "unk",
+                "location_after": "air",
+                "step_number": 5
+            },
+            {
+                "participants": "nitrogen OR nitrates",
+                "location_before": "unk",
+                "location_after": "soil",
+                "step_number": 2
+            },
+            {
+                "participants": "nitrogen OR nitrates",
+                "location_before": "soil",
+                "location_after": "root",
+                "step_number": 3
+            },
+            {
+                "participants": "plant",
+                "location_before": "unk",
+                "location_after": "root",
+                "step_number": 3
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 659,
+        "inputs": {
+            "participants": [
+                "plant"
+            ]
+        },
+        "outputs": {
+            "participants": null
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "nitrogen OR nitrates",
+                "participants_created": "ammonium",
+                "location": "soil",
+                "step_number": 1
+            },
+            {
+                "participants_destroyed": "ammonium",
+                "participants_created": "nitrogen OR nitrates",
+                "location": "soil",
+                "step_number": 2
+            },
+            {
+                "participants_destroyed": "nitrogen OR nitrates AND plant",
+                "participants_created": "ammonium",
+                "location": "soil AND plant",
+                "step_number": 4
+            }
+        ],
+        "moves": [
+            {
+                "participants": "extra nitrogen",
+                "location_before": "soil",
+                "location_after": "air",
+                "step_number": 5
+            },
+            {
+                "participants": "nitrogen OR nitrates",
+                "location_before": "soil",
+                "location_after": "plant",
+                "step_number": 3
+            }
+        ]
+    },
+    "score": {
+        "process_id": 659,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 0.3333333333333333,
+            "recall": 0.6666666666666666
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 660,
+        "inputs": {
+            "participants": [
+                "ammonium",
+                "animals",
+                "atmospheric nitrogen",
+                "organic nitrogen",
+                "plants",
+                "wastes"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "nitrogen gas"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "ammonium",
+                "participants_created": "nitrate",
+                "location": "soil",
+                "step_number": 7
+            },
+            {
+                "participants_destroyed": "nitrate",
+                "participants_created": "nitrogen gas",
+                "location": "soil",
+                "step_number": 8
+            }
+        ],
+        "moves": [
+            {
+                "participants": "ammonium",
+                "location_before": "unk",
+                "location_after": "soil",
+                "step_number": 6
+            },
+            {
+                "participants": "animals",
+                "location_before": "unk",
+                "location_after": "plant",
+                "step_number": 3
+            },
+            {
+                "participants": "nitrogen gas",
+                "location_before": "soil",
+                "location_after": "atmosphere",
+                "step_number": 9
+            },
+            {
+                "participants": "organic nitrogen",
+                "location_before": "unk",
+                "location_after": "plant",
+                "step_number": 2
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 660,
+        "inputs": {
+            "participants": [
+                "animals",
+                "atmospheric nitrogen",
+                "plants"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "nitrogen gas",
+                "wastes"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "atmospheric nitrogen",
+                "participants_created": "organic nitrogen",
+                "location": "soil AND atmosphere",
+                "step_number": 1
+            },
+            {
+                "participants_destroyed": "animals AND plants",
+                "participants_created": "wastes",
+                "location": "soil AND unk",
+                "step_number": 4
+            },
+            {
+                "participants_destroyed": "organic nitrogen",
+                "participants_created": "ammonium",
+                "location": "soil AND fungus",
+                "step_number": 6
+            },
+            {
+                "participants_destroyed": "ammonium",
+                "participants_created": "nitrate",
+                "location": "soil",
+                "step_number": 7
+            },
+            {
+                "participants_destroyed": "nitrate",
+                "participants_created": "nitrogen gas",
+                "location": "soil",
+                "step_number": 8
+            }
+        ],
+        "moves": [
+            {
+                "participants": "nitrogen gas",
+                "location_before": "soil",
+                "location_after": "atmosphere",
+                "step_number": 9
+            },
+            {
+                "participants": "organic nitrogen",
+                "location_before": "soil",
+                "location_after": "plant",
+                "step_number": 2
+            },
+            {
+                "participants": "organic nitrogen",
+                "location_before": "plant",
+                "location_after": "fungus",
+                "step_number": 5
+            }
+        ]
+    },
+    "score": {
+        "process_id": 660,
+        "inputs": {
+            "precision": 0.5,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 0.5
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.4
+        },
+        "moves": {
+            "precision": 0.41666666666666663,
+            "recall": 0.5555555555555555
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 661,
+        "inputs": {
+            "participants": [
+                "animal"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "ammonium"
+            ]
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "nitrogen",
+                "location_before": "unk",
+                "location_after": "air",
+                "step_number": 8
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 661,
+        "inputs": {
+            "participants": [
+                "animal",
+                "plant"
+            ]
+        },
+        "outputs": {
+            "participants": null
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "nitrogen",
+                "participants_created": "ammonium",
+                "location": "soil AND unk",
+                "step_number": 1
+            },
+            {
+                "participants_destroyed": "ammonium",
+                "participants_created": "nitrates",
+                "location": "soil",
+                "step_number": 2
+            },
+            {
+                "participants_destroyed": "nitrates",
+                "participants_created": "nitrogen",
+                "location": "plant AND amino acid , nucleic acid , and chlorophyll",
+                "step_number": 5
+            },
+            {
+                "participants_destroyed": "animal AND nitrogen AND plant",
+                "participants_created": "ammonium",
+                "location": "soil AND unk AND amino acid , nucleic acid , and chlorophyll",
+                "step_number": 7
+            }
+        ],
+        "moves": [
+            {
+                "participants": "ammonium",
+                "location_before": "soil",
+                "location_after": "air",
+                "step_number": 8
+            },
+            {
+                "participants": "nitrates",
+                "location_before": "soil",
+                "location_after": "plant",
+                "step_number": 3
+            }
+        ]
+    },
+    "score": {
+        "process_id": 661,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.5
+        },
+        "outputs": {
+            "precision": 0.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 0.3333333333333333,
+            "recall": 0.16666666666666666
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 695,
+        "inputs": {
+            "participants": [
+                "water"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "clouds",
+                "hail",
+                "rain",
+                "sleet",
+                "snow"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "vapor OR steam OR water vapor",
+                "participants_created": "clouds",
+                "location": "air",
+                "step_number": 3
+            },
+            {
+                "participants_destroyed": "water",
+                "participants_created": "hail AND rain AND sleet AND snow",
+                "location": "earth",
+                "step_number": 5
+            }
+        ],
+        "moves": [
+            {
+                "participants": "vapor OR steam OR water vapor",
+                "location_before": "ocean",
+                "location_after": "air",
+                "step_number": 2
+            },
+            {
+                "participants": "water",
+                "location_before": "unk",
+                "location_after": "air",
+                "step_number": 2
+            },
+            {
+                "participants": "water",
+                "location_before": "air",
+                "location_after": "earth",
+                "step_number": 5
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 695,
+        "inputs": {
+            "participants": [
+                "water"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "clouds",
+                "hail",
+                "rain",
+                "sleet",
+                "snow"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "water",
+                "participants_created": "vapor OR steam OR water vapor",
+                "location": "river or lake or the ocean",
+                "step_number": 1
+            },
+            {
+                "participants_destroyed": "vapor OR steam OR water vapor",
+                "participants_created": "clouds",
+                "location": "air",
+                "step_number": 3
+            }
+        ],
+        "moves": [
+            {
+                "participants": "hail",
+                "location_before": "earth",
+                "location_after": "ocean , lake , or river",
+                "step_number": 7
+            },
+            {
+                "participants": "rain",
+                "location_before": "earth",
+                "location_after": "ocean , lake , or river",
+                "step_number": 7
+            },
+            {
+                "participants": "sleet",
+                "location_before": "earth",
+                "location_after": "ocean , lake , or river",
+                "step_number": 7
+            },
+            {
+                "participants": "snow",
+                "location_before": "earth",
+                "location_after": "ocean , lake , or river",
+                "step_number": 7
+            },
+            {
+                "participants": "vapor OR steam OR water vapor",
+                "location_before": "river or lake or the ocean",
+                "location_after": "air",
+                "step_number": 2
+            }
+        ]
+    },
+    "score": {
+        "process_id": 695,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 0.5,
+            "recall": 0.5
+        },
+        "moves": {
+            "precision": 0.3333333333333333,
+            "recall": 0.13333333333333333
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 696,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "rain"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "water vapor",
+                "participants_created": "water droplets",
+                "location": "air",
+                "step_number": 2
+            }
+        ],
+        "moves": [
+            {
+                "participants": "water droplets",
+                "location_before": "air",
+                "location_after": "cloud",
+                "step_number": 3
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 696,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "rain",
+                "water droplets"
+            ]
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "water droplets",
+                "location_before": "air",
+                "location_after": "cloud",
+                "step_number": 3
+            },
+            {
+                "participants": "water droplets",
+                "location_before": "cloud",
+                "location_after": "unk",
+                "step_number": 6
+            },
+            {
+                "participants": "water vapor",
+                "location_before": "air",
+                "location_after": "water droplet",
+                "step_number": 2
+            },
+            {
+                "participants": "water vapor",
+                "location_before": "water droplet",
+                "location_after": "unk",
+                "step_number": 3
+            },
+            {
+                "participants": "water vapor",
+                "location_before": "unk",
+                "location_after": "cloud",
+                "step_number": 5
+            },
+            {
+                "participants": "water vapor",
+                "location_before": "cloud",
+                "location_after": "unk",
+                "step_number": 6
+            }
+        ]
+    },
+    "score": {
+        "process_id": 696,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 0.5
+        },
+        "conversions": {
+            "precision": 0.0,
+            "recall": 1.0
+        },
+        "moves": {
+            "precision": 1.0,
+            "recall": 0.16666666666666666
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 697,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "clouds",
+                "rain"
+            ]
+        },
+        "conversions": null,
+        "moves": null
+    },
+    "answer_summary": {
+        "process_id": 697,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "clouds",
+                "rain"
+            ]
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "water",
+                "location_before": "body of water",
+                "location_after": "unk",
+                "step_number": 1
+            },
+            {
+                "participants": "water",
+                "location_before": "unk",
+                "location_after": "cloud",
+                "step_number": 2
+            },
+            {
+                "participants": "water",
+                "location_before": "cloud",
+                "location_after": "area below the cloud",
+                "step_number": 5
+            }
+        ]
+    },
+    "score": {
+        "process_id": 697,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "moves": {
+            "precision": 1.0,
+            "recall": 0.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 725,
+        "inputs": {
+            "participants": [
+                "plant OR animal",
+                "sediment"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "rock",
+                "stone replica OR fossil"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "plant OR animal",
+                "participants_created": "bones",
+                "location": "mud AND unk",
+                "step_number": 1
+            },
+            {
+                "participants_destroyed": "sediment",
+                "participants_created": "rock",
+                "location": "mud AND unk",
+                "step_number": 3
+            },
+            {
+                "participants_destroyed": "bones",
+                "participants_created": "minerals",
+                "location": "mud AND bone",
+                "step_number": 4
+            },
+            {
+                "participants_destroyed": "minerals",
+                "participants_created": "stone replica OR fossil",
+                "location": "bone AND rock",
+                "step_number": 6
+            }
+        ],
+        "moves": [
+            {
+                "participants": "soft tissues",
+                "location_before": "unk",
+                "location_after": "mud",
+                "step_number": 2
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 725,
+        "inputs": {
+            "participants": [
+                "bones",
+                "plant OR animal",
+                "sediment",
+                "soft tissues"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "rock",
+                "stone replica OR fossil"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "sediment",
+                "participants_created": "rock",
+                "location": "unk",
+                "step_number": 3
+            }
+        ],
+        "moves": [
+            {
+                "participants": "bones",
+                "location_before": "watery environment",
+                "location_after": "mud and silt",
+                "step_number": 1
+            },
+            {
+                "participants": "bones",
+                "location_before": "mud and silt",
+                "location_after": "unk",
+                "step_number": 3
+            },
+            {
+                "participants": "plant OR animal",
+                "location_before": "watery environment",
+                "location_after": "mud and silt",
+                "step_number": 1
+            },
+            {
+                "participants": "soft tissues",
+                "location_before": "unk",
+                "location_after": "mud and silt",
+                "step_number": 1
+            }
+        ]
+    },
+    "score": {
+        "process_id": 725,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.5
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 0.20833333333333334,
+            "recall": 0.8333333333333334
+        },
+        "moves": {
+            "precision": 0.0,
+            "recall": 0.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 726,
+        "inputs": {
+            "participants": [
+                "animal"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "animal's skeleton",
+                "hole",
+                "rock"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "animal",
+                "participants_created": "animal's skeleton",
+                "location": "ocean AND unk",
+                "step_number": 3
+            },
+            {
+                "participants_destroyed": "mud OR sand",
+                "participants_created": "rock",
+                "location": "skeleton",
+                "step_number": 8
+            }
+        ],
+        "moves": [
+            {
+                "participants": "animal's skeleton",
+                "location_before": "ocean",
+                "location_after": "ocean",
+                "step_number": 4
+            },
+            {
+                "participants": "mud OR sand",
+                "location_before": "ocean",
+                "location_after": "skeleton",
+                "step_number": 6
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 726,
+        "inputs": {
+            "participants": [
+                "animal",
+                "animal's skeleton",
+                "mud OR sand"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "hole",
+                "rock"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "mud OR sand",
+                "participants_created": "rock",
+                "location": "bottom of a ocean",
+                "step_number": 8
+            },
+            {
+                "participants_destroyed": "animal's skeleton",
+                "participants_created": "hole",
+                "location": "bottom of a ocean AND rock",
+                "step_number": 9
+            }
+        ],
+        "moves": [
+            {
+                "participants": "animal's skeleton",
+                "location_before": "unk",
+                "location_after": "bottom of a ocean",
+                "step_number": 4
+            }
+        ]
+    },
+    "score": {
+        "process_id": 726,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333
+        },
+        "outputs": {
+            "precision": 0.6666666666666666,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 0.3333333333333333,
+            "recall": 0.3333333333333333
+        },
+        "moves": {
+            "precision": 0.16666666666666666,
+            "recall": 0.3333333333333333
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 727,
+        "inputs": {
+            "participants": [
+                "animal",
+                "soft tissues"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "bones",
+                "fossil",
+                "minerals",
+                "rock"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "soft tissues",
+                "participants_created": "bones AND mud OR silt",
+                "location": "bone AND unk AND watery environment",
+                "step_number": 3
+            },
+            {
+                "participants_destroyed": "mud OR silt",
+                "participants_created": "rock",
+                "location": "bone AND watery environment",
+                "step_number": 6
+            }
+        ],
+        "moves": [
+            {
+                "participants": "minerals",
+                "location_before": "rock",
+                "location_after": "rock",
+                "step_number": 8
+            },
+            {
+                "participants": "mud OR silt",
+                "location_before": "bone",
+                "location_after": "bone",
+                "step_number": 5
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 727,
+        "inputs": {
+            "participants": [
+                "animal",
+                "bones",
+                "mud OR silt",
+                "soft tissues"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "fossil",
+                "rock"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "mud OR silt",
+                "participants_created": "rock",
+                "location": "watery environment",
+                "step_number": 6
+            }
+        ],
+        "moves": [
+            {
+                "participants": "animal",
+                "location_before": "unk",
+                "location_after": "watery environment",
+                "step_number": 2
+            },
+            {
+                "participants": "bones",
+                "location_before": "animal",
+                "location_after": "watery environment",
+                "step_number": 4
+            },
+            {
+                "participants": "bones",
+                "location_before": "watery environment",
+                "location_after": "mud and silt",
+                "step_number": 5
+            },
+            {
+                "participants": "bones",
+                "location_before": "mud and silt",
+                "location_after": "rock",
+                "step_number": 6
+            },
+            {
+                "participants": "minerals",
+                "location_before": "unk",
+                "location_after": "bone",
+                "step_number": 8
+            },
+            {
+                "participants": "minerals",
+                "location_before": "bone",
+                "location_after": "rock",
+                "step_number": 9
+            },
+            {
+                "participants": "mud OR silt",
+                "location_before": "watery environment",
+                "location_after": "unk",
+                "step_number": 1
+            },
+            {
+                "participants": "mud OR silt",
+                "location_before": "unk",
+                "location_after": "watery environment",
+                "step_number": 5
+            }
+        ]
+    },
+    "score": {
+        "process_id": 727,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.5
+        },
+        "outputs": {
+            "precision": 0.5,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 0.4166666666666667,
+            "recall": 0.8333333333333334
+        },
+        "moves": {
+            "precision": 0.3333333333333333,
+            "recall": 0.08333333333333333
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 791,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "AC electricity",
+                "DC electricity"
+            ]
+        },
+        "conversions": null,
+        "moves": null
+    },
+    "answer_summary": {
+        "process_id": 791,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "AC electricity"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "DC electricity",
+                "participants_created": "AC electricity",
+                "location": "solar cell AND inverter",
+                "step_number": 4
+            }
+        ],
+        "moves": [
+            {
+                "participants": "AC electricity",
+                "location_before": "inverter",
+                "location_after": "home",
+                "step_number": 5
+            },
+            {
+                "participants": "AC electricity",
+                "location_before": "home",
+                "location_after": "power grid",
+                "step_number": 6
+            }
+        ]
+    },
+    "score": {
+        "process_id": 791,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 0.5,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 1.0,
+            "recall": 0.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 896,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": null
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "oxygen-depleted blood OR blood",
+                "location_before": "unk",
+                "location_after": "heart",
+                "step_number": 1
+            },
+            {
+                "participants": "oxygen-depleted blood OR blood",
+                "location_before": "heart",
+                "location_after": "atrium",
+                "step_number": 2
+            },
+            {
+                "participants": "oxygen-depleted blood OR blood",
+                "location_before": "atrium",
+                "location_after": "right ventricle",
+                "step_number": 3
+            },
+            {
+                "participants": "oxygen-depleted blood OR blood",
+                "location_before": "right ventricle",
+                "location_after": "lung",
+                "step_number": 6
+            },
+            {
+                "participants": "oxygen-depleted blood OR blood",
+                "location_before": "lung",
+                "location_after": "left atrium",
+                "step_number": 8
+            },
+            {
+                "participants": "oxygen-depleted blood OR blood",
+                "location_before": "left atrium",
+                "location_after": "body",
+                "step_number": 9
+            },
+            {
+                "participants": "oxygenated blood OR blood",
+                "location_before": "unk",
+                "location_after": "heart",
+                "step_number": 1
+            },
+            {
+                "participants": "oxygenated blood OR blood",
+                "location_before": "heart",
+                "location_after": "atrium",
+                "step_number": 2
+            },
+            {
+                "participants": "oxygenated blood OR blood",
+                "location_before": "atrium",
+                "location_after": "right ventricle",
+                "step_number": 3
+            },
+            {
+                "participants": "oxygenated blood OR blood",
+                "location_before": "right ventricle",
+                "location_after": "lung",
+                "step_number": 6
+            },
+            {
+                "participants": "oxygenated blood OR blood",
+                "location_before": "lung",
+                "location_after": "left atrium",
+                "step_number": 8
+            },
+            {
+                "participants": "oxygenated blood OR blood",
+                "location_before": "left atrium",
+                "location_after": "body",
+                "step_number": 9
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 896,
+        "inputs": {
+            "participants": [
+                "oxygen-depleted blood OR blood"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "oxygenated blood OR blood"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "oxygen-depleted blood OR blood",
+                "participants_created": "oxygenated blood OR blood",
+                "location": "lung",
+                "step_number": 7
+            }
+        ],
+        "moves": [
+            {
+                "participants": "oxygen-depleted blood OR blood",
+                "location_before": "body",
+                "location_after": "heart",
+                "step_number": 1
+            },
+            {
+                "participants": "oxygen-depleted blood OR blood",
+                "location_before": "heart",
+                "location_after": "right ventricle",
+                "step_number": 3
+            },
+            {
+                "participants": "oxygen-depleted blood OR blood",
+                "location_before": "right ventricle",
+                "location_after": "lung",
+                "step_number": 6
+            },
+            {
+                "participants": "oxygenated blood OR blood",
+                "location_before": "lung",
+                "location_after": "left atrium",
+                "step_number": 8
+            },
+            {
+                "participants": "oxygenated blood OR blood",
+                "location_before": "left atrium",
+                "location_after": "body",
+                "step_number": 9
+            }
+        ]
+    },
+    "score": {
+        "process_id": 896,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 0.7222222222222223,
+            "recall": 0.8666666666666666
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 903,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "chemical energy",
+                "image"
+            ]
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "visible light OR light",
+                "location_before": "unk",
+                "location_after": "lens",
+                "step_number": 1
+            },
+            {
+                "participants": "visible light OR light",
+                "location_before": "lens",
+                "location_after": "retina",
+                "step_number": 2
+            },
+            {
+                "participants": "visible light OR light",
+                "location_before": "retina",
+                "location_after": "photoreceptor",
+                "step_number": 3
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 903,
+        "inputs": {
+            "participants": [
+                "visible light OR light"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "chemical energy",
+                "image"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "visible light OR light",
+                "participants_created": "chemical energy",
+                "location": "photoreceptor cell",
+                "step_number": 4
+            }
+        ],
+        "moves": [
+            {
+                "participants": "chemical energy",
+                "location_before": "photoreceptor cell",
+                "location_after": "brain",
+                "step_number": 5
+            },
+            {
+                "participants": "visible light OR light",
+                "location_before": "unk",
+                "location_after": "lens",
+                "step_number": 1
+            },
+            {
+                "participants": "visible light OR light",
+                "location_before": "lens",
+                "location_after": "retina",
+                "step_number": 2
+            },
+            {
+                "participants": "visible light OR light",
+                "location_before": "retina",
+                "location_after": "photoreceptor cell",
+                "step_number": 3
+            }
+        ]
+    },
+    "score": {
+        "process_id": 903,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 0.8888888888888888,
+            "recall": 0.6666666666666666
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 904,
+        "inputs": {
+            "participants": [
+                "light",
+                "retina's rods and cones"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "electrical pulses",
+                "small image"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "light",
+                "participants_created": "small image",
+                "location": "cornea AND unk",
+                "step_number": 1
+            },
+            {
+                "participants_destroyed": "retina's rods and cones",
+                "participants_created": "electrical pulses",
+                "location": "unk AND retina",
+                "step_number": 3
+            }
+        ],
+        "moves": [
+            {
+                "participants": "electrical pulses",
+                "location_before": "retina",
+                "location_after": "optic canal",
+                "step_number": 4
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 904,
+        "inputs": {
+            "participants": [
+                "light"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "electrical pulses"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "light",
+                "participants_created": "small image",
+                "location": "cornea and lens AND retina",
+                "step_number": 1
+            },
+            {
+                "participants_destroyed": "small image",
+                "participants_created": "electrical pulses",
+                "location": "optic nerve AND retina",
+                "step_number": 3
+            }
+        ],
+        "moves": [
+            {
+                "participants": "electrical pulses",
+                "location_before": "optic nerve",
+                "location_after": "optic canal",
+                "step_number": 4
+            },
+            {
+                "participants": "electrical pulses",
+                "location_before": "optic canal",
+                "location_after": "lateral geniculate nucleus and the visual cortex",
+                "step_number": 5
+            }
+        ]
+    },
+    "score": {
+        "process_id": 904,
+        "inputs": {
+            "precision": 0.5,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 0.5,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 0.5555555555555556,
+            "recall": 0.5555555555555556
+        },
+        "moves": {
+            "precision": 0.6666666666666666,
+            "recall": 0.3333333333333333
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 927,
+        "inputs": {
+            "participants": [
+                "land",
+                "plants",
+                "rain"
+            ]
+        },
+        "outputs": {
+            "participants": null
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "rain water OR water",
+                "location_before": "unk",
+                "location_after": "ground",
+                "step_number": 2
+            },
+            {
+                "participants": "rain water OR water",
+                "location_before": "ground",
+                "location_after": "soil",
+                "step_number": 4
+            },
+            {
+                "participants": "rain water OR water",
+                "location_before": "soil",
+                "location_after": "soil",
+                "step_number": 5
+            },
+            {
+                "participants": "trees",
+                "location_before": "unk",
+                "location_after": "soil",
+                "step_number": 5
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 927,
+        "inputs": {
+            "participants": [
+                "land",
+                "plants",
+                "rain",
+                "trees"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "rain water OR water"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "rain",
+                "participants_created": "rain water OR water",
+                "location": "ground AND unk",
+                "step_number": 2
+            }
+        ],
+        "moves": null
+    },
+    "score": {
+        "process_id": 927,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.75
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 0.0,
+            "recall": 1.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 932,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "oxygen"
+            ]
+        },
+        "conversions": null,
+        "moves": null
+    },
+    "answer_summary": {
+        "process_id": 932,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": null
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "water",
+                "location_before": "unk",
+                "location_after": "rock",
+                "step_number": 1
+            }
+        ]
+    },
+    "score": {
+        "process_id": 932,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 0.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "moves": {
+            "precision": 1.0,
+            "recall": 0.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 933,
+        "inputs": {
+            "participants": [
+                "carbon dioxide",
+                "water"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "mineral based material",
+                "rock"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "water",
+                "participants_created": "mineral based material",
+                "location": "rock AND unk",
+                "step_number": 2
+            }
+        ],
+        "moves": null
+    },
+    "answer_summary": {
+        "process_id": 933,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": null
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "water",
+                "location_before": "unk",
+                "location_after": "mineral base material",
+                "step_number": 3
+            },
+            {
+                "participants": "water",
+                "location_before": "mineral base material",
+                "location_after": "rock",
+                "step_number": 4
+            }
+        ]
+    },
+    "score": {
+        "process_id": 933,
+        "inputs": {
+            "precision": 0.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 0.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 0.0,
+            "recall": 1.0
+        },
+        "moves": {
+            "precision": 1.0,
+            "recall": 0.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 1031,
+        "inputs": {
+            "participants": [
+                "plant or animal"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "bones",
+                "fossil"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "plant or animal",
+                "participants_created": "bones",
+                "location": "mud or soil AND unk",
+                "step_number": 1
+            },
+            {
+                "participants_destroyed": "sediment",
+                "participants_created": "rock",
+                "location": "mud or soil",
+                "step_number": 4
+            },
+            {
+                "participants_destroyed": "rock",
+                "participants_created": "fossil",
+                "location": "mud or soil",
+                "step_number": 5
+            }
+        ],
+        "moves": null
+    },
+    "answer_summary": {
+        "process_id": 1031,
+        "inputs": {
+            "participants": [
+                "plant or animal"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "fossil"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "plant or animal",
+                "participants_created": "bones",
+                "location": "mud or soil",
+                "step_number": 1
+            },
+            {
+                "participants_destroyed": "bones",
+                "participants_created": "sediment",
+                "location": "mud or soil",
+                "step_number": 3
+            },
+            {
+                "participants_destroyed": "sediment",
+                "participants_created": "rock",
+                "location": "mud or soil AND unk",
+                "step_number": 4
+            },
+            {
+                "participants_destroyed": "rock",
+                "participants_created": "fossil",
+                "location": "rock AND unk",
+                "step_number": 5
+            }
+        ],
+        "moves": null
+    },
+    "score": {
+        "process_id": 1031,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 0.5,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 0.7777777777777778,
+            "recall": 0.5833333333333334
+        },
+        "moves": {
+            "precision": 1.0,
+            "recall": 1.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 1032,
+        "inputs": {
+            "participants": [
+                "plants"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "bones and hard tissues OR remains",
+                "rock"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "plants",
+                "participants_created": "animals",
+                "location": "unk AND wet environment",
+                "step_number": 1
+            },
+            {
+                "participants_destroyed": "sediment",
+                "participants_created": "rock",
+                "location": "mud AND remain",
+                "step_number": 6
+            }
+        ],
+        "moves": null
+    },
+    "answer_summary": {
+        "process_id": 1032,
+        "inputs": {
+            "participants": [
+                "animals",
+                "plants"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "rock"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "animals AND plants",
+                "participants_created": "bones and hard tissues OR remains",
+                "location": "mud",
+                "step_number": 3
+            },
+            {
+                "participants_destroyed": "bones and hard tissues OR remains",
+                "participants_created": "sediment",
+                "location": "mud AND remains",
+                "step_number": 5
+            },
+            {
+                "participants_destroyed": "sediment",
+                "participants_created": "rock",
+                "location": "remains",
+                "step_number": 6
+            }
+        ],
+        "moves": [
+            {
+                "participants": "animals",
+                "location_before": "wet environment",
+                "location_after": "mud",
+                "step_number": 2
+            },
+            {
+                "participants": "plants",
+                "location_before": "wet environment",
+                "location_after": "mud",
+                "step_number": 2
+            }
+        ]
+    },
+    "score": {
+        "process_id": 1032,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.5
+        },
+        "outputs": {
+            "precision": 0.5,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 0.4166666666666667,
+            "recall": 0.2777777777777778
+        },
+        "moves": {
+            "precision": 1.0,
+            "recall": 0.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 1033,
+        "inputs": {
+            "participants": [
+                "animal"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "mold",
+                "rock",
+                "skeleton"
+            ]
+        },
+        "conversions": null,
+        "moves": null
+    },
+    "answer_summary": {
+        "process_id": 1033,
+        "inputs": {
+            "participants": [
+                "animal"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "mold",
+                "rock"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "animal",
+                "participants_created": "skeleton",
+                "location": "mud",
+                "step_number": 3
+            },
+            {
+                "participants_destroyed": "skeleton",
+                "participants_created": "mold",
+                "location": "mud AND rock",
+                "step_number": 5
+            }
+        ],
+        "moves": [
+            {
+                "participants": "animal",
+                "location_before": "unk",
+                "location_after": "mud",
+                "step_number": 2
+            },
+            {
+                "participants": "skeleton",
+                "location_before": "mud",
+                "location_after": "rock",
+                "step_number": 4
+            }
+        ]
+    },
+    "score": {
+        "process_id": 1033,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 0.6666666666666666,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 1.0,
+            "recall": 0.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 1145,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "helium atoms",
+                "hydrogen atoms",
+                "hydrogen fuel",
+                "red giant star"
+            ]
+        },
+        "conversions": null,
+        "moves": null
+    },
+    "answer_summary": {
+        "process_id": 1145,
+        "inputs": {
+            "participants": [
+                "hydrogen atoms",
+                "hydrogen fuel"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "helium atoms",
+                "red giant star"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "hydrogen atoms",
+                "participants_created": "helium atoms",
+                "location": "star",
+                "step_number": 3
+            }
+        ],
+        "moves": null
+    },
+    "score": {
+        "process_id": 1145,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "outputs": {
+            "precision": 0.5,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 1.0,
+            "recall": 1.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 1146,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "carbon atoms",
+                "energy",
+                "hydrogen fuel"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "hydrogen",
+                "participants_created": "helium",
+                "location": "star",
+                "step_number": 3
+            },
+            {
+                "participants_destroyed": "helium",
+                "participants_created": "carbon atoms",
+                "location": "star",
+                "step_number": 7
+            }
+        ],
+        "moves": [
+            {
+                "participants": "star",
+                "location_before": "unk",
+                "location_after": "space",
+                "step_number": 1
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 1146,
+        "inputs": {
+            "participants": [
+                "energy",
+                "hydrogen",
+                "hydrogen fuel",
+                "star"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "carbon atoms",
+                "red giant star"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "hydrogen",
+                "participants_created": "helium",
+                "location": "star",
+                "step_number": 3
+            },
+            {
+                "participants_destroyed": "helium",
+                "participants_created": "carbon atoms",
+                "location": "star",
+                "step_number": 7
+            }
+        ],
+        "moves": null
+    },
+    "score": {
+        "process_id": 1146,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "outputs": {
+            "precision": 0.3333333333333333,
+            "recall": 0.5
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "moves": {
+            "precision": 0.0,
+            "recall": 1.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 1147,
+        "inputs": {
+            "participants": [
+                "hydrogen",
+                "hydrogen atoms"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "carbon atoms"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "hydrogen atoms",
+                "participants_created": "helium AND helium atoms",
+                "location": "star AND unk",
+                "step_number": 1
+            },
+            {
+                "participants_destroyed": "helium AND helium atoms",
+                "participants_created": "carbon atoms",
+                "location": "star AND helium atoms",
+                "step_number": 4
+            }
+        ],
+        "moves": null
+    },
+    "answer_summary": {
+        "process_id": 1147,
+        "inputs": {
+            "participants": [
+                "hydrogen",
+                "hydrogen atoms"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "carbon atoms",
+                "helium atoms",
+                "red giant star"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "hydrogen atoms",
+                "participants_created": "helium atoms",
+                "location": "star",
+                "step_number": 1
+            },
+            {
+                "participants_destroyed": "hydrogen",
+                "participants_created": "helium",
+                "location": "star",
+                "step_number": 2
+            },
+            {
+                "participants_destroyed": "helium",
+                "participants_created": "carbon atoms",
+                "location": "star",
+                "step_number": 4
+            }
+        ],
+        "moves": null
+    },
+    "score": {
+        "process_id": 1147,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333
+        },
+        "conversions": {
+            "precision": 0.6666666666666666,
+            "recall": 0.4444444444444444
+        },
+        "moves": {
+            "precision": 1.0,
+            "recall": 1.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 1188,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "hole OR crater"
+            ]
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "comet",
+                "location_before": "unk",
+                "location_after": "outer space",
+                "step_number": 1
+            },
+            {
+                "participants": "comet",
+                "location_before": "outer space",
+                "location_after": "planet",
+                "step_number": 2
+            },
+            {
+                "participants": "comet",
+                "location_before": "planet",
+                "location_after": "atmosphere",
+                "step_number": 3
+            },
+            {
+                "participants": "comet",
+                "location_before": "atmosphere",
+                "location_after": "planet",
+                "step_number": 4
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 1188,
+        "inputs": {
+            "participants": [
+                "comet"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "hole OR crater"
+            ]
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "comet",
+                "location_before": "outer space",
+                "location_after": "close to a planet",
+                "step_number": 2
+            },
+            {
+                "participants": "comet",
+                "location_before": "close to a planet",
+                "location_after": "planet 's atmosphere",
+                "step_number": 3
+            }
+        ]
+    },
+    "score": {
+        "process_id": 1188,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "moves": {
+            "precision": 0.25,
+            "recall": 0.5
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 1189,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "crater"
+            ]
+        },
+        "conversions": null,
+        "moves": null
+    },
+    "answer_summary": {
+        "process_id": 1189,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "crater"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "chunks of rock",
+                "participants_created": "crater",
+                "location": "atmosphere AND earth",
+                "step_number": 4
+            }
+        ],
+        "moves": null
+    },
+    "score": {
+        "process_id": 1189,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 1.0,
+            "recall": 1.0
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 1190,
+        "inputs": {
+            "participants": null
+        },
+        "outputs": {
+            "participants": [
+                "deoxygenated blood"
+            ]
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "oxygen",
+                "location_before": "unk",
+                "location_after": "lung",
+                "step_number": 6
+            },
+            {
+                "participants": "oxygenated blood",
+                "location_before": "unk",
+                "location_after": "left atrium",
+                "step_number": 7
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 1190,
+        "inputs": {
+            "participants": [
+                "oxygen"
+            ]
+        },
+        "outputs": {
+            "participants": null
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "deoxygenated blood AND oxygen",
+                "participants_created": "oxygenated blood",
+                "location": "lung AND unk",
+                "step_number": 6
+            },
+            {
+                "participants_destroyed": "oxygenated blood",
+                "participants_created": "deoxygenated blood",
+                "location": "body AND heart",
+                "step_number": 10
+            }
+        ],
+        "moves": [
+            {
+                "participants": "deoxygenated blood",
+                "location_before": "unk",
+                "location_after": "heart",
+                "step_number": 1
+            },
+            {
+                "participants": "deoxygenated blood",
+                "location_before": "heart",
+                "location_after": "right atrium",
+                "step_number": 2
+            },
+            {
+                "participants": "deoxygenated blood",
+                "location_before": "right atrium",
+                "location_after": "tricuspid valve",
+                "step_number": 3
+            },
+            {
+                "participants": "deoxygenated blood",
+                "location_before": "tricuspid valve",
+                "location_after": "right ventricle",
+                "step_number": 4
+            },
+            {
+                "participants": "deoxygenated blood",
+                "location_before": "right ventricle",
+                "location_after": "lung",
+                "step_number": 5
+            },
+            {
+                "participants": "oxygenated blood",
+                "location_before": "lung",
+                "location_after": "left atrium",
+                "step_number": 7
+            },
+            {
+                "participants": "oxygenated blood",
+                "location_before": "left atrium",
+                "location_after": "left ventricle",
+                "step_number": 8
+            },
+            {
+                "participants": "oxygenated blood",
+                "location_before": "left ventricle",
+                "location_after": "body",
+                "step_number": 9
+            }
+        ]
+    },
+    "score": {
+        "process_id": 1190,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "outputs": {
+            "precision": 0.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 0.3333333333333333,
+            "recall": 0.08333333333333333
+        }
+    }
+}
+{
+    "prediction_summary": {
+        "process_id": 1240,
+        "inputs": {
+            "participants": [
+                "Heat"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "Liquid"
+            ]
+        },
+        "conversions": null,
+        "moves": [
+            {
+                "participants": "Air",
+                "location_before": "unk",
+                "location_after": "coil",
+                "step_number": 1
+            },
+            {
+                "participants": "Liquid",
+                "location_before": "condenser",
+                "location_after": "evaporator",
+                "step_number": 8
+            }
+        ]
+    },
+    "answer_summary": {
+        "process_id": 1240,
+        "inputs": {
+            "participants": [
+                "Heat",
+                "Refrigerent Liquid"
+            ]
+        },
+        "outputs": {
+            "participants": [
+                "Liquid"
+            ]
+        },
+        "conversions": [
+            {
+                "participants_destroyed": "Refrigerent Liquid",
+                "participants_created": "Refrigerent Gas",
+                "location": "coil",
+                "step_number": 3
+            },
+            {
+                "participants_destroyed": "Refrigerent Gas",
+                "participants_created": "Liquid",
+                "location": "compressor AND condenser",
+                "step_number": 5
+            }
+        ],
+        "moves": [
+            {
+                "participants": "Air",
+                "location_before": "unk",
+                "location_after": "evaporator 's coil",
+                "step_number": 1
+            },
+            {
+                "participants": "Air",
+                "location_before": "evaporator 's coil",
+                "location_after": "unk",
+                "step_number": 4
+            },
+            {
+                "participants": "Heat",
+                "location_before": "unk",
+                "location_after": "refrigerant",
+                "step_number": 2
+            },
+            {
+                "participants": "Heat",
+                "location_before": "refrigerant",
+                "location_after": "coil",
+                "step_number": 3
+            },
+            {
+                "participants": "Liquid",
+                "location_before": "condenser",
+                "location_after": "evaporator",
+                "step_number": 8
+            },
+            {
+                "participants": "Refrigerent Gas",
+                "location_before": "coil",
+                "location_after": "compressor",
+                "step_number": 4
+            }
+        ]
+    },
+    "score": {
+        "process_id": 1240,
+        "inputs": {
+            "precision": 1.0,
+            "recall": 0.5
+        },
+        "outputs": {
+            "precision": 1.0,
+            "recall": 1.0
+        },
+        "conversions": {
+            "precision": 1.0,
+            "recall": 0.0
+        },
+        "moves": {
+            "precision": 0.8333333333333333,
+            "recall": 0.27777777777777773
+        }
+    }
+}
+{
+    "overall_scores": {
+        "precision": 0.749,
+        "recall": 0.574,
+        "f1": 0.65
+    }
+}
