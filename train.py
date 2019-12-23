@@ -15,8 +15,8 @@ import numpy as np
 from typing import List, Dict
 from Constants import *
 import argparse
-from torchsummaryX import summary
-from tensorboardX import SummaryWriter
+# from torchsummaryX import summary
+# from tensorboardX import SummaryWriter
 from torch.utils.data import DataLoader
 from allennlp.modules.elmo import batch_to_ids
 from utils import *
