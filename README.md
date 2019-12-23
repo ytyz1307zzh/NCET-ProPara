@@ -80,13 +80,20 @@ pytorch-crf 0.7.2
    Some useful optional arguments:
 
    ```
-   -save_mode		Checkpoint saving mode. 'best' (default): only save the best checkpoint on dev set. 'all': save all checkpoints. 'none': don't save checkpoints.
-   -epoch			Number of epochs to run the dataset. Default: 100. You can set it to -1 (which was what I did in training) to remove epoch limit and only use early stopping to stop training.
-   -impatience		Early stopping rounds. If the score on dev set does not increase for -impatience rounds, then stop the training process. Default: 20. You can set it to -1 to disable early stopping and train for a definite number of epochs.
-   -report			The frequency of evaluating on dev set and save checkpoints (per epoch). Default: 2.
-   -log_dir		Path to log file. If specified, training and evaluation details will be stored to an additional log. Default: None.
-   -loc_loss		The hyper-parameter to weight the state tracking loss and location prediction loss.
-   -no_cuda		Only use CPU if specified.
+   -save_mode     Checkpoint saving mode. 'best' (default): only save the best checkpoint on dev set. 
+                  'all': save all checkpoints. 
+                  'none': don't save checkpoints.
+   -epoch         Number of epochs to run the dataset. Default: 100. You can set it to -1 
+                  (which was what I did in training) to remove epoch limit and only use early stopping 
+                  to stop training.
+   -impatience    Early stopping rounds. If the score on dev set does not increase for -impatience rounds, 
+                  then stop the training process. Default: 20. You can set it to -1 to disable early stopping 
+                  and train for a definite number of epochs.
+   -report        The frequency of evaluating on dev set and save checkpoints (per epoch). Default: 2.
+   -log_dir       Path to log file. If specified, training and evaluation details will be stored to 
+                  an additional log. Default: None.
+   -loc_loss      The hyper-parameter to weight the state tracking loss and location prediction loss.
+   -no_cuda       Only use CPU if specified.
    ```
 
    Time for training a new model may vary according to your GPU performance as well as your training schema (*i.e.*, training epochs and early stopping rounds). It takes me about 10~15 minutes to train a new model on a single Tesla P40.
@@ -94,7 +101,8 @@ pytorch-crf 0.7.2
 5. Predict on test set using a trained model:
 
    ```bash
-   python train.py -mode test -test_set data/test.json -dummy_test data/dummy-predictions.tsv -restore ckpt/best_checkpoint.pt -output data/prediction.tsv
+   python train.py -mode test -test_set data/test.json -dummy_test data/dummy-predictions.tsv 
+   -restore ckpt/best_checkpoint.pt -output data/prediction.tsv
    ```
 
    where -output is the TSV file that will contain the prediction results, and -dummy_test is the output template that I used to simplify output formatting. The `dummy-predictions.tsv` file is provided by the [official evaluation script](https://github.com/allenai/aristo-leaderboard/tree/master/propara/data/test) of AI2, and I just copied it to `data/`.
