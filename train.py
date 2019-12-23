@@ -9,7 +9,6 @@ print('[INFO] Starting import...')
 import_start_time = time.time()
 import torch
 import json
-from tqdm import tqdm
 import os
 import numpy as np
 from typing import List, Dict
@@ -280,7 +279,6 @@ def evaluate(dev_set, model):
 
             eval_state_loss, eval_loc_loss, eval_state_correct, eval_state_pred, \
                 eval_loc_correct, eval_loc_pred = eval_result
-            eval_loss = eval_state_loss + opt.loc_loss * eval_loc_loss
 
             report_state_loss += eval_state_loss.item() * eval_state_pred
             report_loc_loss += eval_loc_loss.item() * eval_loc_pred
@@ -312,11 +310,14 @@ def test(test_set, model):
 
     print('[INFO] Start testing...')
     test_batch = DataLoader(dataset = test_set, batch_size = opt.batch_size, shuffle = False, collate_fn = Collate())
+
     start_time = time.time()
-    output = {}
+    report_state_correct, report_state_pred = 0, 0
+    report_loc_correct, report_loc_pred = 0, 0
+    output_result = {}
 
     with torch.no_grad():
-        for batch in tqdm(test_batch):
+        for batch in test_batch:
 
             paragraphs = batch['paragraph']
             char_paragraph = batch_to_ids(paragraphs)
@@ -341,16 +342,32 @@ def test(test_set, model):
                                 loc_mask=loc_mask, gold_loc_seq=gold_loc_seq, gold_state_seq=gold_state_seq,
                                 num_cands=num_cands)
 
-            pred_state_seq, pred_loc_seq = test_result
+            pred_state_seq, pred_loc_seq, test_state_correct, test_state_pred,\
+                test_loc_correct, test_loc_pred = test_result
 
             batch_size = len(paragraphs)
             for i in range(batch_size):
                 pred_instance = get_output(metadata = metadata[i], pred_state_seq = pred_state_seq[i], pred_loc_seq = pred_loc_seq[i])
                 para_id = pred_instance['id']
                 entity_name = pred_instance['entity']
-                output[str(para_id) + '-' + entity_name] = pred_instance
+                output_result[str(para_id) + '-' + entity_name] = pred_instance
 
-    write_output(output = output, dummy_filepath = opt.dummy_test, output_filepath = opt.output)
+            report_state_correct += test_state_correct
+            report_state_pred += test_state_pred
+            report_loc_correct += test_loc_correct
+            report_loc_pred += test_loc_pred
+
+    total_accuracy = (report_state_correct + report_loc_correct) / (report_state_pred + report_loc_pred)
+    state_accuracy = report_state_correct / report_state_pred
+    loc_accuracy = report_loc_correct / report_loc_pred
+
+    output(f'\tTest:\n'
+           f'\tTotal Accuracy: {total_accuracy * 100:.3f}%, '
+           f'State Prediction Accuracy: {state_accuracy * 100:.3f}%, '
+           f'Location Accuracy: {loc_accuracy * 100:.3f}% \n'
+           f'\tTime Elapse: {time.time() - start_time:.2f}')
+
+    write_output(output = output_result, dummy_filepath = opt.dummy_test, output_filepath = opt.output)
     print(f'[INFO] Test finished. Time elapse: {time.time() - start_time}s')
 
 

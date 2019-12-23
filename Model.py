@@ -92,7 +92,7 @@ class NCETModel(nn.Module):
 
         if self.is_test:  # inference
             pred_loc_seq = get_pred_loc(loc_logits = masked_loc_logits, gold_loc_seq = gold_loc_seq)
-            return pred_state_seq, pred_loc_seq
+            return pred_state_seq, pred_loc_seq, correct_state_pred, total_state_pred, correct_loc_pred, total_loc_pred
 
         return state_loss, loc_loss, correct_state_pred, total_state_pred, correct_loc_pred, total_loc_pred
 
