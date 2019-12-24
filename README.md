@@ -131,6 +131,6 @@ python -m spacy download en_core_web_sm
 
 ## Results
 
-Using the default hyper-parameters, the re-implemented NCET will reach a total F1 score of 65.5, while the reported score in the original paper was 62.5.
+Using the default hyper-parameters, the re-implemented NCET will reach a total F1 score of 65.6, while the reported score in the original paper was 62.5.
 
 <img src="image/result.png" alt="image-20191223140902073" width=350/>

@@ -421,7 +421,7 @@
 429	4	waste	NONE	-	-
 429	5	waste	NONE	-	-
 429	6	waste	CREATE	-	plant
-429	7	waste	NONE	plant	plant
+429	7	waste	DESTROY	plant	-
 429	8	waste	NONE	-	-
 429	9	waste	NONE	-	-
 429	10	waste	NONE	-	-
@@ -1482,7 +1482,7 @@
 1146	2	energy	NONE	-	-
 1146	3	energy	NONE	-	-
 1146	4	energy	CREATE	-	star
-1146	5	energy	NONE	star	star
+1146	5	energy	DESTROY	star	-
 1146	6	energy	NONE	-	-
 1146	7	energy	NONE	-	-
 1146	8	energy	NONE	-	-

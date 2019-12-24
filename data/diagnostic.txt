@@ -19,13 +19,13 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "soft tissues",
                 "participants_created": "bones",
-                "location": "unk AND mud",
+                "location": "mud AND unk",
                 "step_number": 3
             },
             {
                 "participants_destroyed": "bones",
                 "participants_created": "mineral",
-                "location": "bone AND mud",
+                "location": "mud AND bone",
                 "step_number": 5
             }
         ],
@@ -209,7 +209,7 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "peat",
                 "participants_created": "coal",
-                "location": "peat AND swamp",
+                "location": "swamp AND peat",
                 "step_number": 9
             }
         ],
@@ -872,7 +872,7 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "oxygen AND rocks OR smaller pieces",
                 "participants_created": "new types of rocks OR new substance OR certain types of rocks",
-                "location": "rock AND unk",
+                "location": "unk AND rock",
                 "step_number": 5
             }
         ],
@@ -1133,7 +1133,7 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "sunlight",
                 "participants_created": "direct current",
-                "location": "bottom half of the solar panel AND solar panel",
+                "location": "solar panel AND bottom half of the solar panel",
                 "step_number": 5
             },
             {
@@ -1476,8 +1476,7 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
         },
         "outputs": {
             "participants": [
-                "gas-based form",
-                "waste"
+                "gas-based form"
             ]
         },
         "conversions": [
@@ -1544,13 +1543,13 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "nitrogen",
                 "participants_created": "fixed nitrogen OR usable nitrogen",
-                "location": "soil AND atmosphere",
+                "location": "atmosphere AND soil",
                 "step_number": 2
             },
             {
                 "participants_destroyed": "fixed nitrogen OR usable nitrogen AND plants AND waste",
                 "participants_created": "gas-based form",
-                "location": "soil AND unk",
+                "location": "unk AND soil",
                 "step_number": 9
             }
         ],
@@ -1606,7 +1605,7 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             "recall": 1.0
         },
         "outputs": {
-            "precision": 0.5,
+            "precision": 1.0,
             "recall": 1.0
         },
         "conversions": {
@@ -1639,7 +1638,7 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "carbon",
                 "participants_created": "carbon-based mixture",
-                "location": "unk AND remain",
+                "location": "remain AND unk",
                 "step_number": 5
             },
             {
@@ -1687,7 +1686,7 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "carbon-based mixture",
                 "participants_created": "energy AND fossil fuel",
-                "location": "fossil fuel AND underground AND surface",
+                "location": "underground AND surface AND fossil fuel",
                 "step_number": 7
             },
             {
@@ -1778,7 +1777,7 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "raindrops",
                 "participants_created": "ice particle",
-                "location": "surface AND updraft",
+                "location": "updraft AND surface",
                 "step_number": 2
             }
         ],
@@ -1920,7 +1919,7 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "pistons",
                 "participants_created": "piston motion AND rotary motion",
-                "location": "unk AND crankshaft and axle",
+                "location": "crankshaft and axle AND unk",
                 "step_number": 3
             }
         ],
@@ -1957,7 +1956,7 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "piston motion",
                 "participants_created": "rotary motion",
-                "location": "piston AND unk",
+                "location": "unk AND piston",
                 "step_number": 3
             }
         ],
@@ -2282,7 +2281,7 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "cool, dry air AND warm, moist air",
                 "participants_created": "air masses OR masses",
-                "location": "unk AND north AND south",
+                "location": "south AND north AND unk",
                 "step_number": 3
             },
             {
@@ -2763,7 +2762,7 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "nitrogen OR nitrates AND plant",
                 "participants_created": "ammonium",
-                "location": "soil AND plant",
+                "location": "plant AND soil",
                 "step_number": 4
             }
         ],
@@ -2822,7 +2821,7 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "atmospheric nitrogen",
                 "participants_created": "organic nitrogen",
-                "location": "soil AND unk",
+                "location": "unk AND soil",
                 "step_number": 1
             },
             {
@@ -2884,19 +2883,19 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "atmospheric nitrogen",
                 "participants_created": "organic nitrogen",
-                "location": "soil AND atmosphere",
+                "location": "atmosphere AND soil",
                 "step_number": 1
             },
             {
                 "participants_destroyed": "animals AND plants",
                 "participants_created": "wastes",
-                "location": "soil AND unk",
+                "location": "unk AND soil",
                 "step_number": 4
             },
             {
                 "participants_destroyed": "organic nitrogen",
                 "participants_created": "ammonium",
-                "location": "soil AND fungus",
+                "location": "fungus AND soil",
                 "step_number": 6
             },
             {
@@ -2998,7 +2997,7 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "nitrogen",
                 "participants_created": "ammonium",
-                "location": "soil AND unk",
+                "location": "unk AND soil",
                 "step_number": 1
             },
             {
@@ -3016,7 +3015,7 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "animal AND nitrogen AND plant",
                 "participants_created": "ammonium",
-                "location": "soil AND unk AND amino acid , nucleic acid , and chlorophyll",
+                "location": "amino acid , nucleic acid , and chlorophyll AND unk AND soil",
                 "step_number": 7
             }
         ],
@@ -3383,13 +3382,13 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "soft tissues",
                 "participants_created": "bones",
-                "location": "unk AND mud",
+                "location": "mud AND unk",
                 "step_number": 2
             },
             {
                 "participants_destroyed": "sediment",
                 "participants_created": "rock",
-                "location": "unk AND mud",
+                "location": "mud AND unk",
                 "step_number": 3
             },
             {
@@ -3541,7 +3540,7 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "animal's skeleton",
                 "participants_created": "hole",
-                "location": "rock AND bottom of a ocean",
+                "location": "bottom of a ocean AND rock",
                 "step_number": 9
             }
         ],
@@ -3595,13 +3594,13 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "soft tissues",
                 "participants_created": "bones",
-                "location": "watery environment AND unk",
+                "location": "unk AND watery environment",
                 "step_number": 3
             },
             {
                 "participants_destroyed": "mud OR silt",
                 "participants_created": "rock",
-                "location": "watery environment AND bone",
+                "location": "bone AND watery environment",
                 "step_number": 6
             }
         ],
@@ -3750,7 +3749,7 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "DC electricity",
                 "participants_created": "AC electricity",
-                "location": "solar cell AND inverter",
+                "location": "inverter AND solar cell",
                 "step_number": 4
             }
         ],
@@ -4231,7 +4230,7 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "rain",
                 "participants_created": "rain water OR water",
-                "location": "ground AND unk",
+                "location": "unk AND ground",
                 "step_number": 2
             }
         ],
@@ -4418,7 +4417,7 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "bones",
                 "participants_created": "rock",
-                "location": "mud or soil AND mud",
+                "location": "mud AND mud or soil",
                 "step_number": 3
             },
             {
@@ -4458,13 +4457,13 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "sediment",
                 "participants_created": "rock",
-                "location": "unk AND mud or soil",
+                "location": "mud or soil AND unk",
                 "step_number": 4
             },
             {
                 "participants_destroyed": "rock",
                 "participants_created": "fossil",
-                "location": "rock AND unk",
+                "location": "unk AND rock",
                 "step_number": 5
             }
         ],
@@ -4623,7 +4622,7 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "skeleton",
                 "participants_created": "mold",
-                "location": "rock AND mud",
+                "location": "mud AND rock",
                 "step_number": 5
             }
         ],
@@ -4730,7 +4729,6 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
         },
         "outputs": {
             "participants": [
-                "energy",
                 "hydrogen fuel"
             ]
         },
@@ -5016,7 +5014,7 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
             {
                 "participants_destroyed": "chunks of rock",
                 "participants_created": "crater",
-                "location": "earth AND atmosphere",
+                "location": "atmosphere AND earth",
                 "step_number": 4
             }
         ],
@@ -5291,8 +5289,8 @@ Diagnostics of evaluation of predictions in predict/prediction.tsv against answe
 }
 {
     "overall_scores": {
-        "precision": 0.732,
+        "precision": 0.734,
         "recall": 0.593,
-        "f1": 0.655
+        "f1": 0.656
     }
 }

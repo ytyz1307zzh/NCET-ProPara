@@ -88,6 +88,9 @@ def format_final_prediction(pred_state_seq: List[str], pred_loc_seq: List[str]) 
     return prediction
 
 
+# TODO: if state == 'MOVE' but loc_before is identical to loc_after, there are two sets of solutions:
+#       first, you can change its state to 'NONE'. Doing this will increase the precision of "moves" but will sacrifice its recall.
+#       second, you can do nothing, which will increase the recall of "moves" but will sacrifice its precision.
 def hard_constraint(state: str, loc_before: str, loc_after: str) -> (str, str, str):
     """
     Some commonsense hard constraints on the predictions.
@@ -96,21 +99,27 @@ def hard_constraint(state: str, loc_before: str, loc_after: str) -> (str, str, s
     2. For state MOVE and DESTROY, loc_before must not be '-'.
     3. For state CREATE, loc_before should be '-'.
     """
-    if state == 'NONE':
-        loc_after = loc_before
+    if state == 'NONE' and loc_before != loc_after:
+        if loc_before == '-':  # in fact, this cannot happen
+            state = 'CREATE'
+        elif loc_after == '-':
+            state = 'DESTROY'
+        # no other possibility
     if state == 'MOVE' and loc_before == '-':
         state = 'CREATE'
+    # if state == 'MOVE' and loc_before == loc_after:
+    #     state = 'NONE'
     if state == 'DESTROY' and loc_before == '-':
         state = 'NONE'
-    if state == 'CREATE' and loc_before == loc_after:
-        state = 'NONE'
-    if state == 'CREATE' and loc_before != '-' and loc_after != '-' and loc_before != loc_after:
-        state = 'MOVE'
+    if state == 'CREATE' and loc_before != '-':
+        if loc_before == loc_after:
+            state = 'NONE'
+        elif loc_before != loc_after:
+            state = 'MOVE'
     return state, loc_before, loc_after
 
 
 # TODO: if state1 == 'E', then state0 should be '?' or state0 should be the same with state1?
-# TODO: if state == 'M' but predicted location is the same with before, should I predict '?' or ignore or change 'M' to 'E'?
 def predict_consistent_loc(pred_state_seq: List[str], pred_loc_seq: List[str]) -> List[str]:
     """
     1. Only keep the location predictions at state "C" or "M"
