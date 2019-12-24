@@ -1,29 +1,35 @@
-Diagnostics of evaluation of predictions in prediction.tsv against answers in data/answers.tsv
+Diagnostics of evaluation of predictions in predict/prediction.tsv against answers in data/answers.tsv
 
 {
     "prediction_summary": {
         "process_id": 37,
         "inputs": {
             "participants": [
-                "plant OR animal"
+                "plant OR animal",
+                "soft tissues"
             ]
         },
         "outputs": {
             "participants": [
-                "bones",
                 "fossils",
                 "mineral"
             ]
         },
-        "conversions": null,
-        "moves": [
+        "conversions": [
             {
-                "participants": "soft tissues",
-                "location_before": "unk",
-                "location_after": "bone",
+                "participants_destroyed": "soft tissues",
+                "participants_created": "bones",
+                "location": "unk AND mud",
                 "step_number": 3
+            },
+            {
+                "participants_destroyed": "bones",
+                "participants_created": "mineral",
+                "location": "bone AND mud",
+                "step_number": 5
             }
-        ]
+        ],
+        "moves": null
     },
     "answer_summary": {
         "process_id": 37,
@@ -69,19 +75,19 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
     "score": {
         "process_id": 37,
         "inputs": {
-            "precision": 0.0,
-            "recall": 0.0
+            "precision": 0.5,
+            "recall": 0.5
         },
         "outputs": {
-            "precision": 0.3333333333333333,
+            "precision": 0.5,
             "recall": 1.0
         },
         "conversions": {
-            "precision": 1.0,
+            "precision": 0.0,
             "recall": 1.0
         },
         "moves": {
-            "precision": 0.0,
+            "precision": 1.0,
             "recall": 0.0
         }
     }
@@ -100,8 +106,22 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
                 "soil"
             ]
         },
-        "conversions": null,
-        "moves": null
+        "conversions": [
+            {
+                "participants_destroyed": "animal OR body",
+                "participants_created": "soil",
+                "location": "wet place AND body",
+                "step_number": 4
+            }
+        ],
+        "moves": [
+            {
+                "participants": "animal OR body",
+                "location_before": "unk",
+                "location_after": "wet place",
+                "step_number": 3
+            }
+        ]
     },
     "answer_summary": {
         "process_id": 38,
@@ -157,11 +177,11 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 0.5
         },
         "conversions": {
-            "precision": 1.0,
+            "precision": 0.0,
             "recall": 0.0
         },
         "moves": {
-            "precision": 1.0,
+            "precision": 0.0,
             "recall": 0.0
         }
     }
@@ -181,13 +201,32 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         },
         "conversions": [
             {
+                "participants_destroyed": "plants OR dead plants",
+                "participants_created": "peat",
+                "location": "swamp",
+                "step_number": 5
+            },
+            {
                 "participants_destroyed": "peat",
                 "participants_created": "coal",
-                "location": "swamp AND peat",
+                "location": "peat AND swamp",
                 "step_number": 9
             }
         ],
-        "moves": null
+        "moves": [
+            {
+                "participants": "plants OR dead plants",
+                "location_before": "unk",
+                "location_after": "swamp",
+                "step_number": 2
+            },
+            {
+                "participants": "plants OR dead plants",
+                "location_before": "swamp",
+                "location_after": "swamp",
+                "step_number": 3
+            }
+        ]
     },
     "answer_summary": {
         "process_id": 67,
@@ -242,11 +281,11 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         },
         "conversions": {
             "precision": 0.6666666666666666,
-            "recall": 0.3333333333333333
+            "recall": 0.6666666666666666
         },
         "moves": {
-            "precision": 1.0,
-            "recall": 0.0
+            "precision": 0.8333333333333333,
+            "recall": 0.8333333333333333
         }
     }
 }
@@ -268,6 +307,12 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         },
         "conversions": null,
         "moves": [
+            {
+                "participants": "peat OR burial peat",
+                "location_before": "bottom",
+                "location_after": "bottom",
+                "step_number": 5
+            },
             {
                 "participants": "water",
                 "location_before": "unk",
@@ -301,7 +346,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants_destroyed": "peat OR burial peat",
                 "participants_created": "coal AND heat",
-                "location": "swampy area AND burial peat",
+                "location": "burial peat AND swampy area",
                 "step_number": 7
             }
         ],
@@ -371,8 +416,8 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 0.0
         },
         "moves": {
-            "precision": 0.0,
-            "recall": 0.0
+            "precision": 0.16666666666666666,
+            "recall": 0.041666666666666664
         }
     }
 }
@@ -386,6 +431,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         },
         "outputs": {
             "participants": [
+                "clay",
                 "coal",
                 "peat",
                 "pressure",
@@ -394,7 +440,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         },
         "conversions": [
             {
-                "participants_destroyed": "clay AND sand",
+                "participants_destroyed": "sand",
                 "participants_created": "sedimentary rocks",
                 "location": "peat",
                 "step_number": 5
@@ -402,15 +448,9 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         ],
         "moves": [
             {
-                "participants": "sand",
-                "location_before": "peat",
-                "location_after": "peat",
-                "step_number": 4
-            },
-            {
                 "participants": "water",
                 "location_before": "unk",
-                "location_after": "peat",
+                "location_after": "sedimentary rock",
                 "step_number": 6
             }
         ]
@@ -479,15 +519,15 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 0.3333333333333333
         },
         "outputs": {
-            "precision": 0.75,
+            "precision": 0.6,
             "recall": 1.0
         },
         "conversions": {
-            "precision": 0.6666666666666666,
-            "recall": 0.2222222222222222
+            "precision": 0.5,
+            "recall": 0.16666666666666666
         },
         "moves": {
-            "precision": 0.16666666666666666,
+            "precision": 0.3333333333333333,
             "recall": 0.1111111111111111
         }
     }
@@ -496,7 +536,9 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
     "prediction_summary": {
         "process_id": 70,
         "inputs": {
-            "participants": null
+            "participants": [
+                "rain"
+            ]
         },
         "outputs": {
             "participants": [
@@ -507,7 +549,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants_destroyed": "rain",
                 "participants_created": "streams",
-                "location": "house AND unk",
+                "location": "unk AND house",
                 "step_number": 6
             }
         ],
@@ -606,7 +648,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
     "score": {
         "process_id": 70,
         "inputs": {
-            "precision": 1.0,
+            "precision": 0.0,
             "recall": 0.0
         },
         "outputs": {
@@ -642,7 +684,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants_destroyed": "rain",
                 "participants_created": "desert",
-                "location": "sky AND mountain or rain",
+                "location": "mountain or rain AND obstacle",
                 "step_number": 7
             }
         ],
@@ -654,12 +696,6 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
                 "step_number": 1
             },
             {
-                "participants": "clouds",
-                "location_before": "sky",
-                "location_after": "sky",
-                "step_number": 2
-            },
-            {
                 "participants": "rain",
                 "location_before": "unk",
                 "location_after": "sky",
@@ -668,20 +704,14 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants": "rain",
                 "location_before": "sky",
-                "location_after": "sky",
-                "step_number": 2
+                "location_after": "obstacle",
+                "step_number": 4
             },
             {
                 "participants": "rain clouds",
                 "location_before": "unk",
                 "location_after": "sky",
                 "step_number": 1
-            },
-            {
-                "participants": "rain clouds",
-                "location_before": "sky",
-                "location_after": "mountain or wind",
-                "step_number": 2
             }
         ]
     },
@@ -737,7 +767,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants_destroyed": "water vapor OR lifted vapor OR vapor",
                 "participants_created": "solid OR cloud droplets",
-                "location": "dew AND atmosphere",
+                "location": "atmosphere AND dew",
                 "step_number": 4
             }
         ],
@@ -751,6 +781,12 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants": "water vapor OR lifted vapor OR vapor",
                 "location_before": "unk",
+                "location_after": "atmosphere",
+                "step_number": 1
+            },
+            {
+                "participants": "water vapor OR lifted vapor OR vapor",
+                "location_before": "atmosphere",
                 "location_after": "dew",
                 "step_number": 3
             }
@@ -810,7 +846,14 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             ]
         },
         "conversions": null,
-        "moves": null
+        "moves": [
+            {
+                "participants": "oxygen",
+                "location_before": "unk",
+                "location_after": "rock",
+                "step_number": 4
+            }
+        ]
     },
     "answer_summary": {
         "process_id": 249,
@@ -864,7 +907,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         },
         "moves": {
             "precision": 1.0,
-            "recall": 0.0
+            "recall": 0.5
         }
     }
 }
@@ -894,19 +937,19 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants": "blood",
                 "location_before": "lung",
-                "location_after": "lung",
+                "location_after": "heart",
                 "step_number": 5
             },
             {
                 "participants": "blood",
-                "location_before": "lung",
+                "location_before": "heart",
                 "location_after": "body",
                 "step_number": 6
             },
             {
                 "participants": "carbon dioxide",
                 "location_before": "unk",
-                "location_after": "lung",
+                "location_after": "blood",
                 "step_number": 3
             },
             {
@@ -976,8 +1019,8 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 1.0
         },
         "moves": {
-            "precision": 0.6666666666666666,
-            "recall": 0.7999999999999999
+            "precision": 0.7777777777777778,
+            "recall": 0.9333333333333333
         }
     }
 }
@@ -1058,20 +1101,20 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "moves": [
             {
                 "participants": "alternating current",
-                "location_before": "inverter",
+                "location_before": "solar panel",
                 "location_after": "house",
                 "step_number": 7
             },
             {
                 "participants": "sunlight",
                 "location_before": "unk",
-                "location_after": "solar panel",
+                "location_after": "top half",
                 "step_number": 3
             },
             {
                 "participants": "sunlight",
-                "location_before": "solar panel",
-                "location_after": "solar panel",
+                "location_before": "top half",
+                "location_after": "bottom half",
                 "step_number": 4
             }
         ]
@@ -1090,7 +1133,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants_destroyed": "sunlight",
                 "participants_created": "direct current",
-                "location": "solar panel AND bottom half of the solar panel",
+                "location": "bottom half of the solar panel AND solar panel",
                 "step_number": 5
             },
             {
@@ -1426,35 +1469,61 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "process_id": 429,
         "inputs": {
             "participants": [
+                "fixed nitrogen OR usable nitrogen",
                 "nitrogen",
                 "plants"
             ]
         },
         "outputs": {
             "participants": [
-                "gas-based form"
+                "gas-based form",
+                "waste"
             ]
         },
         "conversions": [
             {
+                "participants_destroyed": "plants",
+                "participants_created": "waste",
+                "location": "unk AND plant",
+                "step_number": 6
+            },
+            {
                 "participants_destroyed": "nitrogen",
                 "participants_created": "gas-based form",
-                "location": "soil AND plant",
+                "location": "soil",
                 "step_number": 9
             }
         ],
         "moves": [
             {
-                "participants": "fixed nitrogen OR usable nitrogen",
+                "participants": "nitrogen",
                 "location_before": "unk",
+                "location_after": "atmosphere",
+                "step_number": 1
+            },
+            {
+                "participants": "nitrogen",
+                "location_before": "atmosphere",
+                "location_after": "soil",
+                "step_number": 2
+            },
+            {
+                "participants": "nitrogen",
+                "location_before": "soil",
+                "location_after": "thing",
+                "step_number": 3
+            },
+            {
+                "participants": "nitrogen",
+                "location_before": "thing",
                 "location_after": "plant",
                 "step_number": 4
             },
             {
                 "participants": "nitrogen",
-                "location_before": "unk",
-                "location_after": "plant",
-                "step_number": 4
+                "location_before": "plant",
+                "location_after": "soil",
+                "step_number": 8
             }
         ]
     },
@@ -1533,19 +1602,19 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
     "score": {
         "process_id": 429,
         "inputs": {
-            "precision": 1.0,
+            "precision": 0.6666666666666666,
             "recall": 1.0
         },
         "outputs": {
-            "precision": 1.0,
+            "precision": 0.5,
             "recall": 1.0
         },
         "conversions": {
-            "precision": 0.4444444444444444,
-            "recall": 0.2222222222222222
+            "precision": 0.25,
+            "recall": 0.25
         },
         "moves": {
-            "precision": 0.5,
+            "precision": 0.13333333333333333,
             "recall": 0.09523809523809523
         }
     }
@@ -1555,6 +1624,8 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "process_id": 460,
         "inputs": {
             "participants": [
+                "carbon",
+                "fossil fuel",
                 "living things OR remains of living things"
             ]
         },
@@ -1566,16 +1637,28 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         },
         "conversions": [
             {
+                "participants_destroyed": "carbon",
+                "participants_created": "carbon-based mixture",
+                "location": "unk AND remain",
+                "step_number": 5
+            },
+            {
+                "participants_destroyed": "fossil fuel",
+                "participants_created": "energy",
+                "location": "unk AND fossil",
+                "step_number": 8
+            },
+            {
                 "participants_destroyed": "energy",
                 "participants_created": "power",
-                "location": "fossil AND earth",
+                "location": "fossil",
                 "step_number": 10
             }
         ],
         "moves": [
             {
                 "participants": "carbon-based mixture",
-                "location_before": "earth",
+                "location_before": "remain",
                 "location_after": "earth",
                 "step_number": 7
             }
@@ -1604,7 +1687,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants_destroyed": "carbon-based mixture",
                 "participants_created": "energy AND fossil fuel",
-                "location": "underground AND surface AND fossil fuel",
+                "location": "fossil fuel AND underground AND surface",
                 "step_number": 7
             },
             {
@@ -1638,15 +1721,15 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
     "score": {
         "process_id": 460,
         "inputs": {
-            "precision": 1.0,
-            "recall": 0.5
+            "precision": 0.6666666666666666,
+            "recall": 1.0
         },
         "outputs": {
             "precision": 0.5,
             "recall": 1.0
         },
         "conversions": {
-            "precision": 0.6666666666666666,
+            "precision": 0.2222222222222222,
             "recall": 0.2222222222222222
         },
         "moves": {
@@ -1664,13 +1747,15 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             ]
         },
         "outputs": {
-            "participants": null
+            "participants": [
+                "hailstone"
+            ]
         },
         "conversions": null,
         "moves": [
             {
                 "participants": "hailstone",
-                "location_before": "unk",
+                "location_before": "earth",
                 "location_after": "earth",
                 "step_number": 5
             }
@@ -1693,7 +1778,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants_destroyed": "raindrops",
                 "participants_created": "ice particle",
-                "location": "updraft AND surface",
+                "location": "surface AND updraft",
                 "step_number": 2
             }
         ],
@@ -1720,7 +1805,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         },
         "outputs": {
             "precision": 1.0,
-            "recall": 0.0
+            "recall": 0.5
         },
         "conversions": {
             "precision": 1.0,
@@ -1812,18 +1897,33 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
     "prediction_summary": {
         "process_id": 502,
         "inputs": {
-            "participants": null
+            "participants": [
+                "diesel",
+                "petrol",
+                "pistons"
+            ]
         },
         "outputs": {
             "participants": [
-                "diesel",
                 "energy",
-                "petrol",
                 "piston motion",
                 "rotary motion"
             ]
         },
-        "conversions": null,
+        "conversions": [
+            {
+                "participants_destroyed": "diesel AND petrol",
+                "participants_created": "energy",
+                "location": "unk AND combustion",
+                "step_number": 1
+            },
+            {
+                "participants_destroyed": "pistons",
+                "participants_created": "piston motion AND rotary motion",
+                "location": "unk AND crankshaft and axle",
+                "step_number": 3
+            }
+        ],
         "moves": [
             {
                 "participants": "energy",
@@ -1851,7 +1951,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants_destroyed": "diesel AND petrol",
                 "participants_created": "energy AND piston motion",
-                "location": "unk AND combustion chamber",
+                "location": "combustion chamber AND unk",
                 "step_number": 1
             },
             {
@@ -1885,16 +1985,16 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
     "score": {
         "process_id": 502,
         "inputs": {
-            "precision": 1.0,
-            "recall": 0.0
+            "precision": 0.6666666666666666,
+            "recall": 1.0
         },
         "outputs": {
-            "precision": 0.4,
+            "precision": 0.6666666666666666,
             "recall": 1.0
         },
         "conversions": {
-            "precision": 1.0,
-            "recall": 0.0
+            "precision": 0.4444444444444444,
+            "recall": 0.4444444444444444
         },
         "moves": {
             "precision": 0.3333333333333333,
@@ -1911,7 +2011,6 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "outputs": {
             "participants": [
                 "battery",
-                "gasoline OR gas",
                 "spark",
                 "wheel"
             ]
@@ -1920,15 +2019,15 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "moves": [
             {
                 "participants": "gasoline OR gas",
+                "location_before": "unk",
+                "location_after": "car",
+                "step_number": 1
+            },
+            {
+                "participants": "gasoline OR gas",
                 "location_before": "car",
                 "location_after": "piston",
                 "step_number": 6
-            },
-            {
-                "participants": "wheel",
-                "location_before": "crankshaft",
-                "location_after": "body",
-                "step_number": 9
             }
         ]
     },
@@ -1965,7 +2064,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 1.0
         },
         "outputs": {
-            "precision": 0.25,
+            "precision": 0.3333333333333333,
             "recall": 1.0
         },
         "conversions": {
@@ -1973,8 +2072,8 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 1.0
         },
         "moves": {
-            "precision": 0.0,
-            "recall": 0.0
+            "precision": 0.5,
+            "recall": 0.5
         }
     }
 }
@@ -1997,7 +2096,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants": "seed",
                 "location_before": "unk",
-                "location_after": "soil",
+                "location_after": "tree",
                 "step_number": 1
             }
         ]
@@ -2062,8 +2161,8 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 0.0
         },
         "moves": {
-            "precision": 0.6666666666666666,
-            "recall": 0.6666666666666666
+            "precision": 0.3333333333333333,
+            "recall": 0.3333333333333333
         }
     }
 }
@@ -2071,9 +2170,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
     "prediction_summary": {
         "process_id": 534,
         "inputs": {
-            "participants": [
-                "seed"
-            ]
+            "participants": null
         },
         "outputs": {
             "participants": [
@@ -2086,7 +2183,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants_destroyed": "seed",
                 "participants_created": "small tree OR tree",
-                "location": "unk AND small tree",
+                "location": "small tree",
                 "step_number": 2
             }
         ],
@@ -2119,15 +2216,15 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "process_id": 534,
         "inputs": {
             "precision": 1.0,
-            "recall": 1.0
+            "recall": 0.0
         },
         "outputs": {
             "precision": 0.6666666666666666,
             "recall": 1.0
         },
         "conversions": {
-            "precision": 0.8333333333333334,
-            "recall": 0.8333333333333334
+            "precision": 0.6666666666666666,
+            "recall": 0.6666666666666666
         },
         "moves": {
             "precision": 1.0,
@@ -2185,7 +2282,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants_destroyed": "cool, dry air AND warm, moist air",
                 "participants_created": "air masses OR masses",
-                "location": "north AND south AND unk",
+                "location": "unk AND north AND south",
                 "step_number": 3
             },
             {
@@ -2365,16 +2462,16 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         },
         "conversions": [
             {
-                "participants_destroyed": "air AND petrol OR fuel",
+                "participants_destroyed": "petrol OR fuel AND air",
                 "participants_created": "energy",
-                "location": "unk AND car",
+                "location": "unk AND air",
                 "step_number": 1
             }
         ],
         "moves": [
             {
                 "participants": "energy",
-                "location_before": "car",
+                "location_before": "air",
                 "location_after": "crankshaft",
                 "step_number": 4
             },
@@ -2469,15 +2566,15 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
                 "tree"
             ]
         },
-        "conversions": null,
-        "moves": [
+        "conversions": [
             {
-                "participants": "seed",
-                "location_before": "unk",
-                "location_after": "fruit",
-                "step_number": 6
+                "participants_destroyed": "seed",
+                "participants_created": "seedling",
+                "location": "unk AND tree",
+                "step_number": 1
             }
-        ]
+        ],
+        "moves": null
     },
     "answer_summary": {
         "process_id": 653,
@@ -2520,11 +2617,11 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 1.0
         },
         "conversions": {
-            "precision": 1.0,
+            "precision": 0.0,
             "recall": 0.0
         },
         "moves": {
-            "precision": 0.0,
+            "precision": 1.0,
             "recall": 1.0
         }
     }
@@ -2533,7 +2630,9 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
     "prediction_summary": {
         "process_id": 654,
         "inputs": {
-            "participants": null
+            "participants": [
+                "tree"
+            ]
         },
         "outputs": {
             "participants": [
@@ -2546,7 +2645,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants_destroyed": "tree",
                 "participants_created": "material for new growth",
-                "location": "ground",
+                "location": "unk AND tree",
                 "step_number": 6
             }
         ],
@@ -2576,7 +2675,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
     "score": {
         "process_id": 654,
         "inputs": {
-            "precision": 1.0,
+            "precision": 0.0,
             "recall": 1.0
         },
         "outputs": {
@@ -2584,8 +2683,8 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 1.0
         },
         "conversions": {
-            "precision": 1.0,
-            "recall": 1.0
+            "precision": 0.6666666666666666,
+            "recall": 0.6666666666666666
         },
         "moves": {
             "precision": 1.0,
@@ -2615,14 +2714,20 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants": "nitrogen OR nitrates",
                 "location_before": "unk",
-                "location_after": "soil",
-                "step_number": 2
+                "location_after": "root",
+                "step_number": 3
             },
             {
                 "participants": "nitrogen OR nitrates",
-                "location_before": "soil",
-                "location_after": "root",
-                "step_number": 3
+                "location_before": "root",
+                "location_after": "plant",
+                "step_number": 4
+            },
+            {
+                "participants": "nitrogen OR nitrates",
+                "location_before": "plant",
+                "location_after": "air",
+                "step_number": 5
             },
             {
                 "participants": "plant",
@@ -2692,8 +2797,8 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 0.0
         },
         "moves": {
-            "precision": 0.3333333333333333,
-            "recall": 0.6666666666666666
+            "precision": 0.26666666666666666,
+            "recall": 0.5
         }
     }
 }
@@ -2702,10 +2807,8 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "process_id": 660,
         "inputs": {
             "participants": [
-                "ammonium",
                 "animals",
                 "atmospheric nitrogen",
-                "organic nitrogen",
                 "plants",
                 "wastes"
             ]
@@ -2717,9 +2820,21 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         },
         "conversions": [
             {
+                "participants_destroyed": "atmospheric nitrogen",
+                "participants_created": "organic nitrogen",
+                "location": "soil AND unk",
+                "step_number": 1
+            },
+            {
+                "participants_destroyed": "organic nitrogen",
+                "participants_created": "ammonium",
+                "location": "plant AND fungi",
+                "step_number": 6
+            },
+            {
                 "participants_destroyed": "ammonium",
                 "participants_created": "nitrate",
-                "location": "soil",
+                "location": "soil AND fungi",
                 "step_number": 7
             },
             {
@@ -2731,18 +2846,6 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         ],
         "moves": [
             {
-                "participants": "ammonium",
-                "location_before": "unk",
-                "location_after": "soil",
-                "step_number": 6
-            },
-            {
-                "participants": "animals",
-                "location_before": "unk",
-                "location_after": "plant",
-                "step_number": 3
-            },
-            {
                 "participants": "nitrogen gas",
                 "location_before": "soil",
                 "location_after": "atmosphere",
@@ -2750,8 +2853,14 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             },
             {
                 "participants": "organic nitrogen",
-                "location_before": "unk",
+                "location_before": "soil",
                 "location_after": "plant",
+                "step_number": 2
+            },
+            {
+                "participants": "plants",
+                "location_before": "unk",
+                "location_after": "root",
                 "step_number": 2
             }
         ]
@@ -2827,7 +2936,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
     "score": {
         "process_id": 660,
         "inputs": {
-            "precision": 0.5,
+            "precision": 0.75,
             "recall": 1.0
         },
         "outputs": {
@@ -2835,12 +2944,12 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 0.5
         },
         "conversions": {
-            "precision": 1.0,
-            "recall": 0.4
+            "precision": 0.8194444444444444,
+            "recall": 0.6555555555555556
         },
         "moves": {
-            "precision": 0.41666666666666663,
-            "recall": 0.5555555555555555
+            "precision": 0.6666666666666666,
+            "recall": 0.6666666666666666
         }
     }
 }
@@ -2849,16 +2958,23 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "process_id": 661,
         "inputs": {
             "participants": [
-                "animal"
+                "animal",
+                "plant"
             ]
         },
         "outputs": {
             "participants": [
-                "ammonium"
+                "nitrates"
             ]
         },
         "conversions": null,
         "moves": [
+            {
+                "participants": "nitrates",
+                "location_before": "plant",
+                "location_after": "root",
+                "step_number": 5
+            },
             {
                 "participants": "nitrogen",
                 "location_before": "unk",
@@ -2894,7 +3010,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants_destroyed": "nitrates",
                 "participants_created": "nitrogen",
-                "location": "plant AND amino acid , nucleic acid , and chlorophyll",
+                "location": "amino acid , nucleic acid , and chlorophyll AND plant",
                 "step_number": 5
             },
             {
@@ -2923,7 +3039,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "process_id": 661,
         "inputs": {
             "precision": 1.0,
-            "recall": 0.5
+            "recall": 1.0
         },
         "outputs": {
             "precision": 0.0,
@@ -2934,7 +3050,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 0.0
         },
         "moves": {
-            "precision": 0.3333333333333333,
+            "precision": 0.16666666666666666,
             "recall": 0.16666666666666666
         }
     }
@@ -2980,6 +3096,12 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants": "water",
                 "location_before": "unk",
+                "location_after": "river",
+                "step_number": 1
+            },
+            {
+                "participants": "water",
+                "location_before": "river",
                 "location_after": "air",
                 "step_number": 2
             },
@@ -3069,7 +3191,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 0.5
         },
         "moves": {
-            "precision": 0.3333333333333333,
+            "precision": 0.25,
             "recall": 0.13333333333333333
         }
     }
@@ -3247,7 +3369,8 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "inputs": {
             "participants": [
                 "plant OR animal",
-                "sediment"
+                "sediment",
+                "soft tissues"
             ]
         },
         "outputs": {
@@ -3258,38 +3381,31 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         },
         "conversions": [
             {
-                "participants_destroyed": "plant OR animal",
+                "participants_destroyed": "soft tissues",
                 "participants_created": "bones",
-                "location": "mud AND unk",
-                "step_number": 1
+                "location": "unk AND mud",
+                "step_number": 2
             },
             {
                 "participants_destroyed": "sediment",
                 "participants_created": "rock",
-                "location": "mud AND unk",
+                "location": "unk AND mud",
                 "step_number": 3
             },
             {
                 "participants_destroyed": "bones",
                 "participants_created": "minerals",
-                "location": "mud AND bone",
+                "location": "encased bone AND mud",
                 "step_number": 4
             },
             {
                 "participants_destroyed": "minerals",
                 "participants_created": "stone replica OR fossil",
-                "location": "bone AND rock",
+                "location": "encased bone AND organism",
                 "step_number": 6
             }
         ],
-        "moves": [
-            {
-                "participants": "soft tissues",
-                "location_before": "unk",
-                "location_after": "mud",
-                "step_number": 2
-            }
-        ]
+        "moves": null
     },
     "answer_summary": {
         "process_id": 725,
@@ -3346,7 +3462,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "process_id": 725,
         "inputs": {
             "precision": 1.0,
-            "recall": 0.5
+            "recall": 0.75
         },
         "outputs": {
             "precision": 1.0,
@@ -3357,7 +3473,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 0.8333333333333334
         },
         "moves": {
-            "precision": 0.0,
+            "precision": 1.0,
             "recall": 0.0
         }
     }
@@ -3367,37 +3483,31 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "process_id": 726,
         "inputs": {
             "participants": [
-                "animal"
+                "animal",
+                "animal's skeleton"
             ]
         },
         "outputs": {
             "participants": [
-                "animal's skeleton",
                 "hole",
                 "rock"
             ]
         },
         "conversions": [
             {
-                "participants_destroyed": "animal",
-                "participants_created": "animal's skeleton",
-                "location": "ocean AND unk",
-                "step_number": 3
+                "participants_destroyed": "animal's skeleton",
+                "participants_created": "mud OR sand",
+                "location": "unk AND ocean",
+                "step_number": 4
             },
             {
                 "participants_destroyed": "mud OR sand",
                 "participants_created": "rock",
-                "location": "skeleton",
+                "location": "skeleton AND ocean",
                 "step_number": 8
             }
         ],
         "moves": [
-            {
-                "participants": "animal's skeleton",
-                "location_before": "ocean",
-                "location_after": "ocean",
-                "step_number": 4
-            },
             {
                 "participants": "mud OR sand",
                 "location_before": "ocean",
@@ -3431,7 +3541,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants_destroyed": "animal's skeleton",
                 "participants_created": "hole",
-                "location": "bottom of a ocean AND rock",
+                "location": "rock AND bottom of a ocean",
                 "step_number": 9
             }
         ],
@@ -3448,10 +3558,10 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "process_id": 726,
         "inputs": {
             "precision": 1.0,
-            "recall": 0.3333333333333333
+            "recall": 0.6666666666666666
         },
         "outputs": {
-            "precision": 0.6666666666666666,
+            "precision": 1.0,
             "recall": 1.0
         },
         "conversions": {
@@ -3459,8 +3569,8 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 0.3333333333333333
         },
         "moves": {
-            "precision": 0.16666666666666666,
-            "recall": 0.3333333333333333
+            "precision": 0.0,
+            "recall": 0.0
         }
     }
 }
@@ -3484,18 +3594,24 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "conversions": [
             {
                 "participants_destroyed": "soft tissues",
-                "participants_created": "bones AND mud OR silt",
-                "location": "bone AND unk AND watery environment",
+                "participants_created": "bones",
+                "location": "watery environment AND unk",
                 "step_number": 3
             },
             {
                 "participants_destroyed": "mud OR silt",
                 "participants_created": "rock",
-                "location": "bone AND watery environment",
+                "location": "watery environment AND bone",
                 "step_number": 6
             }
         ],
         "moves": [
+            {
+                "participants": "bones",
+                "location_before": "watery environment",
+                "location_after": "watery environment",
+                "step_number": 4
+            },
             {
                 "participants": "minerals",
                 "location_before": "rock",
@@ -3600,8 +3716,8 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 0.8333333333333334
         },
         "moves": {
-            "precision": 0.3333333333333333,
-            "recall": 0.08333333333333333
+            "precision": 0.4444444444444444,
+            "recall": 0.16666666666666666
         }
     }
 }
@@ -3693,20 +3809,38 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants": "oxygen-depleted blood OR blood",
                 "location_before": "heart",
-                "location_after": "atrium",
+                "location_after": "heart",
                 "step_number": 2
             },
             {
                 "participants": "oxygen-depleted blood OR blood",
-                "location_before": "atrium",
+                "location_before": "heart",
                 "location_after": "right ventricle",
                 "step_number": 3
             },
             {
                 "participants": "oxygen-depleted blood OR blood",
                 "location_before": "right ventricle",
+                "location_after": "heart",
+                "step_number": 4
+            },
+            {
+                "participants": "oxygen-depleted blood OR blood",
+                "location_before": "heart",
+                "location_after": "heart",
+                "step_number": 5
+            },
+            {
+                "participants": "oxygen-depleted blood OR blood",
+                "location_before": "heart",
                 "location_after": "lung",
                 "step_number": 6
+            },
+            {
+                "participants": "oxygen-depleted blood OR blood",
+                "location_before": "lung",
+                "location_after": "lung",
+                "step_number": 7
             },
             {
                 "participants": "oxygen-depleted blood OR blood",
@@ -3729,20 +3863,38 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants": "oxygenated blood OR blood",
                 "location_before": "heart",
-                "location_after": "atrium",
+                "location_after": "heart",
                 "step_number": 2
             },
             {
                 "participants": "oxygenated blood OR blood",
-                "location_before": "atrium",
+                "location_before": "heart",
                 "location_after": "right ventricle",
                 "step_number": 3
             },
             {
                 "participants": "oxygenated blood OR blood",
                 "location_before": "right ventricle",
+                "location_after": "heart",
+                "step_number": 4
+            },
+            {
+                "participants": "oxygenated blood OR blood",
+                "location_before": "heart",
+                "location_after": "heart",
+                "step_number": 5
+            },
+            {
+                "participants": "oxygenated blood OR blood",
+                "location_before": "heart",
                 "location_after": "lung",
                 "step_number": 6
+            },
+            {
+                "participants": "oxygenated blood OR blood",
+                "location_before": "lung",
+                "location_after": "lung",
+                "step_number": 7
             },
             {
                 "participants": "oxygenated blood OR blood",
@@ -3826,7 +3978,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 0.0
         },
         "moves": {
-            "precision": 0.7222222222222223,
+            "precision": 0.48148148148148157,
             "recall": 0.8666666666666666
         }
     }
@@ -3938,8 +4090,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "process_id": 904,
         "inputs": {
             "participants": [
-                "light",
-                "retina's rods and cones"
+                "light"
             ]
         },
         "outputs": {
@@ -3952,14 +4103,8 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants_destroyed": "light",
                 "participants_created": "small image",
-                "location": "cornea AND unk",
+                "location": "unk AND cornea",
                 "step_number": 1
-            },
-            {
-                "participants_destroyed": "retina's rods and cones",
-                "participants_created": "electrical pulses",
-                "location": "unk AND retina",
-                "step_number": 3
             }
         ],
         "moves": [
@@ -4015,7 +4160,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
     "score": {
         "process_id": 904,
         "inputs": {
-            "precision": 0.5,
+            "precision": 1.0,
             "recall": 1.0
         },
         "outputs": {
@@ -4023,8 +4168,8 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 1.0
         },
         "conversions": {
-            "precision": 0.5555555555555556,
-            "recall": 0.5555555555555556
+            "precision": 0.6666666666666666,
+            "recall": 0.3333333333333333
         },
         "moves": {
             "precision": 0.6666666666666666,
@@ -4039,7 +4184,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "participants": [
                 "land",
                 "plants",
-                "rain"
+                "trees"
             ]
         },
         "outputs": {
@@ -4062,12 +4207,6 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants": "rain water OR water",
                 "location_before": "soil",
-                "location_after": "soil",
-                "step_number": 5
-            },
-            {
-                "participants": "trees",
-                "location_before": "unk",
                 "location_after": "soil",
                 "step_number": 5
             }
@@ -4125,12 +4264,29 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "participants": null
         },
         "outputs": {
-            "participants": [
-                "oxygen"
-            ]
+            "participants": null
         },
         "conversions": null,
-        "moves": null
+        "moves": [
+            {
+                "participants": "chemicals",
+                "location_before": "unk",
+                "location_after": "water",
+                "step_number": 2
+            },
+            {
+                "participants": "oxygen",
+                "location_before": "unk",
+                "location_after": "air",
+                "step_number": 5
+            },
+            {
+                "participants": "water",
+                "location_before": "unk",
+                "location_after": "rock",
+                "step_number": 1
+            }
+        ]
     },
     "answer_summary": {
         "process_id": 932,
@@ -4157,7 +4313,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 1.0
         },
         "outputs": {
-            "precision": 0.0,
+            "precision": 1.0,
             "recall": 1.0
         },
         "conversions": {
@@ -4165,8 +4321,8 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 1.0
         },
         "moves": {
-            "precision": 1.0,
-            "recall": 0.0
+            "precision": 0.3333333333333333,
+            "recall": 1.0
         }
     }
 }
@@ -4189,7 +4345,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants_destroyed": "water",
                 "participants_created": "mineral based material",
-                "location": "rock AND unk",
+                "location": "unk AND mineral",
                 "step_number": 2
             }
         ],
@@ -4249,7 +4405,6 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         },
         "outputs": {
             "participants": [
-                "bones",
                 "fossil"
             ]
         },
@@ -4257,19 +4412,19 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants_destroyed": "plant or animal",
                 "participants_created": "bones",
-                "location": "mud or soil AND unk",
+                "location": "unk AND mud or soil",
                 "step_number": 1
             },
             {
-                "participants_destroyed": "sediment",
+                "participants_destroyed": "bones",
                 "participants_created": "rock",
-                "location": "mud or soil",
-                "step_number": 4
+                "location": "mud or soil AND mud",
+                "step_number": 3
             },
             {
                 "participants_destroyed": "rock",
                 "participants_created": "fossil",
-                "location": "mud or soil",
+                "location": "mud",
                 "step_number": 5
             }
         ],
@@ -4303,7 +4458,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants_destroyed": "sediment",
                 "participants_created": "rock",
-                "location": "mud or soil AND unk",
+                "location": "unk AND mud or soil",
                 "step_number": 4
             },
             {
@@ -4322,12 +4477,12 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 1.0
         },
         "outputs": {
-            "precision": 0.5,
+            "precision": 1.0,
             "recall": 1.0
         },
         "conversions": {
-            "precision": 0.7777777777777778,
-            "recall": 0.5833333333333334
+            "precision": 0.6666666666666666,
+            "recall": 0.5
         },
         "moves": {
             "precision": 1.0,
@@ -4340,6 +4495,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "process_id": 1032,
         "inputs": {
             "participants": [
+                "animals",
                 "plants"
             ]
         },
@@ -4351,15 +4507,9 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         },
         "conversions": [
             {
-                "participants_destroyed": "plants",
-                "participants_created": "animals",
-                "location": "unk AND wet environment",
-                "step_number": 1
-            },
-            {
                 "participants_destroyed": "sediment",
                 "participants_created": "rock",
-                "location": "mud AND remain",
+                "location": "remain",
                 "step_number": 6
             }
         ],
@@ -4417,15 +4567,15 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "process_id": 1032,
         "inputs": {
             "precision": 1.0,
-            "recall": 0.5
+            "recall": 1.0
         },
         "outputs": {
             "precision": 0.5,
             "recall": 1.0
         },
         "conversions": {
-            "precision": 0.4166666666666667,
-            "recall": 0.2777777777777778
+            "precision": 1.0,
+            "recall": 0.3333333333333333
         },
         "moves": {
             "precision": 1.0,
@@ -4444,8 +4594,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "outputs": {
             "participants": [
                 "mold",
-                "rock",
-                "skeleton"
+                "rock"
             ]
         },
         "conversions": null,
@@ -4474,7 +4623,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants_destroyed": "skeleton",
                 "participants_created": "mold",
-                "location": "mud AND rock",
+                "location": "rock AND mud",
                 "step_number": 5
             }
         ],
@@ -4500,7 +4649,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 1.0
         },
         "outputs": {
-            "precision": 0.6666666666666666,
+            "precision": 1.0,
             "recall": 1.0
         },
         "conversions": {
@@ -4522,7 +4671,6 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "outputs": {
             "participants": [
                 "helium atoms",
-                "hydrogen atoms",
                 "hydrogen fuel",
                 "red giant star"
             ]
@@ -4561,7 +4709,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 0.0
         },
         "outputs": {
-            "precision": 0.5,
+            "precision": 0.6666666666666666,
             "recall": 1.0
         },
         "conversions": {
@@ -4582,7 +4730,6 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         },
         "outputs": {
             "participants": [
-                "carbon atoms",
                 "energy",
                 "hydrogen fuel"
             ]
@@ -4591,13 +4738,13 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants_destroyed": "hydrogen",
                 "participants_created": "helium",
-                "location": "star",
+                "location": "star AND space",
                 "step_number": 3
             },
             {
                 "participants_destroyed": "helium",
                 "participants_created": "carbon atoms",
-                "location": "star",
+                "location": "space",
                 "step_number": 7
             }
         ],
@@ -4607,6 +4754,12 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
                 "location_before": "unk",
                 "location_after": "space",
                 "step_number": 1
+            },
+            {
+                "participants": "star",
+                "location_before": "space",
+                "location_after": "space",
+                "step_number": 6
             }
         ]
     },
@@ -4649,12 +4802,12 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 0.0
         },
         "outputs": {
-            "precision": 0.3333333333333333,
-            "recall": 0.5
+            "precision": 0.0,
+            "recall": 0.0
         },
         "conversions": {
-            "precision": 1.0,
-            "recall": 1.0
+            "precision": 0.75,
+            "recall": 0.75
         },
         "moves": {
             "precision": 0.0,
@@ -4667,7 +4820,6 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "process_id": 1147,
         "inputs": {
             "participants": [
-                "hydrogen",
                 "hydrogen atoms"
             ]
         },
@@ -4679,14 +4831,14 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "conversions": [
             {
                 "participants_destroyed": "hydrogen atoms",
-                "participants_created": "helium AND helium atoms",
+                "participants_created": "helium AND helium atoms AND hydrogen",
                 "location": "star AND unk",
                 "step_number": 1
             },
             {
                 "participants_destroyed": "helium AND helium atoms",
                 "participants_created": "carbon atoms",
-                "location": "star AND helium atoms",
+                "location": "star",
                 "step_number": 4
             }
         ],
@@ -4733,15 +4885,15 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "process_id": 1147,
         "inputs": {
             "precision": 1.0,
-            "recall": 1.0
+            "recall": 0.5
         },
         "outputs": {
             "precision": 1.0,
             "recall": 0.3333333333333333
         },
         "conversions": {
-            "precision": 0.6666666666666666,
-            "recall": 0.4444444444444444
+            "precision": 0.7222222222222222,
+            "recall": 0.48148148148148145
         },
         "moves": {
             "precision": 1.0,
@@ -4864,7 +5016,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants_destroyed": "chunks of rock",
                 "participants_created": "crater",
-                "location": "atmosphere AND earth",
+                "location": "earth AND atmosphere",
                 "step_number": 4
             }
         ],
@@ -4931,13 +5083,13 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants_destroyed": "deoxygenated blood AND oxygen",
                 "participants_created": "oxygenated blood",
-                "location": "lung AND unk",
+                "location": "unk AND lung",
                 "step_number": 6
             },
             {
                 "participants_destroyed": "oxygenated blood",
                 "participants_created": "deoxygenated blood",
-                "location": "body AND heart",
+                "location": "heart AND body",
                 "step_number": 10
             }
         ],
@@ -5016,9 +5168,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
     "prediction_summary": {
         "process_id": 1240,
         "inputs": {
-            "participants": [
-                "Heat"
-            ]
+            "participants": null
         },
         "outputs": {
             "participants": [
@@ -5030,8 +5180,20 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             {
                 "participants": "Air",
                 "location_before": "unk",
-                "location_after": "coil",
+                "location_after": "evaporator",
                 "step_number": 1
+            },
+            {
+                "participants": "Heat",
+                "location_before": "unk",
+                "location_after": "coil",
+                "step_number": 2
+            },
+            {
+                "participants": "Heat",
+                "location_before": "coil",
+                "location_after": "condenser",
+                "step_number": 7
             },
             {
                 "participants": "Liquid",
@@ -5111,7 +5273,7 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
         "process_id": 1240,
         "inputs": {
             "precision": 1.0,
-            "recall": 0.5
+            "recall": 0.0
         },
         "outputs": {
             "precision": 1.0,
@@ -5122,15 +5284,15 @@ Diagnostics of evaluation of predictions in prediction.tsv against answers in da
             "recall": 0.0
         },
         "moves": {
-            "precision": 0.8333333333333333,
-            "recall": 0.27777777777777773
+            "precision": 0.5833333333333333,
+            "recall": 0.38888888888888884
         }
     }
 }
 {
     "overall_scores": {
-        "precision": 0.749,
-        "recall": 0.574,
-        "f1": 0.65
+        "precision": 0.732,
+        "recall": 0.593,
+        "f1": 0.655
     }
 }

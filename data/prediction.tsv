@@ -2,8 +2,8 @@
 37	2	bones	NONE	-	-
 37	3	bones	CREATE	-	mud
 37	4	bones	NONE	mud	mud
-37	5	bones	NONE	mud	mud
-37	6	bones	NONE	mud	mud
+37	5	bones	DESTROY	mud	-
+37	6	bones	NONE	-	-
 37	1	fossils	NONE	-	-
 37	2	fossils	NONE	-	-
 37	3	fossils	NONE	-	-
@@ -24,14 +24,14 @@
 37	6	plant; animal	NONE	-	-
 37	1	soft tissues	NONE	?	?
 37	2	soft tissues	NONE	?	?
-37	3	soft tissues	MOVE	?	bone
-37	4	soft tissues	NONE	bone	bone
-37	5	soft tissues	NONE	bone	bone
-37	6	soft tissues	NONE	bone	bone
-38	1	animal; body	DESTROY	?	-
-38	2	animal; body	NONE	-	-
-38	3	animal; body	NONE	-	-
-38	4	animal; body	NONE	-	-
+37	3	soft tissues	DESTROY	?	-
+37	4	soft tissues	NONE	-	-
+37	5	soft tissues	NONE	-	-
+37	6	soft tissues	NONE	-	-
+38	1	animal; body	NONE	?	?
+38	2	animal; body	NONE	?	?
+38	3	animal; body	MOVE	?	wet place
+38	4	animal; body	DESTROY	wet place	-
 38	5	animal; body	NONE	-	-
 38	6	animal; body	NONE	-	-
 38	7	animal; body	NONE	-	-
@@ -42,13 +42,13 @@
 38	5	fossil	NONE	-	-
 38	6	fossil	CREATE	-	rock
 38	7	fossil	NONE	rock	rock
-38	1	rock	NONE	-	-
-38	2	rock	NONE	-	-
-38	3	rock	NONE	-	-
-38	4	rock	NONE	-	-
-38	5	rock	NONE	-	-
-38	6	rock	NONE	-	-
-38	7	rock	NONE	-	-
+38	1	rock	NONE	?	?
+38	2	rock	NONE	?	?
+38	3	rock	NONE	?	?
+38	4	rock	NONE	?	?
+38	5	rock	NONE	?	?
+38	6	rock	NONE	?	?
+38	7	rock	NONE	?	?
 38	1	soil	NONE	-	-
 38	2	soil	NONE	-	-
 38	3	soil	NONE	-	-
@@ -74,11 +74,11 @@
 67	7	peat	NONE	swamp	swamp
 67	8	peat	NONE	swamp	swamp
 67	9	peat	DESTROY	swamp	-
-67	1	plants; dead plants	DESTROY	?	-
-67	2	plants; dead plants	NONE	-	-
-67	3	plants; dead plants	NONE	-	-
-67	4	plants; dead plants	NONE	-	-
-67	5	plants; dead plants	NONE	-	-
+67	1	plants; dead plants	NONE	?	?
+67	2	plants; dead plants	MOVE	?	swamp
+67	3	plants; dead plants	MOVE	swamp	swamp
+67	4	plants; dead plants	NONE	swamp	swamp
+67	5	plants; dead plants	DESTROY	swamp	-
 67	6	plants; dead plants	NONE	-	-
 67	7	plants; dead plants	NONE	-	-
 67	8	plants; dead plants	NONE	-	-
@@ -96,12 +96,12 @@
 68	4	heat	NONE	-	-
 68	5	heat	NONE	-	-
 68	6	heat	NONE	-	-
-68	7	heat	CREATE	-	bottom
+68	7	heat	CREATE	-	peat
 68	1	peat; burial peat	NONE	-	-
 68	2	peat; burial peat	NONE	-	-
 68	3	peat; burial peat	NONE	-	-
 68	4	peat; burial peat	CREATE	-	bottom
-68	5	peat; burial peat	NONE	bottom	bottom
+68	5	peat; burial peat	MOVE	bottom	bottom
 68	6	peat; burial peat	NONE	bottom	bottom
 68	7	peat; burial peat	NONE	bottom	bottom
 68	1	plant and tree remains	NONE	?	?
@@ -127,18 +127,18 @@
 68	7	water	NONE	peat	peat
 69	1	clay	NONE	-	-
 69	2	clay	NONE	-	-
-69	3	clay	CREATE	-	peat
-69	4	clay	NONE	peat	peat
-69	5	clay	DESTROY	peat	-
-69	6	clay	NONE	-	-
-69	7	clay	NONE	-	-
+69	3	clay	NONE	-	-
+69	4	clay	CREATE	-	peat
+69	5	clay	NONE	peat	peat
+69	6	clay	NONE	peat	peat
+69	7	clay	NONE	peat	peat
 69	1	coal	NONE	-	-
 69	2	coal	NONE	-	-
 69	3	coal	NONE	-	-
 69	4	coal	NONE	-	-
 69	5	coal	NONE	-	-
 69	6	coal	NONE	-	-
-69	7	coal	CREATE	-	peat
+69	7	coal	CREATE	-	swamp
 69	1	peat	NONE	-	-
 69	2	peat	NONE	-	-
 69	3	peat	CREATE	-	swamp
@@ -158,12 +158,12 @@
 69	3	pressure	NONE	-	-
 69	4	pressure	NONE	-	-
 69	5	pressure	NONE	-	-
-69	6	pressure	CREATE	-	peat
-69	7	pressure	NONE	peat	peat
+69	6	pressure	CREATE	-	sedimentary rock
+69	7	pressure	NONE	sedimentary rock	sedimentary rock
 69	1	sand	NONE	-	-
 69	2	sand	NONE	-	-
-69	3	sand	CREATE	-	peat
-69	4	sand	MOVE	peat	peat
+69	3	sand	NONE	-	-
+69	4	sand	CREATE	-	peat
 69	5	sand	DESTROY	peat	-
 69	6	sand	NONE	-	-
 69	7	sand	NONE	-	-
@@ -179,14 +179,14 @@
 69	3	water	NONE	?	?
 69	4	water	NONE	?	?
 69	5	water	NONE	?	?
-69	6	water	MOVE	?	peat
-69	7	water	NONE	peat	peat
+69	6	water	MOVE	?	sedimentary rock
+69	7	water	NONE	sedimentary rock	sedimentary rock
 70	1	rain	NONE	?	?
 70	2	rain	NONE	?	?
 70	3	rain	NONE	?	?
 70	4	rain	NONE	?	?
 70	5	rain	NONE	?	?
-70	6	rain	NONE	-	-
+70	6	rain	DESTROY	?	-
 70	7	rain	NONE	-	-
 70	8	rain	NONE	-	-
 70	1	streams	NONE	-	-
@@ -221,7 +221,7 @@
 99	6	a very different ecosystem	CREATE	-	mountain or rain
 99	7	a very different ecosystem	NONE	mountain or rain	mountain or rain
 99	1	clouds	MOVE	?	sky
-99	2	clouds	MOVE	sky	sky
+99	2	clouds	NONE	sky	sky
 99	3	clouds	NONE	sky	sky
 99	4	clouds	NONE	sky	sky
 99	5	clouds	NONE	sky	sky
@@ -236,17 +236,17 @@
 99	7	desert	CREATE	-	mountain or rain
 99	1	rain	MOVE	?	sky
 99	1	rain clouds	MOVE	?	sky
-99	2	rain	MOVE	sky	sky
-99	2	rain clouds	MOVE	sky	mountain or wind
+99	2	rain	NONE	sky	sky
+99	2	rain clouds	NONE	sky	sky
 99	3	rain	NONE	sky	sky
-99	3	rain clouds	DESTROY	mountain or wind	-
-99	4	rain	NONE	sky	sky
+99	3	rain clouds	DESTROY	sky	-
+99	4	rain	MOVE	sky	obstacle
 99	4	rain clouds	NONE	-	-
-99	5	rain	NONE	sky	sky
+99	5	rain	NONE	obstacle	obstacle
 99	5	rain clouds	NONE	-	-
-99	6	rain	NONE	sky	sky
+99	6	rain	NONE	obstacle	obstacle
 99	6	rain clouds	NONE	-	-
-99	7	rain	DESTROY	sky	-
+99	7	rain	DESTROY	obstacle	-
 99	7	rain clouds	NONE	-	-
 152	1	solid ; cloud droplets	NONE	-	-
 152	2	solid ; cloud droplets	NONE	-	-
@@ -254,9 +254,9 @@
 152	4	solid ; cloud droplets	CREATE	-	atmosphere
 152	5	solid ; cloud droplets	NONE	atmosphere	atmosphere
 152	6	solid ; cloud droplets	MOVE	atmosphere	sky
-152	1	water vapor ; lifted vapor ; vapor	NONE	?	?
-152	2	water vapor ; lifted vapor ; vapor	NONE	?	?
-152	3	water vapor ; lifted vapor ; vapor	MOVE	?	dew
+152	1	water vapor ; lifted vapor ; vapor	MOVE	?	atmosphere
+152	2	water vapor ; lifted vapor ; vapor	NONE	atmosphere	atmosphere
+152	3	water vapor ; lifted vapor ; vapor	MOVE	atmosphere	dew
 152	4	water vapor ; lifted vapor ; vapor	DESTROY	dew	-
 152	5	water vapor ; lifted vapor ; vapor	NONE	-	-
 152	6	water vapor ; lifted vapor ; vapor	NONE	-	-
@@ -271,11 +271,11 @@
 249	1	oxygen	NONE	?	?
 249	2	oxygen	NONE	?	?
 249	3	oxygen	NONE	?	?
-249	4	oxygen	NONE	?	?
-249	5	oxygen	NONE	?	?
-249	6	oxygen	NONE	?	?
-249	7	oxygen	NONE	?	?
-249	8	oxygen	NONE	?	?
+249	4	oxygen	MOVE	?	rock
+249	5	oxygen	NONE	rock	rock
+249	6	oxygen	NONE	rock	rock
+249	7	oxygen	NONE	rock	rock
+249	8	oxygen	NONE	rock	rock
 249	1	rocks ; smaller pieces	NONE	?	?
 249	2	rocks ; smaller pieces	NONE	?	?
 249	3	rocks ; smaller pieces	NONE	?	?
@@ -288,14 +288,14 @@
 310	2	blood	MOVE	heart	lung
 310	3	blood	NONE	lung	lung
 310	4	blood	NONE	lung	lung
-310	5	blood	MOVE	lung	lung
-310	6	blood	MOVE	lung	body
+310	5	blood	MOVE	lung	heart
+310	6	blood	MOVE	heart	body
 310	1	carbon dioxide	NONE	?	?
 310	2	carbon dioxide	NONE	?	?
-310	3	carbon dioxide	MOVE	?	lung
-310	4	carbon dioxide	NONE	lung	lung
-310	5	carbon dioxide	NONE	lung	lung
-310	6	carbon dioxide	NONE	lung	lung
+310	3	carbon dioxide	MOVE	?	blood
+310	4	carbon dioxide	NONE	blood	blood
+310	5	carbon dioxide	NONE	blood	blood
+310	6	carbon dioxide	NONE	blood	blood
 310	1	oxygen	NONE	?	?
 310	2	oxygen	NONE	?	?
 310	3	oxygen	NONE	?	?
@@ -317,8 +317,8 @@
 401	3	alternating current	NONE	-	-
 401	4	alternating current	NONE	-	-
 401	5	alternating current	NONE	-	-
-401	6	alternating current	CREATE	-	inverter
-401	7	alternating current	MOVE	inverter	house
+401	6	alternating current	CREATE	-	solar panel
+401	7	alternating current	MOVE	solar panel	house
 401	1	direct current	NONE	-	-
 401	2	direct current	NONE	-	-
 401	3	direct current	NONE	-	-
@@ -328,11 +328,11 @@
 401	7	direct current	NONE	solar panel	solar panel
 401	1	sunlight	NONE	?	?
 401	2	sunlight	NONE	?	?
-401	3	sunlight	MOVE	?	solar panel
-401	4	sunlight	MOVE	solar panel	solar panel
-401	5	sunlight	NONE	solar panel	solar panel
-401	6	sunlight	NONE	solar panel	solar panel
-401	7	sunlight	NONE	solar panel	solar panel
+401	3	sunlight	MOVE	?	top half
+401	4	sunlight	MOVE	top half	bottom half
+401	5	sunlight	NONE	bottom half	bottom half
+401	6	sunlight	NONE	bottom half	bottom half
+401	7	sunlight	NONE	bottom half	bottom half
 409	1	electrical impulses	NONE	-	-
 409	2	electrical impulses	NONE	-	-
 409	3	electrical impulses	NONE	-	-
@@ -378,13 +378,13 @@
 429	1	fixed nitrogen; usable nitrogen	NONE	?	?
 429	2	fixed nitrogen; usable nitrogen	NONE	?	?
 429	3	fixed nitrogen; usable nitrogen	NONE	?	?
-429	4	fixed nitrogen; usable nitrogen	MOVE	?	plant
-429	5	fixed nitrogen; usable nitrogen	NONE	plant	plant
-429	6	fixed nitrogen; usable nitrogen	NONE	plant	plant
-429	7	fixed nitrogen; usable nitrogen	NONE	plant	plant
-429	8	fixed nitrogen; usable nitrogen	NONE	plant	plant
-429	9	fixed nitrogen; usable nitrogen	NONE	plant	plant
-429	10	fixed nitrogen; usable nitrogen	NONE	plant	plant
+429	4	fixed nitrogen; usable nitrogen	DESTROY	?	-
+429	5	fixed nitrogen; usable nitrogen	NONE	-	-
+429	6	fixed nitrogen; usable nitrogen	NONE	-	-
+429	7	fixed nitrogen; usable nitrogen	NONE	-	-
+429	8	fixed nitrogen; usable nitrogen	NONE	-	-
+429	9	fixed nitrogen; usable nitrogen	NONE	-	-
+429	10	fixed nitrogen; usable nitrogen	NONE	-	-
 429	1	gas-based form	NONE	-	-
 429	2	gas-based form	NONE	-	-
 429	3	gas-based form	NONE	-	-
@@ -395,23 +395,23 @@
 429	8	gas-based form	NONE	-	-
 429	9	gas-based form	CREATE	-	soil
 429	10	gas-based form	NONE	soil	soil
-429	1	nitrogen	NONE	?	?
-429	2	nitrogen	NONE	?	?
-429	3	nitrogen	NONE	?	?
-429	4	nitrogen	MOVE	?	plant
+429	1	nitrogen	MOVE	?	atmosphere
+429	2	nitrogen	MOVE	atmosphere	soil
+429	3	nitrogen	MOVE	soil	thing
+429	4	nitrogen	MOVE	thing	plant
 429	5	nitrogen	NONE	plant	plant
 429	6	nitrogen	NONE	plant	plant
 429	7	nitrogen	NONE	plant	plant
-429	8	nitrogen	NONE	plant	plant
-429	9	nitrogen	DESTROY	plant	-
+429	8	nitrogen	MOVE	plant	soil
+429	9	nitrogen	DESTROY	soil	-
 429	10	nitrogen	NONE	-	-
 429	1	plants	NONE	?	?
 429	2	plants	NONE	?	?
 429	3	plants	NONE	?	?
 429	4	plants	NONE	?	?
-429	5	plants	DESTROY	?	-
-429	6	plants	NONE	-	-
-429	7	plants	NONE	-	-
+429	5	plants	NONE	?	?
+429	6	plants	NONE	?	?
+429	7	plants	DESTROY	?	-
 429	8	plants	NONE	-	-
 429	9	plants	NONE	-	-
 429	10	plants	NONE	-	-
@@ -420,17 +420,17 @@
 429	3	waste	NONE	-	-
 429	4	waste	NONE	-	-
 429	5	waste	NONE	-	-
-429	6	waste	NONE	-	-
-429	7	waste	NONE	-	-
+429	6	waste	CREATE	-	plant
+429	7	waste	NONE	plant	plant
 429	8	waste	NONE	-	-
 429	9	waste	NONE	-	-
 429	10	waste	NONE	-	-
-460	1	carbon	NONE	-	-
-460	2	carbon	NONE	-	-
-460	3	carbon	NONE	-	-
-460	4	carbon	NONE	-	-
-460	5	carbon	NONE	-	-
-460	6	carbon	NONE	-	-
+460	1	carbon	NONE	?	?
+460	2	carbon	NONE	?	?
+460	3	carbon	NONE	?	?
+460	4	carbon	NONE	?	?
+460	5	carbon	NONE	?	?
+460	6	carbon	DESTROY	?	-
 460	7	carbon	NONE	-	-
 460	8	carbon	NONE	-	-
 460	9	carbon	NONE	-	-
@@ -439,9 +439,9 @@
 460	2	carbon-based mixture	NONE	-	-
 460	3	carbon-based mixture	NONE	-	-
 460	4	carbon-based mixture	NONE	-	-
-460	5	carbon-based mixture	CREATE	-	earth
-460	6	carbon-based mixture	NONE	earth	earth
-460	7	carbon-based mixture	MOVE	earth	earth
+460	5	carbon-based mixture	CREATE	-	remain
+460	6	carbon-based mixture	NONE	remain	remain
+460	7	carbon-based mixture	MOVE	remain	earth
 460	8	carbon-based mixture	NONE	earth	earth
 460	9	carbon-based mixture	NONE	earth	earth
 460	10	carbon-based mixture	NONE	earth	earth
@@ -455,14 +455,14 @@
 460	8	energy	NONE	-	-
 460	9	energy	CREATE	-	fossil
 460	10	energy	DESTROY	fossil	-
-460	1	fossil fuel	NONE	-	-
-460	2	fossil fuel	NONE	-	-
-460	3	fossil fuel	NONE	-	-
-460	4	fossil fuel	NONE	-	-
-460	5	fossil fuel	NONE	-	-
-460	6	fossil fuel	NONE	-	-
-460	7	fossil fuel	NONE	-	-
-460	8	fossil fuel	NONE	-	-
+460	1	fossil fuel	NONE	?	?
+460	2	fossil fuel	NONE	?	?
+460	3	fossil fuel	NONE	?	?
+460	4	fossil fuel	NONE	?	?
+460	5	fossil fuel	NONE	?	?
+460	6	fossil fuel	NONE	?	?
+460	7	fossil fuel	NONE	?	?
+460	8	fossil fuel	DESTROY	?	-
 460	9	fossil fuel	NONE	-	-
 460	10	fossil fuel	NONE	-	-
 460	1	living things ; remains of living things	NONE	?	?
@@ -484,12 +484,12 @@
 460	7	power	NONE	-	-
 460	8	power	NONE	-	-
 460	9	power	NONE	-	-
-460	10	power	CREATE	-	earth
-463	1	hailstone	NONE	?	?
-463	2	hailstone	NONE	?	?
-463	3	hailstone	NONE	?	?
-463	4	hailstone	NONE	?	?
-463	5	hailstone	MOVE	?	earth
+460	10	power	CREATE	-	fossil
+463	1	hailstone	NONE	-	-
+463	2	hailstone	NONE	-	-
+463	3	hailstone	NONE	-	-
+463	4	hailstone	CREATE	-	earth
+463	5	hailstone	MOVE	earth	earth
 463	1	ice particle	NONE	?	?
 463	2	ice particle	NONE	?	?
 463	3	ice particle	NONE	?	?
@@ -519,21 +519,21 @@
 502	3	car	NONE	?	?
 502	4	car	NONE	?	?
 502	5	car	NONE	?	?
-502	1	diesel	CREATE	-	combustion
-502	2	diesel	NONE	combustion	combustion
-502	3	diesel	NONE	combustion	combustion
-502	4	diesel	NONE	combustion	combustion
-502	5	diesel	NONE	combustion	combustion
+502	1	diesel	DESTROY	?	-
+502	2	diesel	NONE	-	-
+502	3	diesel	NONE	-	-
+502	4	diesel	NONE	-	-
+502	5	diesel	NONE	-	-
 502	1	energy	CREATE	-	combustion
 502	2	energy	MOVE	combustion	piston
 502	3	energy	NONE	piston	piston
 502	4	energy	NONE	piston	piston
 502	5	energy	NONE	piston	piston
-502	1	petrol	CREATE	-	combustion
-502	2	petrol	NONE	combustion	combustion
-502	3	petrol	NONE	combustion	combustion
-502	4	petrol	NONE	combustion	combustion
-502	5	petrol	NONE	combustion	combustion
+502	1	petrol	DESTROY	?	-
+502	2	petrol	NONE	-	-
+502	3	petrol	NONE	-	-
+502	4	petrol	NONE	-	-
+502	5	petrol	NONE	-	-
 502	1	piston motion	NONE	-	-
 502	2	piston motion	NONE	-	-
 502	3	piston motion	CREATE	-	crankshaft and axle
@@ -541,9 +541,9 @@
 502	5	piston motion	NONE	crankshaft and axle	crankshaft and axle
 502	1	pistons	NONE	?	?
 502	2	pistons	NONE	?	?
-502	3	pistons	NONE	?	?
-502	4	pistons	NONE	?	?
-502	5	pistons	NONE	?	?
+502	3	pistons	DESTROY	?	-
+502	4	pistons	NONE	-	-
+502	5	pistons	NONE	-	-
 502	1	rotary motion	NONE	-	-
 502	2	rotary motion	NONE	-	-
 502	3	rotary motion	CREATE	-	crankshaft and axle
@@ -576,7 +576,7 @@
 503	7	crankshaft	NONE	?	?
 503	8	crankshaft	NONE	?	?
 503	9	crankshaft	NONE	?	?
-503	1	gasoline;gas	CREATE	-	car
+503	1	gasoline;gas	MOVE	?	car
 503	2	gasoline;gas	NONE	car	car
 503	3	gasoline;gas	NONE	car	car
 503	4	gasoline;gas	NONE	car	car
@@ -610,8 +610,8 @@
 503	5	wheel	NONE	-	-
 503	6	wheel	NONE	-	-
 503	7	wheel	NONE	-	-
-503	8	wheel	CREATE	-	crankshaft
-503	9	wheel	MOVE	crankshaft	body
+503	8	wheel	CREATE	-	car
+503	9	wheel	NONE	car	car
 533	1	sapling	NONE	-	-
 533	2	sapling	NONE	-	-
 533	3	sapling	NONE	-	-
@@ -619,20 +619,20 @@
 533	5	sapling	NONE	tree	tree
 533	6	sapling	NONE	tree	tree
 533	7	sapling	NONE	tree	tree
-533	1	seed	MOVE	?	soil
-533	2	seed	NONE	soil	soil
-533	3	seed	NONE	soil	soil
-533	4	seed	NONE	soil	soil
-533	5	seed	NONE	soil	soil
-533	6	seed	NONE	soil	soil
-533	7	seed	NONE	soil	soil
+533	1	seed	MOVE	?	tree
+533	2	seed	NONE	tree	tree
+533	3	seed	NONE	tree	tree
+533	4	seed	NONE	tree	tree
+533	5	seed	NONE	tree	tree
+533	6	seed	NONE	tree	tree
+533	7	seed	NONE	tree	tree
 533	1	seedling	NONE	-	-
 533	2	seedling	NONE	-	-
-533	3	seedling	CREATE	-	soil
-533	4	seedling	NONE	soil	soil
-533	5	seedling	NONE	soil	soil
-533	6	seedling	NONE	soil	soil
-533	7	seedling	NONE	soil	soil
+533	3	seedling	CREATE	-	tree
+533	4	seedling	NONE	tree	tree
+533	5	seedling	NONE	tree	tree
+533	6	seedling	NONE	tree	tree
+533	7	seedling	NONE	tree	tree
 533	1	sprouts	NONE	-	-
 533	2	sprouts	CREATE	-	soil
 533	3	sprouts	NONE	soil	soil
@@ -661,8 +661,8 @@
 534	5	fruit	NONE	tree	tree
 534	6	fruit	NONE	tree	tree
 534	7	fruit	NONE	tree	tree
-534	1	seed	NONE	?	?
-534	2	seed	DESTROY	?	-
+534	1	seed	CREATE	-	small tree
+534	2	seed	DESTROY	small tree	-
 534	3	seed	NONE	-	-
 534	4	seed	NONE	-	-
 534	5	seed	NONE	-	-
@@ -733,10 +733,10 @@
 582	8	wind	NONE	south	south
 583	1	dry, cold high-pressure air	NONE	-	-
 583	2	dry, cold high-pressure air	NONE	-	-
-583	3	dry, cold high-pressure air	CREATE	-	strong updraft
-583	4	dry, cold high-pressure air	NONE	strong updraft	strong updraft
-583	5	dry, cold high-pressure air	NONE	strong updraft	strong updraft
-583	6	dry, cold high-pressure air	NONE	strong updraft	strong updraft
+583	3	dry, cold high-pressure air	CREATE	-	wind
+583	4	dry, cold high-pressure air	NONE	wind	wind
+583	5	dry, cold high-pressure air	NONE	wind	wind
+583	6	dry, cold high-pressure air	NONE	wind	wind
 583	1	funnel; tornado	NONE	-	-
 583	2	funnel; tornado	NONE	-	-
 583	3	funnel; tornado	NONE	-	-
@@ -767,10 +767,10 @@
 600	4	air	NONE	-	-
 600	5	air	NONE	-	-
 600	6	air	NONE	-	-
-600	1	energy	CREATE	-	car
-600	2	energy	NONE	car	car
-600	3	energy	NONE	car	car
-600	4	energy	MOVE	car	crankshaft
+600	1	energy	CREATE	-	air
+600	2	energy	NONE	air	air
+600	3	energy	NONE	air	air
+600	4	energy	MOVE	air	crankshaft
 600	5	energy	NONE	crankshaft	crankshaft
 600	6	energy	NONE	crankshaft	crankshaft
 600	1	hot gas	NONE	?	?
@@ -797,12 +797,12 @@
 653	4	fruit	NONE	-	-
 653	5	fruit	CREATE	-	tree
 653	6	fruit	NONE	tree	tree
-653	1	seed	NONE	?	?
-653	2	seed	NONE	?	?
-653	3	seed	NONE	?	?
-653	4	seed	NONE	?	?
-653	5	seed	NONE	?	?
-653	6	seed	MOVE	?	fruit
+653	1	seed	DESTROY	?	-
+653	2	seed	NONE	-	-
+653	3	seed	NONE	-	-
+653	4	seed	NONE	-	-
+653	5	seed	NONE	-	-
+653	6	seed	CREATE	-	new tree
 653	1	seedling	NONE	-	-
 653	2	seedling	CREATE	-	tree
 653	3	seedling	NONE	tree	tree
@@ -820,7 +820,7 @@
 654	3	material for new growth	NONE	-	-
 654	4	material for new growth	NONE	-	-
 654	5	material for new growth	NONE	-	-
-654	6	material for new growth	CREATE	-	ground
+654	6	material for new growth	CREATE	-	tree
 654	1	root system	NONE	-	-
 654	2	root system	CREATE	-	ground
 654	3	root system	NONE	ground	ground
@@ -833,12 +833,12 @@
 654	4	seedling	NONE	ground	ground
 654	5	seedling	NONE	ground	ground
 654	6	seedling	NONE	ground	ground
-654	1	tree	NONE	-	-
-654	2	tree	NONE	-	-
-654	3	tree	CREATE	-	ground
-654	4	tree	NONE	ground	ground
-654	5	tree	NONE	ground	ground
-654	6	tree	DESTROY	ground	-
+654	1	tree	NONE	?	?
+654	2	tree	NONE	?	?
+654	3	tree	NONE	?	?
+654	4	tree	NONE	?	?
+654	5	tree	NONE	?	?
+654	6	tree	DESTROY	?	-
 659	1	ammonium	CREATE	-	soil
 659	2	ammonium	NONE	soil	soil
 659	3	ammonium	NONE	soil	soil
@@ -852,10 +852,10 @@
 659	5	extra nitrogen	MOVE	?	air
 659	6	extra nitrogen	NONE	air	air
 659	1	nitrogen; nitrates	NONE	?	?
-659	2	nitrogen; nitrates	MOVE	?	soil
-659	3	nitrogen; nitrates	MOVE	soil	root
-659	4	nitrogen; nitrates	DESTROY	root	-
-659	5	nitrogen; nitrates	CREATE	-	air
+659	2	nitrogen; nitrates	NONE	?	?
+659	3	nitrogen; nitrates	MOVE	?	root
+659	4	nitrogen; nitrates	MOVE	root	plant
+659	5	nitrogen; nitrates	MOVE	plant	air
 659	6	nitrogen; nitrates	NONE	air	air
 659	1	plant	NONE	?	?
 659	2	plant	NONE	?	?
@@ -863,19 +863,19 @@
 659	4	plant	DESTROY	root	-
 659	5	plant	NONE	-	-
 659	6	plant	NONE	-	-
-660	1	ammonium	NONE	?	?
-660	2	ammonium	NONE	?	?
-660	3	ammonium	NONE	?	?
-660	4	ammonium	NONE	?	?
-660	5	ammonium	NONE	?	?
-660	6	ammonium	MOVE	?	soil
-660	7	ammonium	DESTROY	soil	-
+660	1	ammonium	NONE	-	-
+660	2	ammonium	NONE	-	-
+660	3	ammonium	NONE	-	-
+660	4	ammonium	NONE	-	-
+660	5	ammonium	NONE	-	-
+660	6	ammonium	CREATE	-	fungi
+660	7	ammonium	DESTROY	fungi	-
 660	8	ammonium	NONE	-	-
 660	9	ammonium	NONE	-	-
 660	1	animals	NONE	?	?
 660	2	animals	NONE	?	?
-660	3	animals	MOVE	?	plant
-660	4	animals	DESTROY	plant	-
+660	3	animals	NONE	?	?
+660	4	animals	DESTROY	?	-
 660	5	animals	NONE	-	-
 660	6	animals	NONE	-	-
 660	7	animals	NONE	-	-
@@ -908,8 +908,8 @@
 660	7	nitrogen gas	NONE	-	-
 660	8	nitrogen gas	CREATE	-	soil
 660	9	nitrogen gas	MOVE	soil	atmosphere
-660	1	organic nitrogen	NONE	?	?
-660	2	organic nitrogen	MOVE	?	plant
+660	1	organic nitrogen	CREATE	-	soil
+660	2	organic nitrogen	MOVE	soil	plant
 660	3	organic nitrogen	NONE	plant	plant
 660	4	organic nitrogen	NONE	plant	plant
 660	5	organic nitrogen	NONE	plant	plant
@@ -918,9 +918,9 @@
 660	8	organic nitrogen	NONE	-	-
 660	9	organic nitrogen	NONE	-	-
 660	1	plants	NONE	?	?
-660	2	plants	NONE	?	?
-660	3	plants	DESTROY	?	-
-660	4	plants	NONE	-	-
+660	2	plants	MOVE	?	root
+660	3	plants	NONE	root	root
+660	4	plants	DESTROY	root	-
 660	5	plants	NONE	-	-
 660	6	plants	NONE	-	-
 660	7	plants	NONE	-	-
@@ -935,13 +935,13 @@
 660	7	wastes	NONE	-	-
 660	8	wastes	NONE	-	-
 660	9	wastes	NONE	-	-
-661	1	ammonium	CREATE	-	animal
-661	2	ammonium	NONE	animal	animal
-661	3	ammonium	NONE	animal	animal
-661	4	ammonium	NONE	animal	animal
-661	5	ammonium	NONE	animal	animal
-661	6	ammonium	NONE	animal	animal
-661	7	ammonium	NONE	animal	animal
+661	1	ammonium	CREATE	-	plant
+661	2	ammonium	NONE	plant	plant
+661	3	ammonium	NONE	plant	plant
+661	4	ammonium	NONE	plant	plant
+661	5	ammonium	NONE	plant	plant
+661	6	ammonium	NONE	plant	plant
+661	7	ammonium	DESTROY	plant	-
 661	8	ammonium	NONE	-	-
 661	9	ammonium	NONE	-	-
 661	1	animal	NONE	?	?
@@ -954,14 +954,14 @@
 661	8	animal	NONE	-	-
 661	9	animal	NONE	-	-
 661	1	nitrates	NONE	-	-
-661	2	nitrates	CREATE	-	soil
-661	3	nitrates	NONE	soil	soil
-661	4	nitrates	NONE	soil	soil
-661	5	nitrates	DESTROY	soil	-
-661	6	nitrates	NONE	-	-
-661	7	nitrates	NONE	-	-
-661	8	nitrates	NONE	-	-
-661	9	nitrates	NONE	-	-
+661	2	nitrates	CREATE	-	plant
+661	3	nitrates	NONE	plant	plant
+661	4	nitrates	NONE	plant	plant
+661	5	nitrates	MOVE	plant	root
+661	6	nitrates	NONE	root	root
+661	7	nitrates	NONE	root	root
+661	8	nitrates	NONE	root	root
+661	9	nitrates	NONE	root	root
 661	1	nitrogen	NONE	?	?
 661	2	nitrogen	NONE	?	?
 661	3	nitrogen	NONE	?	?
@@ -977,9 +977,9 @@
 661	4	plant	NONE	?	?
 661	5	plant	NONE	?	?
 661	6	plant	NONE	?	?
-661	7	plant	NONE	?	?
-661	8	plant	NONE	?	?
-661	9	plant	NONE	?	?
+661	7	plant	DESTROY	?	-
+661	8	plant	NONE	-	-
+661	9	plant	NONE	-	-
 695	1	clouds	NONE	-	-
 695	2	clouds	NONE	-	-
 695	3	clouds	CREATE	-	air
@@ -1022,19 +1022,19 @@
 695	5	vapor; steam; water vapor	NONE	-	-
 695	6	vapor; steam; water vapor	NONE	-	-
 695	7	vapor; steam; water vapor	NONE	-	-
-695	1	water	NONE	?	?
-695	2	water	MOVE	?	air
+695	1	water	MOVE	?	river
+695	2	water	MOVE	river	air
 695	3	water	NONE	air	air
 695	4	water	NONE	air	air
 695	5	water	MOVE	air	earth
 695	6	water	DESTROY	earth	-
 695	7	water	NONE	-	-
-696	1	cloud	NONE	-	-
-696	2	cloud	NONE	-	-
-696	3	cloud	NONE	-	-
-696	4	cloud	NONE	-	-
-696	5	cloud	NONE	-	-
-696	6	cloud	NONE	-	-
+696	1	cloud	NONE	?	?
+696	2	cloud	NONE	?	?
+696	3	cloud	NONE	?	?
+696	4	cloud	NONE	?	?
+696	5	cloud	NONE	?	?
+696	6	cloud	NONE	?	?
 696	1	rain	NONE	-	-
 696	2	rain	NONE	-	-
 696	3	rain	NONE	-	-
@@ -1077,9 +1077,9 @@
 725	1	minerals	NONE	-	-
 725	2	minerals	NONE	-	-
 725	3	minerals	NONE	-	-
-725	4	minerals	CREATE	-	bone
-725	5	minerals	NONE	bone	bone
-725	6	minerals	DESTROY	bone	-
+725	4	minerals	CREATE	-	encased bone
+725	5	minerals	NONE	encased bone	encased bone
+725	6	minerals	DESTROY	encased bone	-
 725	1	plant; animal	DESTROY	?	-
 725	2	plant; animal	NONE	-	-
 725	3	plant; animal	NONE	-	-
@@ -1099,17 +1099,17 @@
 725	5	sediment	NONE	-	-
 725	6	sediment	NONE	-	-
 725	1	soft tissues	NONE	?	?
-725	2	soft tissues	MOVE	?	mud
-725	3	soft tissues	NONE	mud	mud
-725	4	soft tissues	NONE	mud	mud
-725	5	soft tissues	NONE	mud	mud
-725	6	soft tissues	NONE	mud	mud
+725	2	soft tissues	DESTROY	?	-
+725	3	soft tissues	NONE	-	-
+725	4	soft tissues	NONE	-	-
+725	5	soft tissues	NONE	-	-
+725	6	soft tissues	NONE	-	-
 725	1	stone replica; fossil	NONE	-	-
 725	2	stone replica; fossil	NONE	-	-
 725	3	stone replica; fossil	NONE	-	-
 725	4	stone replica; fossil	NONE	-	-
 725	5	stone replica; fossil	NONE	-	-
-725	6	stone replica; fossil	CREATE	-	rock
+725	6	stone replica; fossil	CREATE	-	organism
 726	1	animal	NONE	?	?
 726	2	animal	NONE	?	?
 726	3	animal	DESTROY	?	-
@@ -1120,16 +1120,16 @@
 726	8	animal	NONE	-	-
 726	9	animal	NONE	-	-
 726	10	animal	NONE	-	-
-726	1	animal's skeleton	NONE	-	-
-726	2	animal's skeleton	NONE	-	-
-726	3	animal's skeleton	CREATE	-	ocean
-726	4	animal's skeleton	MOVE	ocean	ocean
-726	5	animal's skeleton	NONE	ocean	ocean
-726	6	animal's skeleton	NONE	ocean	ocean
-726	7	animal's skeleton	NONE	ocean	ocean
-726	8	animal's skeleton	NONE	ocean	ocean
-726	9	animal's skeleton	NONE	ocean	ocean
-726	10	animal's skeleton	NONE	ocean	ocean
+726	1	animal's skeleton	NONE	?	?
+726	2	animal's skeleton	NONE	?	?
+726	3	animal's skeleton	NONE	?	?
+726	4	animal's skeleton	DESTROY	?	-
+726	5	animal's skeleton	NONE	-	-
+726	6	animal's skeleton	NONE	-	-
+726	7	animal's skeleton	NONE	-	-
+726	8	animal's skeleton	NONE	-	-
+726	9	animal's skeleton	NONE	-	-
+726	10	animal's skeleton	NONE	-	-
 726	1	hole	NONE	-	-
 726	2	hole	NONE	-	-
 726	3	hole	NONE	-	-
@@ -1157,9 +1157,9 @@
 726	5	rock	NONE	-	-
 726	6	rock	NONE	-	-
 726	7	rock	NONE	-	-
-726	8	rock	CREATE	-	skeleton
-726	9	rock	NONE	skeleton	skeleton
-726	10	rock	NONE	skeleton	skeleton
+726	8	rock	CREATE	-	ocean
+726	9	rock	NONE	ocean	ocean
+726	10	rock	NONE	ocean	ocean
 727	1	animal	DESTROY	?	-
 727	2	animal	NONE	-	-
 727	3	animal	NONE	-	-
@@ -1172,8 +1172,8 @@
 727	10	animal	NONE	-	-
 727	1	bones	NONE	-	-
 727	2	bones	NONE	-	-
-727	3	bones	NONE	-	-
-727	4	bones	CREATE	-	watery environment
+727	3	bones	CREATE	-	watery environment
+727	4	bones	MOVE	watery environment	watery environment
 727	5	bones	NONE	watery environment	watery environment
 727	6	bones	NONE	watery environment	watery environment
 727	7	bones	NONE	watery environment	watery environment
@@ -1243,21 +1243,21 @@
 791	5	DC electricity	NONE	solar cell	solar cell
 791	6	DC electricity	NONE	solar cell	solar cell
 896	1	oxygen-depleted blood ; blood	MOVE	?	heart
-896	2	oxygen-depleted blood ; blood	MOVE	heart	atrium
-896	3	oxygen-depleted blood ; blood	MOVE	atrium	right ventricle
-896	4	oxygen-depleted blood ; blood	NONE	right ventricle	right ventricle
-896	5	oxygen-depleted blood ; blood	NONE	right ventricle	right ventricle
-896	6	oxygen-depleted blood ; blood	MOVE	right ventricle	lung
-896	7	oxygen-depleted blood ; blood	NONE	lung	lung
+896	2	oxygen-depleted blood ; blood	MOVE	heart	heart
+896	3	oxygen-depleted blood ; blood	MOVE	heart	right ventricle
+896	4	oxygen-depleted blood ; blood	MOVE	right ventricle	heart
+896	5	oxygen-depleted blood ; blood	MOVE	heart	heart
+896	6	oxygen-depleted blood ; blood	MOVE	heart	lung
+896	7	oxygen-depleted blood ; blood	MOVE	lung	lung
 896	8	oxygen-depleted blood ; blood	MOVE	lung	left atrium
 896	9	oxygen-depleted blood ; blood	MOVE	left atrium	body
 896	1	oxygenated blood ; blood	MOVE	?	heart
-896	2	oxygenated blood ; blood	MOVE	heart	atrium
-896	3	oxygenated blood ; blood	MOVE	atrium	right ventricle
-896	4	oxygenated blood ; blood	NONE	right ventricle	right ventricle
-896	5	oxygenated blood ; blood	NONE	right ventricle	right ventricle
-896	6	oxygenated blood ; blood	MOVE	right ventricle	lung
-896	7	oxygenated blood ; blood	NONE	lung	lung
+896	2	oxygenated blood ; blood	MOVE	heart	heart
+896	3	oxygenated blood ; blood	MOVE	heart	right ventricle
+896	4	oxygenated blood ; blood	MOVE	right ventricle	heart
+896	5	oxygenated blood ; blood	MOVE	heart	heart
+896	6	oxygenated blood ; blood	MOVE	heart	lung
+896	7	oxygenated blood ; blood	MOVE	lung	lung
 896	8	oxygenated blood ; blood	MOVE	lung	left atrium
 896	9	oxygenated blood ; blood	MOVE	left atrium	body
 903	1	chemical energy	NONE	-	-
@@ -1287,9 +1287,9 @@
 904	5	light	NONE	-	-
 904	1	retina's rods and cones	NONE	?	?
 904	2	retina's rods and cones	NONE	?	?
-904	3	retina's rods and cones	DESTROY	?	-
-904	4	retina's rods and cones	NONE	-	-
-904	5	retina's rods and cones	NONE	-	-
+904	3	retina's rods and cones	NONE	?	?
+904	4	retina's rods and cones	NONE	?	?
+904	5	retina's rods and cones	NONE	?	?
 904	1	small image	CREATE	-	cornea
 904	2	small image	NONE	cornea	cornea
 904	3	small image	NONE	cornea	cornea
@@ -1307,11 +1307,11 @@
 927	4	plants	NONE	?	?
 927	5	plants	DESTROY	?	-
 927	6	plants	NONE	-	-
-927	1	rain	NONE	?	?
+927	1	rain	CREATE	-	ground
 927	1	rain water; water	NONE	?	?
-927	2	rain	NONE	?	?
+927	2	rain	NONE	ground	ground
 927	2	rain water; water	MOVE	?	ground
-927	3	rain	DESTROY	?	-
+927	3	rain	DESTROY	ground	-
 927	3	rain water; water	NONE	ground	ground
 927	4	rain	NONE	-	-
 927	4	rain water; water	MOVE	ground	soil
@@ -1323,19 +1323,19 @@
 927	2	trees	NONE	?	?
 927	3	trees	NONE	?	?
 927	4	trees	NONE	?	?
-927	5	trees	MOVE	?	soil
-927	6	trees	NONE	soil	soil
+927	5	trees	DESTROY	?	-
+927	6	trees	NONE	-	-
 932	1	chemicals	NONE	?	?
-932	2	chemicals	NONE	?	?
-932	3	chemicals	NONE	?	?
-932	4	chemicals	NONE	?	?
-932	5	chemicals	NONE	?	?
-932	6	chemicals	NONE	?	?
-932	1	oxygen	NONE	-	-
-932	2	oxygen	NONE	-	-
-932	3	oxygen	NONE	-	-
-932	4	oxygen	NONE	-	-
-932	5	oxygen	CREATE	-	air
+932	2	chemicals	MOVE	?	water
+932	3	chemicals	NONE	water	water
+932	4	chemicals	NONE	water	water
+932	5	chemicals	NONE	water	water
+932	6	chemicals	NONE	water	water
+932	1	oxygen	NONE	?	?
+932	2	oxygen	NONE	?	?
+932	3	oxygen	NONE	?	?
+932	4	oxygen	NONE	?	?
+932	5	oxygen	MOVE	?	air
 932	6	oxygen	NONE	air	air
 932	1	rocks	NONE	?	?
 932	2	rocks	NONE	?	?
@@ -1343,12 +1343,12 @@
 932	4	rocks	NONE	?	?
 932	5	rocks	NONE	?	?
 932	6	rocks	NONE	?	?
-932	1	water	NONE	?	?
-932	2	water	NONE	?	?
-932	3	water	NONE	?	?
-932	4	water	NONE	?	?
-932	5	water	NONE	?	?
-932	6	water	NONE	?	?
+932	1	water	MOVE	?	rock
+932	2	water	NONE	rock	rock
+932	3	water	NONE	rock	rock
+932	4	water	NONE	rock	rock
+932	5	water	NONE	rock	rock
+932	6	water	NONE	rock	rock
 933	1	carbon dioxide	DESTROY	?	-
 933	2	carbon dioxide	NONE	-	-
 933	3	carbon dioxide	NONE	-	-
@@ -1356,9 +1356,9 @@
 933	5	carbon dioxide	NONE	-	-
 933	1	mineral based material	NONE	-	-
 933	2	mineral based material	NONE	-	-
-933	3	mineral based material	CREATE	-	rock
-933	4	mineral based material	NONE	rock	rock
-933	5	mineral based material	NONE	rock	rock
+933	3	mineral based material	CREATE	-	mineral
+933	4	mineral based material	NONE	mineral	mineral
+933	5	mineral based material	NONE	mineral	mineral
 933	1	rock	NONE	-	-
 933	2	rock	NONE	-	-
 933	3	rock	NONE	-	-
@@ -1369,16 +1369,16 @@
 933	3	water	NONE	-	-
 933	4	water	NONE	-	-
 933	5	water	NONE	-	-
-1031	1	bones	NONE	-	-
-1031	2	bones	CREATE	-	mud or soil
-1031	3	bones	NONE	mud or soil	mud or soil
-1031	4	bones	NONE	mud or soil	mud or soil
-1031	5	bones	NONE	mud or soil	mud or soil
+1031	1	bones	CREATE	-	mud or soil
+1031	2	bones	NONE	mud or soil	mud or soil
+1031	3	bones	DESTROY	mud or soil	-
+1031	4	bones	NONE	-	-
+1031	5	bones	NONE	-	-
 1031	1	fossil	NONE	-	-
 1031	2	fossil	NONE	-	-
 1031	3	fossil	NONE	-	-
 1031	4	fossil	NONE	-	-
-1031	5	fossil	CREATE	-	mud or soil
+1031	5	fossil	CREATE	-	mud
 1031	1	plant or animal	DESTROY	?	-
 1031	2	plant or animal	NONE	-	-
 1031	3	plant or animal	NONE	-	-
@@ -1387,15 +1387,15 @@
 1031	1	rock	NONE	-	-
 1031	2	rock	NONE	-	-
 1031	3	rock	NONE	-	-
-1031	4	rock	CREATE	-	mud or soil
-1031	5	rock	DESTROY	mud or soil	-
+1031	4	rock	CREATE	-	mud
+1031	5	rock	DESTROY	mud	-
 1031	1	sediment	NONE	-	-
 1031	2	sediment	NONE	-	-
-1031	3	sediment	CREATE	-	mud or soil
-1031	4	sediment	DESTROY	mud or soil	-
+1031	3	sediment	NONE	-	-
+1031	4	sediment	NONE	-	-
 1031	5	sediment	NONE	-	-
-1032	1	animals	CREATE	-	wet environment
-1032	2	animals	DESTROY	wet environment	-
+1032	1	animals	NONE	?	?
+1032	2	animals	DESTROY	?	-
 1032	3	animals	NONE	-	-
 1032	4	animals	NONE	-	-
 1032	5	animals	NONE	-	-
@@ -1417,7 +1417,7 @@
 1032	3	rock	NONE	-	-
 1032	4	rock	NONE	-	-
 1032	5	rock	NONE	-	-
-1032	6	rock	CREATE	-	mud
+1032	6	rock	CREATE	-	remain
 1032	1	sediment	NONE	-	-
 1032	2	sediment	NONE	-	-
 1032	3	sediment	NONE	-	-
@@ -1442,12 +1442,12 @@
 1033	4	rock	CREATE	-	body
 1033	5	rock	NONE	body	body
 1033	6	rock	NONE	body	body
-1033	1	skeleton	NONE	-	-
-1033	2	skeleton	NONE	-	-
-1033	3	skeleton	CREATE	-	rock
-1033	4	skeleton	NONE	rock	rock
-1033	5	skeleton	NONE	rock	rock
-1033	6	skeleton	NONE	rock	rock
+1033	1	skeleton	NONE	?	?
+1033	2	skeleton	NONE	?	?
+1033	3	skeleton	NONE	?	?
+1033	4	skeleton	NONE	?	?
+1033	5	skeleton	NONE	?	?
+1033	6	skeleton	NONE	?	?
 1145	1	helium atoms	NONE	-	-
 1145	2	helium atoms	NONE	-	-
 1145	3	helium atoms	CREATE	-	helium atoms
@@ -1457,11 +1457,11 @@
 1145	1	hydrogen fuel	NONE	-	-
 1145	2	hydrogen atoms	NONE	-	-
 1145	2	hydrogen fuel	CREATE	-	star
-1145	3	hydrogen atoms	CREATE	-	helium atoms
+1145	3	hydrogen atoms	NONE	-	-
 1145	3	hydrogen fuel	NONE	star	star
-1145	4	hydrogen atoms	NONE	helium atoms	helium atoms
+1145	4	hydrogen atoms	NONE	-	-
 1145	4	hydrogen fuel	NONE	star	star
-1145	5	hydrogen atoms	NONE	helium atoms	helium atoms
+1145	5	hydrogen atoms	NONE	-	-
 1145	5	hydrogen fuel	NONE	star	star
 1145	1	red giant star	CREATE	-	star
 1145	2	red giant star	NONE	star	star
@@ -1474,27 +1474,27 @@
 1146	4	carbon atoms	NONE	-	-
 1146	5	carbon atoms	NONE	-	-
 1146	6	carbon atoms	NONE	-	-
-1146	7	carbon atoms	CREATE	-	star
-1146	8	carbon atoms	NONE	star	star
-1146	9	carbon atoms	NONE	star	star
-1146	10	carbon atoms	NONE	star	star
+1146	7	carbon atoms	CREATE	-	space
+1146	8	carbon atoms	DESTROY	space	-
+1146	9	carbon atoms	NONE	-	-
+1146	10	carbon atoms	NONE	-	-
 1146	1	energy	NONE	-	-
 1146	2	energy	NONE	-	-
 1146	3	energy	NONE	-	-
 1146	4	energy	CREATE	-	star
 1146	5	energy	NONE	star	star
-1146	6	energy	NONE	star	star
-1146	7	energy	NONE	star	star
-1146	8	energy	NONE	star	star
-1146	9	energy	NONE	star	star
-1146	10	energy	NONE	star	star
+1146	6	energy	NONE	-	-
+1146	7	energy	NONE	-	-
+1146	8	energy	NONE	-	-
+1146	9	energy	NONE	-	-
+1146	10	energy	NONE	-	-
 1146	1	helium	NONE	-	-
 1146	2	helium	NONE	-	-
-1146	3	helium	CREATE	-	star
-1146	4	helium	NONE	star	star
-1146	5	helium	NONE	star	star
-1146	6	helium	NONE	star	star
-1146	7	helium	DESTROY	star	-
+1146	3	helium	CREATE	-	space
+1146	4	helium	NONE	space	space
+1146	5	helium	NONE	space	space
+1146	6	helium	NONE	space	space
+1146	7	helium	DESTROY	space	-
 1146	8	helium	NONE	-	-
 1146	9	helium	NONE	-	-
 1146	10	helium	NONE	-	-
@@ -1533,7 +1533,7 @@
 1146	3	star	NONE	space	space
 1146	4	star	NONE	space	space
 1146	5	star	NONE	space	space
-1146	6	star	NONE	space	space
+1146	6	star	MOVE	space	space
 1146	7	star	NONE	space	space
 1146	8	star	NONE	space	space
 1146	9	star	NONE	space	space
@@ -1541,9 +1541,9 @@
 1147	1	carbon atoms	NONE	-	-
 1147	2	carbon atoms	NONE	-	-
 1147	3	carbon atoms	NONE	-	-
-1147	4	carbon atoms	CREATE	-	helium atoms
-1147	5	carbon atoms	NONE	helium atoms	helium atoms
-1147	6	carbon atoms	NONE	helium atoms	helium atoms
+1147	4	carbon atoms	CREATE	-	star
+1147	5	carbon atoms	NONE	star	star
+1147	6	carbon atoms	NONE	star	star
 1147	1	helium	CREATE	-	star
 1147	1	helium atoms	CREATE	-	star
 1147	2	helium	NONE	star	star
@@ -1556,9 +1556,9 @@
 1147	5	helium atoms	NONE	-	-
 1147	6	helium	NONE	-	-
 1147	6	helium atoms	NONE	-	-
-1147	1	hydrogen	NONE	?	?
+1147	1	hydrogen	CREATE	-	star
 1147	1	hydrogen atoms	DESTROY	?	-
-1147	2	hydrogen	DESTROY	?	-
+1147	2	hydrogen	DESTROY	star	-
 1147	2	hydrogen atoms	NONE	-	-
 1147	3	hydrogen	NONE	-	-
 1147	3	hydrogen atoms	NONE	-	-
@@ -1632,22 +1632,22 @@
 1190	8	oxygenated blood	NONE	left atrium	left atrium
 1190	9	oxygenated blood	NONE	left atrium	left atrium
 1190	10	oxygenated blood	NONE	left atrium	left atrium
-1240	1	Air	MOVE	?	coil
-1240	2	Air	NONE	coil	coil
-1240	3	Air	NONE	coil	coil
-1240	4	Air	NONE	coil	coil
-1240	5	Air	NONE	coil	coil
-1240	6	Air	NONE	coil	coil
-1240	7	Air	NONE	coil	coil
-1240	8	Air	NONE	coil	coil
+1240	1	Air	MOVE	?	evaporator
+1240	2	Air	NONE	evaporator	evaporator
+1240	3	Air	NONE	evaporator	evaporator
+1240	4	Air	NONE	evaporator	evaporator
+1240	5	Air	NONE	evaporator	evaporator
+1240	6	Air	NONE	evaporator	evaporator
+1240	7	Air	NONE	evaporator	evaporator
+1240	8	Air	NONE	evaporator	evaporator
 1240	1	Heat	NONE	?	?
-1240	2	Heat	DESTROY	?	-
-1240	3	Heat	NONE	-	-
-1240	4	Heat	NONE	-	-
-1240	5	Heat	NONE	-	-
-1240	6	Heat	NONE	-	-
-1240	7	Heat	NONE	-	-
-1240	8	Heat	NONE	-	-
+1240	2	Heat	MOVE	?	coil
+1240	3	Heat	NONE	coil	coil
+1240	4	Heat	NONE	coil	coil
+1240	5	Heat	NONE	coil	coil
+1240	6	Heat	NONE	coil	coil
+1240	7	Heat	MOVE	coil	condenser
+1240	8	Heat	NONE	condenser	condenser
 1240	1	Liquid	NONE	-	-
 1240	2	Liquid	NONE	-	-
 1240	3	Liquid	NONE	-	-
