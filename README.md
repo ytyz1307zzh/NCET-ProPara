@@ -100,7 +100,7 @@ python -m spacy download en_core_web_sm
    -report        The frequency of evaluating on dev set and save checkpoints (per epoch). Default: 2.
    -log_dir       Path to log directory. If specified, training and evaluation details will be stored to 
                   an additional log, which is named as the current timestamp. Default: None.
-   -log_dir       Path to log file. If specified, training and evaluation details will be stored to 
+   -log_file      Path to log file. If specified, training and evaluation details will be stored to 
                   this file. Default: None
    -loc_loss      The hyper-parameter to weight the state tracking loss and location prediction loss.
    -no_cuda       Only use CPU if specified.
