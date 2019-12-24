@@ -98,8 +98,10 @@ python -m spacy download en_core_web_sm
                   then stop the training process. Default: 20. You can set it to -1 to disable early stopping 
                   and train for a definite number of epochs.
    -report        The frequency of evaluating on dev set and save checkpoints (per epoch). Default: 2.
+   -log_dir       Path to log directory. If specified, training and evaluation details will be stored to 
+                  an additional log, which is named as the current timestamp. Default: None.
    -log_dir       Path to log file. If specified, training and evaluation details will be stored to 
-                  an additional log. Default: None.
+                  this file. Default: None
    -loc_loss      The hyper-parameter to weight the state tracking loss and location prediction loss.
    -no_cuda       Only use CPU if specified.
    ```
@@ -120,10 +122,10 @@ python -m spacy download en_core_web_sm
 7. Run the evaluation script using the gold answer and your prediction:
 
    ```bash
-   python evaluator.py -p data/prediction.tsv -a data/answers.tsv --diagnostics data/diagnostics.txt
+   python evaluator.py -p data/prediction.tsv -a data/answers.tsv --diagnostics data/diagnostic.txt
    ```
 
-   where `answers.tsv` is the gold answer, and `diagnostics.txt` will contain detailed scores for each instance. `answers.tsv` can be found [here](https://github.com/allenai/aristo-leaderboard/tree/master/propara/data/test), or you can directly use my copy in `data/`. `evaluator.py` is the evaluation script provided by AI2, and can be found [here](https://github.com/allenai/aristo-leaderboard/tree/master/propara/evaluator).
+   where `answers.tsv` is the gold answer, and `diagnostic.txt` will contain detailed scores for each instance. `answers.tsv` can be found [here](https://github.com/allenai/aristo-leaderboard/tree/master/propara/data/test), or you can directly use my copy in `data/`. `evaluator.py` is the evaluation script provided by AI2, and can be found [here](https://github.com/allenai/aristo-leaderboard/tree/master/propara/evaluator).
 
    **P.S.** You should download the whole repo provided by AI2 instead of only downloading `evaluator.py`.
 
