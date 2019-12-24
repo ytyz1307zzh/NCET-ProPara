@@ -126,7 +126,7 @@ class NCETModel(nn.Module):
 
     def mask_undefined_loc(self, gold_loc_seq, mask_value: int):
         """
-        Mask all undefined locations (NIL, UNK, PAD) in order not to count them in loss.
+        Mask all undefined locations (NIL, UNK, PAD) in order not to count them in loss nor accuracy.
         Since these three special labels are all negetive, any position with a negative target label will be masked to mask_value.
         Args:
             gold_loc_seq - sequence of gold locations, size (batch, max_sents)

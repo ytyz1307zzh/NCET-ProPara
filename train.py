@@ -361,11 +361,11 @@ def test(test_set, model):
     state_accuracy = report_state_correct / report_state_pred
     loc_accuracy = report_loc_correct / report_loc_pred
 
-    output(f'\tTest:\n'
-           f'\tTotal Accuracy: {total_accuracy * 100:.3f}%, '
+    output(f'Test:\n'
+           f'Total Accuracy: {total_accuracy * 100:.3f}%, '
            f'State Prediction Accuracy: {state_accuracy * 100:.3f}%, '
            f'Location Accuracy: {loc_accuracy * 100:.3f}% \n'
-           f'\tTime Elapse: {time.time() - start_time:.2f}s')
+           f'Time Elapse: {time.time() - start_time:.2f}s')
 
     write_output(output = output_result, dummy_filepath = opt.dummy_test, output_filepath = opt.output)
     print(f'[INFO] Test finished. Time elapse: {time.time() - start_time}s')

@@ -46,6 +46,14 @@ allennlp 0.9.0, used in Elmo embedding
 
 pytorch-crf 0.7.2
 
+You may also need to download the en_core_web_sm model for English language support of SpaCy:
+
+```bash
+python -m spacy download en_core_web_sm
+```
+
+
+
 ## Usage
 
 1. [Download](https://docs.google.com/spreadsheets/d/1x5Ct8EmQs2hVKOYX7b2nS0AOoQi4iM7H9d9isXRDwgM/edit#gid=832930347) the dataset or use my copy in `data/`.
