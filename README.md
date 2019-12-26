@@ -128,6 +128,14 @@ python -m spacy download en_core_web_sm
    where `answers.tsv` is the gold answer, and `diagnostic.txt` will contain detailed scores for each instance. `answers.tsv` can be found [here](https://github.com/allenai/aristo-leaderboard/tree/master/propara/data/test), or you can directly use my copy in `data/`. `evaluator.py` is the evaluation script provided by AI2, and can be found [here](https://github.com/allenai/aristo-leaderboard/tree/master/propara/evaluator).
 
    **P.S.** You should download the whole repo provided by AI2 instead of only downloading `evaluator.py`.
+   
+8. (Optional) You can also generate a nicely formatted output file to compare your predictions with gold answers:
+
+   ```bash
+   python case_study.py -test_set data/test.json -restore ckpt/best_checkpoint.pt -output data/case.tsv
+   ```
+
+   By running this script you will also get the accuracy of your final predictions (after aligning states and locations)
 
 ## Results
 

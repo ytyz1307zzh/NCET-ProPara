@@ -12,6 +12,7 @@ from allennlp.modules.elmo import batch_to_ids
 from Dataset import *
 from Model import *
 import os
+import re
 import argparse
 print(f'[INFO] Import modules time: {time.time() - import_start_time}s')
 torch.set_printoptions(threshold=np.inf)
@@ -29,7 +30,7 @@ parser.add_argument('-elmo_dir', type=str, default='elmo', help="directory that 
 
 parser.add_argument('-restore', type=str, default=None, help="restoring model path")
 parser.add_argument('-test_set', type=str, default="data/test.json", help="path to test set")
-parser.add_argument('-output_dir', type=str, default="logs", help="directory to store prediction outputs")
+parser.add_argument('-output', type=str, default=None, help="path to store prediction outputs")
 parser.add_argument('-no_cuda', action='store_true', default=False, help="if true, will only use cpu")
 opt = parser.parse_args()
 
@@ -128,7 +129,7 @@ def write_output(output: List[Dict], output_filepath: str, sentences: List[List[
     """
     output_file = open(output_filepath, 'w', encoding='utf-8')
     columns = ['para_id', 'timestep', 'entity', 'state', 'gold_state', 'location', 'gold_location', 'sentence']
-    output_file.write('\t'.join(columns) + '\n')
+    output_file.write('\t'.join(columns) + '\n\n')
     assert len(sentences) == len(output)
     total_instances = len(output)
 
@@ -241,7 +242,7 @@ def test(test_set, model):
            f'State Prediction Accuracy: {state_accuracy * 100:.3f}%, '
            f'Location Accuracy: {loc_accuracy * 100:.3f}%')
 
-    write_output(output = output_result, output_filepath = os.path.join(opt.output_dir, "case.tsv"), sentences = all_sentences)
+    write_output(output = output_result, output_filepath = opt.output, sentences = all_sentences)
     print(f'[INFO] Test finished. Time elapse: {time.time() - start_time}s')
 
 
