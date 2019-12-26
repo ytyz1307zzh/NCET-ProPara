@@ -98,6 +98,7 @@ def get_output(metadata: Dict, pred_state_seq: List[int], pred_loc_seq: List[int
     entity_name = metadata['entity']
     loc_cand_list = metadata['loc_cand_list']
     total_sents = metadata['total_sents']
+    gold_loc_0 = metadata['gold_loc_0']
 
     pred_state_seq = [idx2state[idx] for idx in pred_state_seq]
     gold_state_seq = [idx2state[idx] for idx in gold_state_seq if idx != PAD_STATE]
@@ -105,10 +106,12 @@ def get_output(metadata: Dict, pred_state_seq: List[int], pred_loc_seq: List[int
     gold_loc_seq = [idx2loc(loc_cand_list, idx) for idx in gold_loc_seq if idx != PAD_LOC]
 
     pred_loc_seq = predict_consistent_loc(pred_state_seq = pred_state_seq, pred_loc_seq = pred_loc_seq)
+    assert len(pred_state_seq) == len(gold_state_seq) == len(pred_loc_seq) - 1 == len(gold_loc_seq) == total_sents
+
     prediction = []
-    prediction.append( ('N/A', 'N/A', pred_loc_seq[0], gold_loc_seq[0]) )
+    prediction.append( ('N/A', 'N/A', pred_loc_seq[0], gold_loc_0) )
     for i in range(total_sents):
-        prediction.append( (pred_state_seq[i], gold_state_seq[i], pred_loc_seq[i], gold_loc_seq[i]) )
+        prediction.append( (pred_state_seq[i], gold_state_seq[i], pred_loc_seq[i+1], gold_loc_seq[i]) )
 
     result = {'id': para_id,
               'entity': entity_name,
@@ -127,9 +130,9 @@ def write_output(output: List[Dict], output_filepath: str, sentences: List[List[
     columns = ['para_id', 'timestep', 'entity', 'state', 'gold_state', 'location', 'gold_location', 'sentence']
     output_file.write('\t'.join(columns) + '\n')
     assert len(sentences) == len(output)
-    batch_size = len(output)
+    total_instances = len(output)
 
-    for i in range(batch_size):
+    for i in range(total_instances):
         instance = output[i]
         sentence_list = sentences[i]
         sentence_list.insert(0, 'N/A')
@@ -138,14 +141,25 @@ def write_output(output: List[Dict], output_filepath: str, sentences: List[List[
         entity_name = instance['entity']
         total_sents = instance['total_sents']
 
+        correct_state, correct_loc = 0, 0
+
         for step_i in range(total_sents + 1):  # number of states: total_sents + 1
             pred_state, gold_state, pred_loc, gold_loc = instance['prediction'][step_i]
 
             fields = [str(para_id), str(step_i), entity_name, pred_state, gold_state, pred_loc, gold_loc, sentence_list[step_i]]
 
+            if pred_state == gold_state and step_i > 0:
+                correct_state += 1
+            if pred_loc == gold_loc:
+                correct_loc += 1
+
             output_file.write('\t'.join(fields) + '\n')
 
-        output_file.write('\n')
+        state_accuracy = correct_state / total_sents
+        loc_accuracy = correct_loc / (total_sents + 1)
+        footer = [str(para_id), '', entity_name, f'{correct_state}/{total_sents}', f'{state_accuracy*100:.1f}%',
+                  f'{correct_loc}/{total_sents+1}', f'{loc_accuracy*100:.1f}%', '']
+        output_file.write('\t'.join(footer) + '\n\n')
 
     output_file.close()
 
@@ -210,7 +224,7 @@ def test(test_set, model):
            f'State Prediction Accuracy: {state_accuracy * 100:.3f}%, '
            f'Location Accuracy: {loc_accuracy * 100:.3f}%')
 
-    write_output(output = output_result, output_filepath = os.path.join(opt.output_dir, "case.log"), sentences = all_sentences)
+    write_output(output = output_result, output_filepath = os.path.join(opt.output_dir, "case.tsv"), sentences = all_sentences)
     print(f'[INFO] Test finished. Time elapse: {time.time() - start_time}s')
 
 
