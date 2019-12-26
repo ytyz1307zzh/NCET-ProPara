@@ -76,6 +76,7 @@ class ProparaDataset(torch.utils.data.Dataset):
 
         assert gold_loc_seq.size() == gold_state_seq.size()
         sentence_list = instance['sentence_list']
+        sentences = [x['sentence'] for x in sentence_list]
         assert total_sents == len(sentence_list)
 
         # (num_sent, num_tokens)
@@ -88,6 +89,7 @@ class ProparaDataset(torch.utils.data.Dataset):
 
         sample = {'metadata': metadata,
                   'paragraph': paragraph,
+                  'sentences': sentences,
                   'gold_loc_seq': gold_loc_seq,
                   'gold_state_seq': gold_state_seq,
                   'entity_mask': entity_mask_list,
@@ -137,6 +139,7 @@ class Collate:
 
         metadata = list(map(lambda x: x['metadata'], batch))
         paragraph = list(map(lambda x: x['paragraph'], batch))
+        sentences = list(map(lambda x: x['sentences'], batch))
         gold_loc_seq = torch.stack(list(map(lambda x: x['gold_loc_seq'], batch)))
         gold_state_seq = torch.stack(list(map(lambda x: x['gold_state_seq'], batch)))
         entity_mask = torch.stack(list(map(lambda x: x['entity_mask'], batch)))
@@ -151,6 +154,7 @@ class Collate:
 
         return {'metadata': metadata,
                 'paragraph': paragraph,  # unpadded, 2-dimension
+                'sentences': sentences,  # unpadded, 2-dimension
                 'gold_loc_seq': gold_loc_seq,
                 'gold_state_seq': gold_state_seq,
                 'entity_mask': entity_mask,

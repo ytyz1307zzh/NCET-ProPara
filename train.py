@@ -368,8 +368,7 @@ def test(test_set, model):
     output(f'Test:\n'
            f'Total Accuracy: {total_accuracy * 100:.3f}%, '
            f'State Prediction Accuracy: {state_accuracy * 100:.3f}%, '
-           f'Location Accuracy: {loc_accuracy * 100:.3f}% \n'
-           f'Time Elapse: {time.time() - start_time:.2f}s')
+           f'Location Accuracy: {loc_accuracy * 100:.3f}%')
 
     write_output(output = output_result, dummy_filepath = opt.dummy_test, output_filepath = opt.output)
     print(f'[INFO] Test finished. Time elapse: {time.time() - start_time}s')
