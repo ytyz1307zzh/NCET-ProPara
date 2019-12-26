@@ -134,3 +134,7 @@ python -m spacy download en_core_web_sm
 Using the default hyper-parameters, the re-implemented NCET will reach a total F1 score of 65.6, while the reported score in the original paper was 62.5.
 
 <img src="image/result.png" alt="image-20191223140902073" width=350/>
+
+## Notes
+
+My script will print the accuracy of total predictions, state predictions and location predictions at each report step on training set and dev set. Besides, these scores are also reported during testing time. The accuracy of state prediction takes all timesteps into account. However, things are different for location prediction. For training and evaluation, the accuracy of location prediction counts all timesteps except for locations '?' and '-'. For testing, besides timesteps with locations '?' and '-', those timesteps when the gold location is not included in the candidate set are also omitted while computing accuracy. The total accuracy is the micro-average of the above two scores. Therefore, the accuracy scores are only for reference, and precise results should be acquired from the official evaluation script.

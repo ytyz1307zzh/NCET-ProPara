@@ -132,6 +132,10 @@ def write_output(output: List[Dict], output_filepath: str, sentences: List[List[
     assert len(sentences) == len(output)
     total_instances = len(output)
 
+    total_correct_state = 0
+    total_correct_loc = 0
+    total_predictions = 0
+
     for i in range(total_instances):
         instance = output[i]
         sentence_list = sentences[i]
@@ -155,6 +159,10 @@ def write_output(output: List[Dict], output_filepath: str, sentences: List[List[
 
             output_file.write('\t'.join(fields) + '\n')
 
+        total_correct_state += correct_state
+        total_correct_loc += correct_loc
+        total_predictions += total_sents
+
         state_accuracy = correct_state / total_sents
         loc_accuracy = correct_loc / (total_sents + 1)
         footer = [str(para_id), '', entity_name, f'{correct_state}/{total_sents}', f'{state_accuracy*100:.1f}%',
@@ -162,6 +170,15 @@ def write_output(output: List[Dict], output_filepath: str, sentences: List[List[
         output_file.write('\t'.join(footer) + '\n\n')
 
     output_file.close()
+
+    total_accuracy = (total_correct_state + total_correct_loc) / (2 * total_predictions + total_instances)
+    state_accuracy = total_correct_state / total_predictions
+    loc_accuracy = total_correct_loc / (total_predictions + total_instances)
+
+    print(f'Final Prediction:\n'
+          f'Total Accuracy: {total_accuracy * 100:.3f}%, '
+          f'State Prediction Accuracy: {state_accuracy * 100:.3f}%, '
+          f'Location Accuracy: {loc_accuracy * 100:.3f}%')
 
 
 def test(test_set, model):
