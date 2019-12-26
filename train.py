@@ -43,20 +43,25 @@ parser.add_argument('-mode', type=str, choices=['train', 'test'], default='train
 parser.add_argument('-ckpt_dir', type=str, default=None, help="checkpoint directory")
 parser.add_argument('-save_mode', type=str, choices=['best', 'all', 'none'], default='best',
                     help="best (default): save checkpoints when reaching new best score; all: save all checkpoints; none: don't save")
-parser.add_argument('-restore', type=str, default=None, help="restoring model path")
 parser.add_argument('-epoch', type=int, default=100, help="number of epochs, use -1 to rely on early stopping only")
 parser.add_argument('-impatience', type=int, default=20, help='number of evaluation rounds for early stopping, use -1 to disable early stopping')
 parser.add_argument('-report', type=int, default=2, help="report frequence per epoch, should be at least 1")
 parser.add_argument('-elmo_dir', type=str, default='elmo', help="directory that contains options and weight files for allennlp Elmo")
 parser.add_argument('-train_set', type=str, default="data/train.json", help="path to training set")
 parser.add_argument('-dev_set', type=str, default="data/dev.json", help="path to dev set")
+
+# test parameters
 parser.add_argument('-test_set', type=str, default="data/test.json", help="path to test set")
+parser.add_argument('-restore', type=str, default=None, help="restoring model path")
 parser.add_argument('-dummy_test', type=str, default="data/dummy-predictions.tsv", help="path to dummy prediction file")
 parser.add_argument('-output', type=str, default=None, help="path to store prediction outputs")
+
+# other parameters
 parser.add_argument('-debug', action='store_true', default=False, help="enable debug mode, change data files to debug data")
 parser.add_argument('-no_cuda', action='store_true', default=False, help="if true, will only use cpu")
 parser.add_argument('-log_dir', type=str, default=None, help="the log directory to store training logs")
 parser.add_argument('-log_file', type=str, default=None, help="the log file to store training logs")
+
 opt = parser.parse_args()
 
 if opt.log_dir and opt.log_file is None:
