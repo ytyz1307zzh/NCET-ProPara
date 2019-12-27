@@ -82,16 +82,7 @@ def predict_consistent_loc(pred_state_seq: List[str], pred_loc_seq: List[str]) -
     return consist_loc_seq
 
 
-def idx2loc(loc_cand_list: List[str], idx: int) -> str:
-    if idx == UNK_LOC:
-        return '?'
-    elif idx == NIL_LOC:
-        return '-'
-    else:
-        return loc_cand_list[idx]
-
-
-def get_output(metadata: Dict, pred_state_seq: List[int], pred_loc_seq: List[int], gold_state_seq: List[int], gold_loc_seq: List[int]) -> Dict:
+def get_output(metadata: Dict, pred_state_seq: List[int], pred_loc_seq: List[int], gold_state_seq: List[int]) -> Dict:
     """
     Get the predicted output from generated sequences by the model.
     """
@@ -99,20 +90,19 @@ def get_output(metadata: Dict, pred_state_seq: List[int], pred_loc_seq: List[int
     entity_name = metadata['entity']
     loc_cand_list = metadata['loc_cand_list']
     total_sents = metadata['total_sents']
-    gold_loc_0 = metadata['gold_loc_0']
 
     pred_state_seq = [idx2state[idx] for idx in pred_state_seq]
     gold_state_seq = [idx2state[idx] for idx in gold_state_seq if idx != PAD_STATE]
     pred_loc_seq = [loc_cand_list[idx] for idx in pred_loc_seq]
-    gold_loc_seq = [idx2loc(loc_cand_list, idx) for idx in gold_loc_seq if idx != PAD_LOC]
+    gold_loc_seq = metadata['raw_gold_loc']  # gold locations in string form
 
     pred_loc_seq = predict_consistent_loc(pred_state_seq = pred_state_seq, pred_loc_seq = pred_loc_seq)
-    assert len(pred_state_seq) == len(gold_state_seq) == len(pred_loc_seq) - 1 == len(gold_loc_seq) == total_sents
+    assert len(pred_state_seq) == len(gold_state_seq) == len(pred_loc_seq) - 1 == len(gold_loc_seq) - 1 == total_sents
 
     prediction = []
-    prediction.append( ('N/A', 'N/A', pred_loc_seq[0], gold_loc_0) )
+    prediction.append( ('N/A', 'N/A', pred_loc_seq[0], gold_loc_seq[0]) )
     for i in range(total_sents):
-        prediction.append( (pred_state_seq[i], gold_state_seq[i], pred_loc_seq[i+1], gold_loc_seq[i]) )
+        prediction.append( (pred_state_seq[i], gold_state_seq[i], pred_loc_seq[i+1], gold_loc_seq[i+1]) )
 
     result = {'id': para_id,
               'entity': entity_name,
@@ -225,7 +215,7 @@ def test(test_set, model):
             batch_size = len(paragraphs)
             for i in range(batch_size):
                 pred_instance = get_output(metadata = metadata[i], pred_state_seq = pred_state_seq[i], pred_loc_seq = pred_loc_seq[i],
-                                           gold_state_seq = gold_state_seq[i].tolist(), gold_loc_seq = gold_loc_seq[i].tolist())
+                                           gold_state_seq = gold_state_seq[i].tolist())
                 output_result.append(pred_instance)
 
             report_state_correct += test_state_correct

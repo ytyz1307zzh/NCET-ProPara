@@ -59,7 +59,7 @@ class ProparaDataset(torch.utils.data.Dataset):
                     'total_sents': total_sents,
                     'total_loc_cands': total_loc_cands,
                     'loc_cand_list': loc_cand_list,
-                    'gold_loc_0': instance['gold_loc_seq'][0]
+                    'raw_gold_loc': instance['gold_loc_seq']
                     }
         paragraph = instance['paragraph'].strip().split()  # Elmo processes list of words     
         assert len(paragraph) == total_tokens
